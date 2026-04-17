@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bl28d7eesadi6"]
+
+[ext_resource type="Script" uid="uid://dfbugl6b2q4" path="res://Network/high_level_ui.gd" id="1_l2mba"]
+
+[node name="HighLevelUI" type="Control" unique_id=1170549443]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l2mba")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=342723056]
+layout_mode = 0
+offset_right = 99.0
+offset_bottom = 80.0
+
+[node name="Server" type="Button" parent="VBoxContainer" unique_id=74151612]
+layout_mode = 2
+text = "Server"
+
+[node name="Client" type="Button" parent="VBoxContainer" unique_id=453172370]
+layout_mode = 2
+text = "Client"
+
+[connection signal="pressed" from="VBoxContainer/Server" to="." method="_on_server_pressed"]
+[connection signal="pressed" from="VBoxContainer/Client" to="." method="_on_client_pressed"]

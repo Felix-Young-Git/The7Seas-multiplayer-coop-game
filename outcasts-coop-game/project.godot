@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Outcasts coop game"
+run/main_scene="uid://efjig35nx8u5"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+NetworkHandler="*uid://0q7t243xq5rj"
 
 [file_customization]
 
