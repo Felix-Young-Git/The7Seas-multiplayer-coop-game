@@ -32,7 +32,7 @@ text = "Join"
 
 [node name="SpawnEnemy" type="Button" parent="UI" unique_id=1439052189]
 layout_mode = 2
-text = "Spawn Enemy"
+text = "Spawn Enemy (must click as host to sync)"
 
 [connection signal="pressed" from="UI/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/Join" to="." method="_on_join_pressed"]
