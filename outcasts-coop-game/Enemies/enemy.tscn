@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://do3pgbraprlfk"]
+
+[ext_resource type="Texture2D" uid="uid://5hvj1sbtut5c" path="res://icon.svg" id="1_3ih25"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxkaj"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bxkaj"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1283339784]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=817619978]
+shape = SubResource("RectangleShape2D_bxkaj")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1652078654]
+modulate = Color(0.85490197, 0, 0.26666668, 1)
+scale = Vector2(20, 20)
+texture = ExtResource("1_3ih25")
+region_enabled = true
+region_rect = Rect2(63, 66, 1, 1)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=161566739]
+replication_config = SubResource("SceneReplicationConfig_bxkaj")
