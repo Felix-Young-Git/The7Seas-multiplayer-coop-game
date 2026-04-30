@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://do3pgbraprlfk"]
 
 [ext_resource type="Texture2D" uid="uid://5hvj1sbtut5c" path="res://icon.svg" id="1_3ih25"]
+[ext_resource type="Script" uid="uid://chen20kt6mstl" path="res://Enemies/enemy.gd" id="1_bxkaj"]
+[ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Player/player.tscn" id="2_47qgu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bxkaj"]
 
@@ -10,6 +12,8 @@ properties/0/spawn = true
 properties/0/replication_mode = 1
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1283339784]
+script = ExtResource("1_bxkaj")
+player_scene = ExtResource("2_47qgu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=817619978]
 shape = SubResource("RectangleShape2D_bxkaj")

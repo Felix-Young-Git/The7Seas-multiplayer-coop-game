@@ -2,13 +2,19 @@
 
 [ext_resource type="Script" uid="uid://dvkd26c7tgarr" path="res://test/multiplayer_test.gd" id="1_3fc8k"]
 [ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Player/player.tscn" id="2_3vuks"]
+[ext_resource type="PackedScene" uid="uid://do3pgbraprlfk" path="res://Enemies/enemy.tscn" id="3_wvsrd"]
 
 [node name="MultiplayerTest" type="Node2D" unique_id=1481677403]
 script = ExtResource("1_3fc8k")
 player_scene = ExtResource("2_3vuks")
+enemy_scene = ExtResource("3_wvsrd")
 
 [node name="PlayerMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=213665779]
 _spawnable_scenes = PackedStringArray("uid://c1ajbvuspr3jl")
+spawn_path = NodePath("..")
+
+[node name="EnemyMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1453358010]
+_spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk")
 spawn_path = NodePath("..")
 
 [node name="UI" type="VBoxContainer" parent="." unique_id=125273793]

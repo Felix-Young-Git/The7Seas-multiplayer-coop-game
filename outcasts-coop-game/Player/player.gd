@@ -2,6 +2,10 @@ extends CharacterBody2D
 
 const SPEED: float = 500
 
+func _ready() -> void:
+	add_to_group("players")
+
+
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 
