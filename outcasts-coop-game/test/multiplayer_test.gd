@@ -10,7 +10,7 @@ const IP_ADDRESS: String = "localhost"
 const PORT: int = 42069
 
 
-#connect buttons
+#connect buttons, spawnenemy only visible for host
 func _enter_tree() -> void:
 	$UI/Host.pressed.connect(_on_host_pressed)
 	$UI/Join.pressed.connect(_on_join_pressed)
