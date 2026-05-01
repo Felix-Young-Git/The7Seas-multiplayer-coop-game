@@ -15,12 +15,14 @@ func _enter_tree() -> void:
 	$UI/Host.pressed.connect(_on_host_pressed)
 	$UI/Join.pressed.connect(_on_join_pressed)
 	$UI/SpawnEnemy.pressed.connect(_on_spawn_enemy_pressed)
+	$UI/SpawnEnemy.visible = false
 
 #create host
 func _on_host_pressed() -> void:
 	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
 	multiplayer.peer_connected.connect(_add_player)
+	$UI/SpawnEnemy.visible = true
 	_add_player()
 
 #create client

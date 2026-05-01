@@ -31,6 +31,7 @@ layout_mode = 2
 text = "Join"
 
 [node name="SpawnEnemy" type="Button" parent="UI" unique_id=1439052189]
+visible = false
 layout_mode = 2
 text = "Spawn Enemy (must click as host to sync)"
 
