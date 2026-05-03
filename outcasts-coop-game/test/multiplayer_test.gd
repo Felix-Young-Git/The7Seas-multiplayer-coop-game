@@ -31,9 +31,14 @@ func _on_join_pressed() -> void:
 	multiplayer.multiplayer_peer = peer
 
 func _on_spawn_enemy_pressed(id = 1) -> void:
+	spawn_enemy.rpc(1)
+
+@rpc("call_local")
+func spawn_enemy(id = 1) -> void:
 	var enemy = enemy_scene.instantiate()
 	enemy.name = str(id)
 	call_deferred("add_child", enemy)
+
 
 #create player
 func _add_player(id = 1):
