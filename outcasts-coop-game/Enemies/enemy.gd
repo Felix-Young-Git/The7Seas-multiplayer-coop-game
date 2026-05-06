@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-@export var player_scene : PackedScene
-
 var SPEED : float = 200
 
 #set server as the one that controls enemies

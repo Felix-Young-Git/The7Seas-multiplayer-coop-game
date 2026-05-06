@@ -66,10 +66,6 @@ func _add_player(id = 1):
 
 #Spawning enemies
 func _on_spawn_enemy_pressed(id = 1) -> void:
-	spawn_enemy.rpc(1)
-
-@rpc("call_local")
-func spawn_enemy(id = 1) -> void:
-	var enemy = enemy_scene.instantiate()
-	enemy.name = str(id)
-	call_deferred("add_child", enemy)
+	if multiplayer.is_server():
+		var enemy = enemy_scene.instantiate()
+		add_child(enemy, true)
