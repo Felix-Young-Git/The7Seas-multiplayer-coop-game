@@ -17,23 +17,63 @@ spawn_path = NodePath("..")
 _spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk")
 spawn_path = NodePath("..")
 
-[node name="UI" type="VBoxContainer" parent="." unique_id=125273793]
+[node name="UI" type="HBoxContainer" parent="." unique_id=273578916]
+custom_minimum_size = Vector2(282, 0)
 offset_top = 540.0
-offset_right = 116.0
+offset_right = 282.0
 offset_bottom = 641.0
 
-[node name="Host" type="Button" parent="UI" unique_id=1065535417]
+[node name="Buttons" type="VBoxContainer" parent="UI" unique_id=1990157534]
+custom_minimum_size = Vector2(116, 0)
+layout_mode = 2
+
+[node name="Host" type="Button" parent="UI/Buttons" unique_id=1065535417]
 layout_mode = 2
 text = "Host"
 
-[node name="Join" type="Button" parent="UI" unique_id=634532904]
+[node name="Join" type="Button" parent="UI/Buttons" unique_id=634532904]
 layout_mode = 2
 text = "Join"
 
-[node name="SpawnEnemy" type="Button" parent="UI" unique_id=1439052189]
+[node name="SpawnEnemy" type="Button" parent="UI/Buttons" unique_id=1439052189]
 visible = false
 layout_mode = 2
 text = "Spawn Enemy"
 
-[connection signal="pressed" from="UI/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="UI/Join" to="." method="_on_join_pressed"]
+[node name="IPInfo" type="VBoxContainer" parent="UI" unique_id=125273793]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HostInfo" type="HBoxContainer" parent="UI/IPInfo" unique_id=1453602127]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+
+[node name="HostPortInput" type="LineEdit" parent="UI/IPInfo/HostInfo" unique_id=442152279]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+placeholder_text = "port #"
+
+[node name="HostIP" type="Label" parent="UI/IPInfo/HostInfo" unique_id=779905204]
+custom_minimum_size = Vector2(200, 31)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Your IP: "
+
+[node name="JoinInfo" type="HBoxContainer" parent="UI/IPInfo" unique_id=1580910372]
+layout_mode = 2
+
+[node name="JoinPortInput" type="LineEdit" parent="UI/IPInfo/JoinInfo" unique_id=1069418362]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+placeholder_text = "port #"
+
+[node name="JoinIPInput" type="LineEdit" parent="UI/IPInfo/JoinInfo" unique_id=1653493862]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+placeholder_text = "IP address"
+
+[connection signal="pressed" from="UI/Buttons/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="UI/Buttons/Join" to="." method="_on_join_pressed"]
