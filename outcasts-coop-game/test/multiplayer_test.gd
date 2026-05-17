@@ -6,7 +6,7 @@ extends Node2D
 
 #Connection info
 var peer = ENetMultiplayerPeer.new()
-const IP_ADDRESS: String = "localhost" #PLACEHOLDER
+var IP_ADDRESS: String = "" #= "localhost" #PLACEHOLDER
 const PORT: int = 42069
 
 #references
@@ -14,6 +14,7 @@ const PORT: int = 42069
 @onready var joinButton = $UI/Buttons/Join
 @onready var spawnEnemyButton = $UI/Buttons/SpawnEnemy
 @onready var hostIPLabel = $"UI/IPInfo/HostInfo/HostIP"
+@onready var joinIPInput = $UI/IPInfo/JoinInfo/JoinIPInput
 
 
 #connect buttons, spawnenemy only visible for host
@@ -23,20 +24,50 @@ func _ready() -> void:
 	spawnEnemyButton.pressed.connect(_on_spawn_enemy_pressed)
 	spawnEnemyButton.visible = false
 	hostIPLabel.visible = false
+	#server connection funcs
+	multiplayer.connected_to_server.connect(_connected_ok)
+	multiplayer.connection_failed.connect(_connected_fail)
+	multiplayer.server_disconnected.connect(_server_disconnected)
+	multiplayer.peer_connected.connect(_peer_connected)
+
 
 #create host
 func _on_host_pressed() -> void:
-	peer.create_server(PORT)
+	#Old
+	#peer.create_server(PORT)
+	#multiplayer.multiplayer_peer = peer
+	
+	#New Error handling 
+	var error = peer.create_server(PORT)
+	if error != OK:
+		print("Failed to create server: ", error)
+		return
 	multiplayer.multiplayer_peer = peer
+	
 	multiplayer.peer_connected.connect(_add_player)
 	spawnEnemyButton.visible = true
 	hostIPLabel.visible = true
 	_request_public_ip()
-	_add_player()
+	_add_player(multiplayer.get_unique_id())
+	
 
 #create client
 func _on_join_pressed() -> void:
-	peer.create_client(IP_ADDRESS, PORT)
+	#GET IP ADDRESS from join port input, if no input then return
+	if joinIPInput.text == "":
+		print("Input IP Address")
+		return
+	IP_ADDRESS = joinIPInput.text
+	
+	#Old
+	#peer.create_client(IP_ADDRESS, PORT)
+	#multiplayer.multiplayer_peer = peer
+	
+	#New Error handling
+	var error = peer.create_client(IP_ADDRESS, PORT)
+	if error != OK:
+		print("Failed to create client: ", error)
+		return
 	multiplayer.multiplayer_peer = peer
 
 
@@ -50,7 +81,7 @@ func _request_public_ip():
 func _on_request_completed(result, response_code, headers, body):
 	if response_code == 200:
 		var public_ip = body.get_string_from_utf8().strip_edges()
-		print("Public IP: ", public_ip)
+		#print("Public IP: ", public_ip)
 		hostIPLabel.text = "Your IP: " + public_ip
 	else:
 		print("Failed to get IP. Response code: ", response_code)
@@ -58,7 +89,7 @@ func _on_request_completed(result, response_code, headers, body):
 
 
 #create player
-func _add_player(id = 1):
+func _add_player(id: int):
 	var player = player_scene.instantiate()
 	player.name = str(id)
 	call_deferred("add_child", player)
@@ -69,3 +100,17 @@ func _on_spawn_enemy_pressed(id = 1) -> void:
 	if multiplayer.is_server():
 		var enemy = enemy_scene.instantiate()
 		add_child(enemy, true)
+
+
+#server connection func
+func _connected_ok():
+	print("Connected to server!")
+
+func _connected_fail():
+	print("Failed to connect!")
+
+func _peer_connected(id):
+	print("Peer connected: ", id)
+
+func _server_disconnected():
+	print("Disconnected from server!")
