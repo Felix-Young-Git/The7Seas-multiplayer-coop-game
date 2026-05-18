@@ -11,5 +11,5 @@ func _enter_tree() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if is_multiplayer_authority():
-		velocity = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down") * SPEED
+		velocity = Input.get_vector("Left", "Right", "Up", "Down") * SPEED
 	move_and_slide()
