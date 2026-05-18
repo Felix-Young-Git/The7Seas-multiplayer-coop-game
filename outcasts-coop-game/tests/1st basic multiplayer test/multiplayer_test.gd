@@ -41,7 +41,7 @@ func _on_host_pressed() -> void:
 	print("SERVER CREATE RESULT: ", error)
 	multiplayer.multiplayer_peer = peer
 	
-	multiplayer.peer_connected.connect(_add_player)
+	multiplayer.peer_connected.connect(_add_player) #whenever a new peer connects to the host the host runs add_player
 	spawnEnemyButton.visible = true
 	hostIPLabel.visible = true
 	_add_player(multiplayer.get_unique_id())

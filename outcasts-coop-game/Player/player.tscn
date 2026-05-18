@@ -22,3 +22,5 @@ shape = SubResource("RectangleShape2D_gwnis")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2052853463]
 replication_config = SubResource("SceneReplicationConfig_k53q1")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=633072215]

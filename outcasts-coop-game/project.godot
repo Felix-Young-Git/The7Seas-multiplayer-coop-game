@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Outcasts coop game"
-run/main_scene="uid://cmr0ovwk5ahxv"
+run/main_scene="uid://dtqb6872h4c3t"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,8 +19,9 @@ config/icon="res://icon.svg"
 
 folder_colors={
 "res://Enemies/": "red",
-"res://Player/": "green",
-"res://Tilemap/": "orange"
+"res://Player/": "purple",
+"res://Tilemap/": "orange",
+"res://UI/": "green"
 }
 
 [input]
