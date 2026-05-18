@@ -59,7 +59,7 @@ placeholder_text = "port #"
 custom_minimum_size = Vector2(200, 31)
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Your IP: "
+text = "Your IP: 192.168.1.56"
 
 [node name="JoinInfo" type="HBoxContainer" parent="UI/IPInfo" unique_id=1580910372]
 custom_minimum_size = Vector2(200, 0)

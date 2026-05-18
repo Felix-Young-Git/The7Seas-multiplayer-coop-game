@@ -6,7 +6,7 @@ extends Node2D
 
 #Connection info
 var peer = ENetMultiplayerPeer.new()
-var IP_ADDRESS: String = "" #= "localhost" #PLACEHOLDER
+var IP_ADDRESS: String = "" 
 const PORT: int = 42069
 
 #references
@@ -33,21 +33,17 @@ func _ready() -> void:
 
 #create host
 func _on_host_pressed() -> void:
-	#Old
-	#peer.create_server(PORT)
-	#multiplayer.multiplayer_peer = peer
-	
 	#New Error handling 
 	var error = peer.create_server(PORT)
 	if error != OK:
 		print("Failed to create server: ", error)
 		return
+	print("SERVER CREATE RESULT: ", error)
 	multiplayer.multiplayer_peer = peer
 	
 	multiplayer.peer_connected.connect(_add_player)
 	spawnEnemyButton.visible = true
 	hostIPLabel.visible = true
-	_request_public_ip()
 	_add_player(multiplayer.get_unique_id())
 	
 
@@ -59,33 +55,13 @@ func _on_join_pressed() -> void:
 		return
 	IP_ADDRESS = joinIPInput.text
 	
-	#Old
-	#peer.create_client(IP_ADDRESS, PORT)
-	#multiplayer.multiplayer_peer = peer
-	
 	#New Error handling
 	var error = peer.create_client(IP_ADDRESS, PORT)
 	if error != OK:
 		print("Failed to create client: ", error)
 		return
+	print("CLIENT CREATE RESULT: ", error)
 	multiplayer.multiplayer_peer = peer
-
-
-#get and show host public ip
-func _request_public_ip():
-	var http = HTTPRequest.new()
-	add_child(http)
-	http.request_completed.connect(_on_request_completed)
-	http.request("https://api.ipify.org") # Standard public IP service
-
-func _on_request_completed(result, response_code, headers, body):
-	if response_code == 200:
-		var public_ip = body.get_string_from_utf8().strip_edges()
-		#print("Public IP: ", public_ip)
-		hostIPLabel.text = "Your IP: " + public_ip
-	else:
-		print("Failed to get IP. Response code: ", response_code)
-	
 
 
 #create player
