@@ -9,26 +9,26 @@ func _on_process(_delta : float) -> void:
 
 
 func _on_physics_process(_delta : float) -> void:
-	
-		
-	if player.player_direction == Vector2.UP:
-		animated_sprite_2d.play("Idle Back")
-	elif player.player_direction == Vector2.DOWN:
-		animated_sprite_2d.play("Idle Front")
-	elif player.player_direction == Vector2.LEFT:
-		animated_sprite_2d.play("Idle Left")
-	elif player.player_direction == Vector2.RIGHT:
-		animated_sprite_2d.play("Idle Right")
-	else:
-		animated_sprite_2d.play("Idle Front")
+	if is_multiplayer_authority():
+		if player.player_direction == Vector2.UP:
+			animated_sprite_2d.play("Idle Back")
+		elif player.player_direction == Vector2.DOWN:
+			animated_sprite_2d.play("Idle Front")
+		elif player.player_direction == Vector2.LEFT:
+			animated_sprite_2d.play("Idle Left")
+		elif player.player_direction == Vector2.RIGHT:
+			animated_sprite_2d.play("Idle Right")
+		else:
+			animated_sprite_2d.play("Idle Front")
 
 
 
 func _on_next_transitions() -> void:
-	GameInputEvents.movement_input()
-	
-	if GameInputEvents.is_movement_input():
-		transition.emit("Walk")
+	if is_multiplayer_authority():
+		GameInputEvents.movement_input()
+		
+		if GameInputEvents.is_movement_input():
+			transition.emit("Walk")
 	
 	#TOOLS
 	#if player.current_tool == DataTypes.Tools.AxeWood && GameInputEvents.use_tool():
@@ -46,4 +46,5 @@ func _on_enter() -> void:
 
 
 func _on_exit() -> void:
-	animated_sprite_2d.stop()
+	if is_multiplayer_authority():
+		animated_sprite_2d.stop()

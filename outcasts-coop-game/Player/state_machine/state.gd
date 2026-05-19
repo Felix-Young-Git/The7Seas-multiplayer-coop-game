@@ -4,6 +4,7 @@ extends Node
 @warning_ignore("unused_signal")
 signal transition 
 
+#all of these might need "if is_multiplayer_authority():" to run correctly
 #run stuff
 func _on_process(_delta : float) -> void:
 	pass
