@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cd5ak5g8yefcp"]
 
-[ext_resource type="Script" uid="uid://drusso3xleg6e" path="res://tests/tilmap and state machine/multiplayer_test_state_machine.gd" id="1_npqup"]
+[ext_resource type="Script" uid="uid://drusso3xleg6e" path="res://tests/state machine test/multiplayer_test_state_machine.gd" id="1_npqup"]
 [ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Player/player.tscn" id="2_jrofp"]
 [ext_resource type="PackedScene" uid="uid://do3pgbraprlfk" path="res://Enemies/enemy.tscn" id="3_g7g8a"]
 [ext_resource type="PackedScene" uid="uid://ch4qj8h4slrlb" path="res://UI/ui.tscn" id="4_qoy5u"]
