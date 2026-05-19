@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Outcasts coop game"
-run/main_scene="uid://cd5ak5g8yefcp"
+run/main_scene="uid://bgpfjqtrhpnn8"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

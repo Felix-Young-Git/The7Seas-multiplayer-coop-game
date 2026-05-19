@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var SPEED : float = 150
+var SPEED : float = 20
 
 #set server as the one that controls enemies
 func _ready() -> void:
