@@ -4,7 +4,7 @@ extends Area2D
 
 @export var collectable_name: String
 
-
+#I think this is running 2x which will be a problem-------------
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		print("Collected")

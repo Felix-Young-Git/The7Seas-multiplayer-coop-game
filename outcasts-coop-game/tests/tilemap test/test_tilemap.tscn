@@ -9,7 +9,7 @@ tile_map_data = PackedByteArray("AAACAAIAAQABAAEAAAACAAEAAQABAAEAAAACAAAAAQABAAE
 tile_set = ExtResource("1_ficcx")
 
 [node name="Nature" type="TileMapLayer" parent="." unique_id=73579481]
-tile_map_data = PackedByteArray("AAAEAP//AgABAAAAAAAHAP//AgAAAAAAAAAKAP//AgADAAAAAAAPAP7/AgADAAIAAAAMAP7/AgAEAAIAAAAEAAYAAgAAAAMAAAAHAAYAAgABAAMAAAA=")
+tile_map_data = PackedByteArray("AAAEAAYAAgAAAAMAAAAHAAYAAgABAAMAAAAEAAAAAwAAAAAAAgAHAAAAAwAAAAAAAgA=")
 tile_set = ExtResource("1_ficcx")
 
 [node name="Objects" type="TileMapLayer" parent="." unique_id=233494348]
