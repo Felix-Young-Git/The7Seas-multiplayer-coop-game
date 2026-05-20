@@ -12,7 +12,6 @@ func _ready() -> void:
 
 #triggers when player hits with tool
 func on_hurt(hit_damage: int) -> void:
-	#Old: damage_component.apply_damage(hit_damage)
 	rpc_id(1, "server_apply_damage", hit_damage)
 
 #only called by server
@@ -38,16 +37,3 @@ func add_small_rock() -> void:
 	collectable_rock_instance.global_position = global_position
 	collectable_rock_instance.name = "small_rock" + name + "_" + str(Time.get_ticks_msec())
 	get_parent().add_child(collectable_rock_instance)
-
-#Only works for 1 player
-#func on_max_damage_reached() -> void:
-#	call_deferred("add_small_rock_scene")
-#	queue_free()
-
-#actually create the small rock
-#func add_small_rock_scene() -> void:
-	#casts as node2d
-#	var collectable_rock_instance = collectable_rock_scene.instantiate() as Node2D
-#	#sets the collectable rock's position to the rock's position
-#	collectable_rock_instance.global_position = global_position
-#	get_parent().add_child(collectable_rock_instance)
