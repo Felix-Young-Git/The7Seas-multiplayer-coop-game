@@ -2,5 +2,6 @@ class_name DataTypes
 
 enum Tools{
 	None, 
-	Axe
+	Axe,
+	Pickaxe #The art is of a hoe though so will need to be updated at some point
 }
