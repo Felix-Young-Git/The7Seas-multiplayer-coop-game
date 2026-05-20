@@ -27,6 +27,6 @@ static func is_movement_input() -> bool:
 		return true
 
 #checks if the user clicks the left mouse button
-#static func use_tool() -> bool:
-#	var use_tool_value: bool = Input.is_action_just_pressed("Hit")
-#	return use_tool_value
+static func use_tool() -> bool:
+	var use_tool_value: bool = Input.is_action_pressed("Hit")
+	return use_tool_value

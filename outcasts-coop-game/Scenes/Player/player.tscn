@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://c1ajbvuspr3jl"]
 
-[ext_resource type="Script" uid="uid://bmug6bkh62p0m" path="res://Player/player.gd" id="1_4ntmi"]
+[ext_resource type="Script" uid="uid://bmug6bkh62p0m" path="res://Scenes/Player/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://dyy5cbma44khx" path="res://Assets/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Actions.png" id="2_btcbx"]
 [ext_resource type="Texture2D" uid="uid://caktlj407f74n" path="res://Assets/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="3_gwnis"]
-[ext_resource type="Script" uid="uid://biy21iuolfhcq" path="res://Player/state_machine/state_machine.gd" id="4_gwnis"]
-[ext_resource type="Script" uid="uid://khpu0npvy3ga" path="res://Player/state_machine/idle_state.gd" id="5_k53q1"]
-[ext_resource type="Script" uid="uid://cljj5yr7ebkho" path="res://Player/state_machine/walk_state.gd" id="6_fhl08"]
+[ext_resource type="Script" uid="uid://biy21iuolfhcq" path="res://Scenes/Player/state_machine/state_machine.gd" id="4_gwnis"]
+[ext_resource type="Script" uid="uid://khpu0npvy3ga" path="res://Scenes/Player/state_machine/idle_state.gd" id="5_k53q1"]
+[ext_resource type="Script" uid="uid://cljj5yr7ebkho" path="res://Scenes/Player/state_machine/walk_state.gd" id="6_fhl08"]
+[ext_resource type="PackedScene" uid="uid://ccq50kkiho4ha" path="res://Scripts/Components/hit_component.tscn" id="7_0u5uq"]
+[ext_resource type="Script" uid="uid://cf3bpi0nddqb3" path="res://Scenes/Player/chop_state.gd" id="7_jlvik"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k53q1"]
 atlas = ExtResource("2_btcbx")
@@ -112,7 +114,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fhl08")
 }],
-"loop": true,
+"loop": false,
 "name": &"Chopping Back",
 "speed": 5.0
 }, {
@@ -123,7 +125,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_od3ui")
 }],
-"loop": true,
+"loop": false,
 "name": &"Chopping Front",
 "speed": 5.0
 }, {
@@ -134,7 +136,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x3vf3")
 }],
-"loop": true,
+"loop": false,
 "name": &"Chopping Left",
 "speed": 5.0
 }, {
@@ -145,7 +147,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5htga")
 }],
-"loop": true,
+"loop": false,
 "name": &"Chopping Right",
 "speed": 5.0
 }, {
@@ -252,15 +254,20 @@ properties/2/path = NodePath("AnimatedSprite2D:frame")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jlvik"]
+radius = 3.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1212313742]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_4ntmi")
+current_tool = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1508467357]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_efx54")
 animation = &"Idle Front"
+autoplay = "Idle Front"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1174800435]
 position = Vector2(0, -5)
@@ -286,4 +293,14 @@ script = ExtResource("6_fhl08")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
-[node name="Chop" type="Node" parent="StateMachine" unique_id=1606083328]
+[node name="Chop" type="Node" parent="StateMachine" unique_id=1606083328 node_paths=PackedStringArray("player", "animated_sprite_2d", "hit_component_collision_shape")]
+script = ExtResource("7_jlvik")
+player = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+hit_component_collision_shape = NodePath("../../HitComponent/CollisionShape2D")
+
+[node name="HitComponent" parent="." unique_id=1786507841 instance=ExtResource("7_0u5uq")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitComponent" unique_id=1121097947]
+shape = SubResource("CircleShape2D_jlvik")
+debug_color = Color(0.9648419, 0.08548985, 0.42830566, 0.41960785)

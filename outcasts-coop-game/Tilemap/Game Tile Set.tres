@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dmknwxfyv2p4m" path="res://Assets/Sprout Lands - Sprites - Basic pack/Tilesets/Grass.png" id="1_bpoxe"]
 [ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="2_s5kci"]
+[ext_resource type="PackedScene" uid="uid://fmjy3nriosw6" path="res://Scenes/Objects/Rocks/rock.tscn" id="3_s5afx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_82jcm"]
 texture = ExtResource("1_bpoxe")
@@ -309,6 +310,9 @@ texture = ExtResource("2_s5kci")
 0:4/size_in_atlas = Vector2i(2, 1)
 0:4/0 = 0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ghn77"]
+scenes/1/scene = ExtResource("3_s5afx")
+
 [resource]
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
@@ -316,3 +320,4 @@ terrain_set_0/terrain_0/name = "Grass"
 terrain_set_0/terrain_0/color = Color(0.117050745, 0.45729983, 0.25584826, 1)
 sources/1 = SubResource("TileSetAtlasSource_82jcm")
 sources/2 = SubResource("TileSetAtlasSource_s5afx")
+sources/3 = SubResource("TileSetScenesCollectionSource_ghn77")

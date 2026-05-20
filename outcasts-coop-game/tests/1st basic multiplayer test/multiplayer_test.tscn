@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cmr0ovwk5ahxv"]
 
 [ext_resource type="Script" uid="uid://dvkd26c7tgarr" path="res://tests/1st basic multiplayer test/multiplayer_test.gd" id="1_3fc8k"]
-[ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Player/player.tscn" id="2_3vuks"]
+[ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Scenes/Player/player.tscn" id="2_3vuks"]
 [ext_resource type="PackedScene" uid="uid://do3pgbraprlfk" path="res://Enemies/enemy.tscn" id="3_wvsrd"]
 
 [node name="MultiplayerTest" type="Node2D" unique_id=1481677403]

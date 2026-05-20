@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://fmjy3nriosw6"]
+
+[ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="1_p27bo"]
+[ext_resource type="Script" uid="uid://l50yfixmlsy4" path="res://Scenes/Objects/Rocks/rock.gd" id="2_a2n6y"]
+[ext_resource type="PackedScene" uid="uid://25f0c3tpklvc" path="res://Scripts/Components/damage_component.tscn" id="2_vqgqf"]
+[ext_resource type="PackedScene" uid="uid://b0x4xr7aii5wd" path="res://Scenes/Objects/Rocks/collectable_rock.tscn" id="3_3ce70"]
+[ext_resource type="PackedScene" uid="uid://byvhjvne2swe" path="res://Scripts/Components/hurt_component.tscn" id="3_a2n6y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fqnu1"]
+radius = 5.0990195
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3ce70"]
+radius = 7.0
+
+[node name="Rock" type="Sprite2D" unique_id=1677144310]
+texture = ExtResource("1_p27bo")
+region_enabled = true
+region_rect = Rect2(128, 18, 16, 12)
+script = ExtResource("2_a2n6y")
+collectable_rock_scene = ExtResource("3_3ce70")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1180613489]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=644369258]
+shape = SubResource("CircleShape2D_fqnu1")
+
+[node name="DamageComponent" parent="." unique_id=1345764814 instance=ExtResource("2_vqgqf")]
+max_damage = 3
+
+[node name="hurt_component" parent="." unique_id=617453018 instance=ExtResource("3_a2n6y")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurt_component" unique_id=1307772705]
+shape = SubResource("CircleShape2D_3ce70")
+debug_color = Color(0.865784, 0.0005791092, 0.86246353, 0.41960785)
