@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ToolItemData" format=3 uid="uid://bifwvs8sx2a4p"]
+
+[ext_resource type="Texture2D" uid="uid://7yyff5f7xk1r" path="res://Assets/Sprout Lands - Sprites - Basic pack/Characters/Tools.png" id="1_2u7et"]
+[ext_resource type="Script" uid="uid://deiprqcwhrvji" path="res://Scripts/Items/tool_item_data.gd" id="1_qw4l6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2g02u"]
+atlas = ExtResource("1_2u7et")
+region = Rect2(82, 32, 5, 11)
+
+[resource]
+script = ExtResource("1_qw4l6")
+display_name = "Axe"
+description = "Used to get wood"
+icon = SubResource("AtlasTexture_2g02u")
+metadata/_custom_type_script = "uid://deiprqcwhrvji"

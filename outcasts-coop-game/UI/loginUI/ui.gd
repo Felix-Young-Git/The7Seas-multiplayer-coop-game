@@ -4,11 +4,11 @@ signal host_pressed
 signal join_pressed
 signal spawn_enemy_pressed
 
-@onready var host_button = $UIVBox/Buttons/Host
-@onready var join_button = $UIVBox/Buttons/Join
-@onready var spawn_enemy_button = $UIVBox/Buttons/SpawnEnemy
-@onready var joinIPInput = $UIVBox/IPInfo/JoinIPInput
-@onready var hostIPLabel = $UIVBox/IPInfo/HostIP
+@onready var host_button = $LoginVBox/Buttons/Host
+@onready var join_button = $LoginVBox/Buttons/Join
+@onready var spawn_enemy_button = $LoginVBox/Buttons/SpawnEnemy
+@onready var joinIPInput = $LoginVBox/IPInfo/JoinIPInput
+@onready var hostIPLabel = $LoginVBox/IPInfo/HostIP
 
 func _ready():
 	host_button.pressed.connect(_on_host_button_pressed)

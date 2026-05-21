@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b5y2y1pe8cubq"]
+
+[ext_resource type="Script" uid="uid://cfa86lybmceky" path="res://tests/inventory_test/inventory_test.gd" id="1_blrk0"]
+[ext_resource type="PackedScene" uid="uid://ch4qj8h4slrlb" path="res://UI/loginUI/ui.tscn" id="2_pri47"]
+
+[node name="InventoryTest" type="Node2D" unique_id=1978064845]
+script = ExtResource("1_blrk0")
+
+[node name="PlayerMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=617825459]
+_spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk", "uid://b6r8b48flbgx1")
+spawn_path = NodePath("..")
+
+[node name="UI" parent="." unique_id=841428912 instance=ExtResource("2_pri47")]
