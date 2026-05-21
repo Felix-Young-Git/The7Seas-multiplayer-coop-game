@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="1_amlx1"]
 [ext_resource type="Script" uid="uid://cym7v2wba4njm" path="res://Scenes/Objects/Trees/tree.gd" id="2_uxkxp"]
 [ext_resource type="PackedScene" uid="uid://25f0c3tpklvc" path="res://Scripts/Components/damage_component.tscn" id="3_t3pn8"]
-[ext_resource type="PackedScene" uid="uid://l7apvn6exj7i" path="res://Scenes/Objects/Trees/collectable_log.tscn" id="3_uxkxp"]
 [ext_resource type="PackedScene" uid="uid://byvhjvne2swe" path="res://Scripts/Components/hurt_component.tscn" id="4_2po4t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2cvnf"]
@@ -19,7 +18,6 @@ size = Vector2(14.5, 23)
 [node name="Tree" type="Sprite2D" unique_id=2086349414]
 texture = SubResource("AtlasTexture_2cvnf")
 script = ExtResource("2_uxkxp")
-collectable_log_scene = ExtResource("3_uxkxp")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=611513440]
 
@@ -28,7 +26,6 @@ position = Vector2(0, 10)
 shape = SubResource("CircleShape2D_pmq6s")
 
 [node name="DamageComponent" parent="." unique_id=1345764814 instance=ExtResource("3_t3pn8")]
-max_damage = 3
 
 [node name="hurt_component" parent="." unique_id=617453018 instance=ExtResource("4_2po4t")]
 tool = 1

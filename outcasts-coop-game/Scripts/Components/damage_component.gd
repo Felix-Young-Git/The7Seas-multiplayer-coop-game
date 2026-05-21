@@ -2,15 +2,18 @@
 class_name DamageComponent
 extends Node2D
 
-@export var max_damage = 1
+@export var max_damage = 3
 @export var current_damage = 0
 
-signal  max_damage_reached
 
 func apply_damage(damage: int) -> void:
 	#if current_damage + damage > max_damage then current_damage = max_damage,
 	#otherwise current_damage = current_damage + damage
 	current_damage = clamp(current_damage + damage, 0, max_damage)
 	
-	if current_damage == max_damage:
-		max_damage_reached.emit()
+
+func is_dead() -> bool:
+	if current_damage >= max_damage:
+		return true
+	else:
+		return false

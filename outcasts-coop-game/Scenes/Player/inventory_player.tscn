@@ -337,8 +337,11 @@ properties/2/replication_mode = 1
 [sub_resource type="CircleShape2D" id="CircleShape2D_xgw1g"]
 radius = 3.0
 
-[node name="InventoryPlayer" type="CharacterBody2D" unique_id=210113298]
+[node name="Player" type="CharacterBody2D" unique_id=210113298]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_jtci4")
+current_tool = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1219752264]
 position = Vector2(0, -8)
@@ -362,27 +365,27 @@ initial_node_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" unique_id=1338643902 node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("4_7g3j5")
-player = NodePath("")
-animated_sprite_2d = NodePath("")
+player = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
 [node name="Walk" type="Node" parent="StateMachine" unique_id=1273067045 node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("5_heduu")
-player = NodePath("")
-animated_sprite_2d = NodePath("")
+player = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
 [node name="Chop" type="Node" parent="StateMachine" unique_id=699455100 node_paths=PackedStringArray("player", "animated_sprite_2d", "hit_component_collision_shape", "hit_component")]
 script = ExtResource("6_blbca")
-player = NodePath("")
-animated_sprite_2d = NodePath("")
-hit_component_collision_shape = NodePath("")
-hit_component = NodePath("")
+player = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+hit_component_collision_shape = NodePath("../../HitComponent/CollisionShape2D")
+hit_component = NodePath("../../HitComponent")
 
 [node name="Mine" type="Node" parent="StateMachine" unique_id=696641773 node_paths=PackedStringArray("player", "animated_sprite_2d", "hit_component_collision_shape", "hit_component")]
 script = ExtResource("7_0135u")
-player = NodePath("")
-animated_sprite_2d = NodePath("")
-hit_component_collision_shape = NodePath("")
-hit_component = NodePath("")
+player = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+hit_component_collision_shape = NodePath("../../HitComponent/CollisionShape2D")
+hit_component = NodePath("../../HitComponent")
 
 [node name="HitComponent" parent="." unique_id=1786507841 instance=ExtResource("8_t1b34")]
 
@@ -397,6 +400,6 @@ script = ExtResource("9_cpiay")
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=538736119]
 
 [node name="InventoryUI" parent="InventoryUI" unique_id=152834568 node_paths=PackedStringArray("inventory") instance=ExtResource("10_cmrrg")]
-inventory = NodePath("")
+inventory = NodePath("../../Inventory")
 slot_scene = ExtResource("11_awu6j")
 metadata/_edit_use_anchors_ = true
