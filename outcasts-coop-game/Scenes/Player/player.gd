@@ -6,7 +6,7 @@ extends CharacterBody2D
 
 @onready var hotbarUI = $InventoryUI/InventoryUI/Panel/GridContainer
 @onready var camera = $Camera2D
-
+@onready var inventory = %Inventory
 
 var hotbar_size : int = 9
 var selected_slot : int = 0 #start by having the first slot in inventory selected
@@ -58,3 +58,14 @@ func _input(event: InputEvent) -> void:
 			hotbarUI.get_child(i).set_selected(true)
 		else:
 			hotbarUI.get_child(i).set_selected(false)
+	
+	#set current tool
+	var current_item = inventory.item_slots[selected_slot].item
+	if current_item is ToolItemData:
+		var current_tool_name = current_item.display_name
+		if current_tool_name == "Axe":
+			current_tool = DataTypes.Tools.Axe
+		if current_tool_name == "Pickaxe":
+			current_tool = DataTypes.Tools.Pickaxe
+	else:
+		current_tool = DataTypes.Tools.None
