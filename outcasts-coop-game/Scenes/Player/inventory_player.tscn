@@ -11,7 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://ccq50kkiho4ha" path="res://Scripts/Components/hit_component.tscn" id="8_t1b34"]
 [ext_resource type="Script" uid="uid://d1ryx2ysyi6nf" path="res://Scripts/Inventory/inventory.gd" id="9_cpiay"]
 [ext_resource type="PackedScene" uid="uid://vfo0bca3448f" path="res://UI/Inventory UI/inventory_ui.tscn" id="10_cmrrg"]
+[ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="11_7g3j5"]
 [ext_resource type="PackedScene" uid="uid://nke8ttbdpq81" path="res://UI/Inventory UI/inventory_slot_ui.tscn" id="11_awu6j"]
+[ext_resource type="Resource" uid="uid://bifwvs8sx2a4p" path="res://Items/Tools/Axe.tres" id="12_heduu"]
+[ext_resource type="Resource" uid="uid://tvgmwpgmkcj" path="res://Items/Tools/Pickaxe.tres" id="13_heduu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k53q1"]
 atlas = ExtResource("1_0r3qt")
@@ -396,6 +399,10 @@ debug_color = Color(0.9648419, 0.08548985, 0.42830566, 0.41960785)
 [node name="Inventory" type="Node" parent="." unique_id=733397777]
 unique_name_in_owner = true
 script = ExtResource("9_cpiay")
+start_items = Dictionary[ExtResource("11_7g3j5"), int]({
+ExtResource("12_heduu"): 1,
+ExtResource("13_heduu"): 1
+})
 
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=538736119]
 

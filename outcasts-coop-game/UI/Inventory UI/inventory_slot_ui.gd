@@ -21,3 +21,10 @@ func update_visuals():
 	else:
 		icon.visible = false
 		quantity_label.text = ""
+
+#change color of selected slot
+func set_selected(selected : bool):
+	if selected:
+		modulate = Color.YELLOW
+	else:
+		modulate = Color.WHITE

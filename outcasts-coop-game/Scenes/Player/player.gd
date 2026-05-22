@@ -1,14 +1,15 @@
-#CURRENTLY A BUG WHERE IF A PLAYER BREAKS SOMETHING BEFORE THE OTHER PLAYER JOINS,
-#THEN THE JOINING PLAYERS MAP IS WRONG AND CAN BREAK THINGS, AND THE HOST CAN't PICK
-#UP STUFF
 class_name Player
 extends CharacterBody2D
 
 #tools
 @export var current_tool: DataTypes.Tools = DataTypes.Tools.None
 
+@onready var hotbarUI = $InventoryUI/InventoryUI/Panel/GridContainer
 @onready var camera = $Camera2D
 
+
+var hotbar_size : int = 9
+var selected_slot : int = 0 #start by having the first slot in inventory selected
 var player_direction: Vector2
 
 func _enter_tree() -> void:
@@ -21,3 +22,39 @@ func _ready() -> void:
 		camera.make_current()
 	else:
 		camera.enabled = false
+
+#input for selected slot
+func _input(event: InputEvent) -> void:
+	#numbers
+	if event.is_action_pressed("Hotbar1"):
+		selected_slot = 0
+	if event.is_action_pressed("Hotbar2"):
+		selected_slot = 1
+	if event.is_action_pressed("Hotbar3"):
+		selected_slot = 2
+	if event.is_action_pressed("Hotbar4"):
+		selected_slot = 3
+	if event.is_action_pressed("Hotbar5"):
+		selected_slot = 4
+	if event.is_action_pressed("Hotbar6"):
+		selected_slot = 5
+	if event.is_action_pressed("Hotbar7"):
+		selected_slot = 6
+	if event.is_action_pressed("Hotbar8"):
+		selected_slot = 7
+	if event.is_action_pressed("Hotbar9"):
+		selected_slot = 8
+	
+	#scroll wheel
+	if event.is_action_pressed("Wheel Up"):
+		selected_slot = wrapi(selected_slot - 1, 0, 8)
+
+	if event.is_action_pressed("Wheel Down"):
+		selected_slot = wrapi(selected_slot + 1, 0, 8)
+
+	#set selected
+	for i in hotbarUI.get_child_count():
+		if i == (selected_slot):
+			hotbarUI.get_child(i).set_selected(true)
+		else:
+			hotbarUI.get_child(i).set_selected(false)
