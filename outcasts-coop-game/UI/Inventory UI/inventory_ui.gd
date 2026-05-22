@@ -3,7 +3,7 @@ extends Control
 @export var inventory : Inventory
 @export var slot_scene : PackedScene
 
-@onready var grid = $GridContainer
+@onready var grid = $Panel/GridContainer
 
 var slot_uis = []
 

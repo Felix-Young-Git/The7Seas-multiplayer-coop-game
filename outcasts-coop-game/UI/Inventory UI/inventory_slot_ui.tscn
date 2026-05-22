@@ -1,16 +1,22 @@
 [gd_scene format=3 uid="uid://nke8ttbdpq81"]
 
 [ext_resource type="Script" uid="uid://dw7t6q53jrbi8" path="res://UI/Inventory UI/inventory_slot_ui.gd" id="1_v4qca"]
+[ext_resource type="Texture2D" uid="uid://bu6irstvnu0pj" path="res://Assets/Inventory/item_slot_default_background.png" id="2_3vs35"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3vs35"]
+texture = ExtResource("2_3vs35")
 
 [node name="InventorySlotUI" type="Panel" unique_id=2124761492]
+custom_minimum_size = Vector2(54, 54)
 offset_right = 40.0
 offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_3vs35")
 script = ExtResource("1_v4qca")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=13974624]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 54.0
+offset_bottom = 54.0
 
 [node name="Label" type="Label" parent="." unique_id=899029488]
 layout_mode = 0
