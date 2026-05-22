@@ -23,7 +23,7 @@ func _ready() -> void:
 	else:
 		camera.enabled = false
 
-#input for selected slot
+#input for selected slot (PROBABLY SHOULD MOVE TO INPUT EVENTS SCRIPT AT SOME POINT)
 func _input(event: InputEvent) -> void:
 	#numbers
 	if event.is_action_pressed("Hotbar1"):
