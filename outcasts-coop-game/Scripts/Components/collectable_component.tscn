@@ -1,10 +1,14 @@
 [gd_scene format=3 uid="uid://dmckwmscouuee"]
 
 [ext_resource type="Script" uid="uid://cjvihgtbq0twe" path="res://Scripts/Components/collectable_component.gd" id="1_rpwcv"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Items/Resourses/Wood.tres" id="2_ltga1"]
+[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Items/Resourses/Stone.tres" id="3_6f4c0"]
 
 [node name="Collectable Component" type="Area2D" unique_id=90339270]
 collision_layer = 16
 collision_mask = 2
 script = ExtResource("1_rpwcv")
+small_log = ExtResource("2_ltga1")
+small_rock = ExtResource("3_6f4c0")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

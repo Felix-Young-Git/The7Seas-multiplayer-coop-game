@@ -406,7 +406,6 @@ ExtResource("13_heduu"): 1
 
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=538736119]
 
-[node name="InventoryUI" parent="InventoryUI" unique_id=152834568 node_paths=PackedStringArray("inventory") instance=ExtResource("10_cmrrg")]
-inventory = NodePath("../../Inventory")
+[node name="InventoryUI" parent="InventoryUI" unique_id=152834568 instance=ExtResource("10_cmrrg")]
 slot_scene = ExtResource("11_awu6j")
 metadata/_edit_use_anchors_ = true

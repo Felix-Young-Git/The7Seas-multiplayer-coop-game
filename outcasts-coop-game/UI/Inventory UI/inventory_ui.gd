@@ -1,9 +1,10 @@
 extends Control
 
-@export var inventory : Inventory
+
 @export var slot_scene : PackedScene
 
 @onready var grid = $Panel/GridContainer
+@onready var inventory : Inventory = get_parent().get_node("%Inventory")
 
 var slot_uis = []
 

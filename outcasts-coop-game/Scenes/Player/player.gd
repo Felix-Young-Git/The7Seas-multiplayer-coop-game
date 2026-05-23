@@ -13,15 +13,22 @@ var selected_slot : int = 0 #start by having the first slot in inventory selecte
 var player_direction: Vector2
 
 func _enter_tree() -> void:
-	set_multiplayer_authority(name.to_int())
+	var id = name.to_int()
+	set_multiplayer_authority(id)
+	
+	if has_node("%Inventory"):
+		%Inventory.owner_peer_id = id
+	
 
 func _ready() -> void:
 	add_to_group("players")
 	if is_multiplayer_authority():
 		camera.enabled = true
 		camera.make_current()
+		$InventoryUI.visible = true
 	else:
 		camera.enabled = false
+		$InventoryUI.visible = false
 
 #input for selected slot (PROBABLY SHOULD MOVE TO INPUT EVENTS SCRIPT AT SOME POINT)
 func _input(event: InputEvent) -> void:
@@ -53,7 +60,7 @@ func _input(event: InputEvent) -> void:
 		selected_slot = wrapi(selected_slot + 1, 0, 8)
 
 	#set selected
-	for i in hotbarUI.get_child_count():
+	for i in range(hotbarUI.get_child_count()):
 		if i == (selected_slot):
 			hotbarUI.get_child(i).set_selected(true)
 		else:
