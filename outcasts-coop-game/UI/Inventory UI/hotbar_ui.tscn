@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://boueblx3gvqby"]
+
+[ext_resource type="Script" uid="uid://bqa68jd6xuty8" path="res://UI/Inventory UI/inventory_ui.gd" id="1_ulqkw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iu4v8"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hl1sf"]
+texture = SubResource("AtlasTexture_iu4v8")
+modulate_color = Color(0, 0, 0, 1)
+
+[node name="HotbarUI" type="Control" unique_id=152834568]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(-20, -20)
+script = ExtResource("1_ulqkw")
+
+[node name="Panel" type="Panel" parent="." unique_id=603427665]
+layout_mode = 0
+offset_left = -550.0
+offset_top = -83.0
+offset_right = -12.0
+offset_bottom = -13.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_hl1sf")
+
+[node name="GridContainer" type="GridContainer" parent="Panel" unique_id=961906573]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 9

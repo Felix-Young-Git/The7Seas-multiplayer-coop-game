@@ -19,26 +19,27 @@ grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(-20, -20)
 script = ExtResource("1_iu4v8")
+start_slot = 9
+end_slot = 17
 
 [node name="Panel" type="Panel" parent="." unique_id=603427665]
 layout_mode = 0
 offset_left = -550.0
-offset_top = -83.0
+offset_top = -153.0
 offset_right = -12.0
-offset_bottom = -13.0
+offset_bottom = -83.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_hl1sf")
 
 [node name="GridContainer" type="GridContainer" parent="Panel" unique_id=961906573]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -20.0
-offset_top = -20.0
+offset_top = -40.0
 offset_right = 20.0
-offset_bottom = 20.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 columns = 9

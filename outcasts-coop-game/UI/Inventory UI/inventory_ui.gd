@@ -2,6 +2,9 @@ extends Control
 
 
 @export var slot_scene : PackedScene
+@export var start_slot : int = 0 
+@export var end_slot : int = 8
+
 
 @onready var grid = $Panel/GridContainer
 @onready var inventory : Inventory = get_parent().get_node("%Inventory")
@@ -14,7 +17,17 @@ func _ready():
 	inventory.UpdatedInventory.connect(update_inventory)
 
 func create_slots():
-	for slot in inventory.item_slots:
+	
+	print(name, " Start: ", start_slot, " End: ", end_slot)
+	
+	for i in range(start_slot, end_slot + 1):
+		
+		print("Creating slot ", i)
+		
+		if i >= inventory.item_slots.size():
+			break
+		
+		var slot = inventory.item_slots[i]
 		var slot_ui = slot_scene.instantiate()
 		
 		grid.add_child(slot_ui)

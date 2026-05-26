@@ -47,8 +47,8 @@ func set_state(state: UIState):
 		UIState.Host:
 			host_button.visible = false
 			join_button.visible = false
-			spawn_enemy_button.visible = true
-			hostIPLabel.modulate.a = 1.0
+			spawn_enemy_button.visible = false
+			hostIPLabel.modulate.a = 0.0
 			joinIPInput.visible = false
 
 		UIState.Join:

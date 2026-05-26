@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="ResourseItemData" format=3 uid="uid://c2l5vr4ysml12"]
 
-[ext_resource type="Script" uid="uid://cikhxgwvfc0tk" path="res://Scripts/Items/resources_item_data.gd" id="1_e5245"]
-[ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="1_tmfs8"]
+[ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="1_6ueww"]
+[ext_resource type="Script" uid="uid://cikhxgwvfc0tk" path="res://Scripts/Items/resources_item_data.gd" id="2_gg4o2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s6386"]
-atlas = ExtResource("1_tmfs8")
+atlas = ExtResource("1_6ueww")
 region = Rect2(114, 18, 10, 8)
 
 [resource]
-script = ExtResource("1_e5245")
+script = ExtResource("2_gg4o2")
 display_name = "Stone"
 description = "Used to craft"
 max_stack_size = 10

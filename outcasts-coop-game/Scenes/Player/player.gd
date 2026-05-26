@@ -4,10 +4,12 @@ extends CharacterBody2D
 #tools
 @export var current_tool: DataTypes.Tools = DataTypes.Tools.None
 
-@onready var hotbarUI = $InventoryUI/InventoryUI/Panel/GridContainer
+@onready var hotbarUI = $InventoryUI/HotbarUI/Panel/GridContainer
 @onready var camera = $Camera2D
 @onready var inventory = %Inventory
+@onready var inventoryUI = $InventoryUI
 
+var inventory_open : bool 
 var hotbar_size : int = 9
 var selected_slot : int = 0 #start by having the first slot in inventory selected
 var player_direction: Vector2
@@ -25,13 +27,27 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		camera.enabled = true
 		camera.make_current()
-		$InventoryUI.visible = true
+		inventoryUI.visible = true
+		inventoryUI.set_state(inventoryUI.UIState.hotbar)
+		inventory_open = false
+		
 	else:
 		camera.enabled = false
-		$InventoryUI.visible = false
+		inventoryUI.visible = false
+
 
 #input for selected slot (PROBABLY SHOULD MOVE TO INPUT EVENTS SCRIPT AT SOME POINT)
 func _input(event: InputEvent) -> void:
+	
+	#inventory
+	if event.is_action_pressed("Inventory"):
+		if inventory_open == false:
+			inventory_open = true
+			inventoryUI.set_state(inventoryUI.UIState.inventory_open)
+		else:
+			inventory_open = false
+			inventoryUI.set_state(inventoryUI.UIState.hotbar)
+
 	#numbers
 	if event.is_action_pressed("Hotbar1"):
 		selected_slot = 0

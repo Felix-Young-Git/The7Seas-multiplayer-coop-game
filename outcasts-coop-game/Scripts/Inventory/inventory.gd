@@ -11,7 +11,8 @@ signal UpdatedSlot (slot : ItemSlot)
 var owner_peer_id : int = 1
 var item_slots : Array[ItemSlot]
 
-@export var size : int = 9
+
+@export var size : int = 18
 @export var start_items : Dictionary[ItemData, int]
 
 func _ready() -> void:
@@ -42,6 +43,7 @@ func add_item (item : ItemData) -> bool:
 		slot.quantity = 1 
 		slot_index = item_slots.find(slot)
 
+	
 	UpdatedInventory.emit()
 	UpdatedSlot.emit(slot)
 
@@ -110,6 +112,56 @@ func has_item (item : ItemData) -> bool:
 	
 	return false
 	
+#get the total number of an item in inventory
+func get_item_count(item : ItemData) -> int:
+	var total := 0
+	for slot in item_slots:
+		if slot.item == item:
+			total += slot.quantity
+	return total
+
+
+#crafting
+func can_craft(recipe: CraftRecipe)->bool:
+	for ingredient in recipe.ingredients:
+		var required_amount : int = recipe.ingredients[ingredient]
+		var inventory_amount : int = get_item_count(ingredient)
+		
+		if inventory_amount < required_amount:
+			return true
+			
+	return false
+
+func craft(recipe: CraftRecipe):
+	if !can_craft(recipe):
+		return
+	
+	for ingredient in recipe.ingredients:
+		var amount_to_remove : int = recipe.ingredients[ingredient]
+		for i in range(amount_to_remove):
+			remove_item(ingredient)
+			
+	for i in range(recipe.output_amount):
+		add_item(recipe.output_item)
+
+
+#requests for crafting
+@rpc("any_peer")
+func request_craft(recipe : CraftRecipe):
+	if !multiplayer.is_server():
+		return
+	
+	var sender = multiplayer.get_remote_sender_id()
+	var player = get_player_from_peer(sender)
+	player.inventory.craft(recipe)
+
+func get_player_from_peer(peer_id : int) -> Node:
+	for player in get_tree().get_nodes_in_group("players"):
+		if player.get_multiplayer_authority() == peer_id:
+			return player
+	
+	return null
+
 
 # The server calls this to force a specific client to update a slot
 @rpc("any_peer", "call_remote", "reliable")

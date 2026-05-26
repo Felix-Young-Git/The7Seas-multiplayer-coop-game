@@ -15,7 +15,7 @@ tile_map_data = PackedByteArray("AAAGAAUAAQABAAEAAAAGAAQAAQABAAEAAAAGAAMAAQABAAE
 tile_set = ExtResource("1_2n6f1")
 
 [node name="Trees" type="TileMapLayer" parent="." unique_id=851956838]
-tile_map_data = PackedByteArray("AAD3/wcAAwAAAAAAAgD6/wcAAwAAAAAAAgD9/wcAAwAAAAAAAgD//wcAAwAAAAAAAgD7/wAAAwAAAAAAAgA=")
+tile_map_data = PackedByteArray("AAD3/wcAAwAAAAAAAgD6/wcAAwAAAAAAAgD9/wcAAwAAAAAAAgD//wcAAwAAAAAAAgD7/wAAAwAAAAAAAgD3/woAAwAAAAAAAgD6/woAAwAAAAAAAgD9/woAAwAAAAAAAgD3/wUAAwAAAAAAAgD6/wUAAwAAAAAAAgD9/wUAAwAAAAAAAgD//wUAAwAAAAAAAgA=")
 tile_set = ExtResource("1_2n6f1")
 
 [node name="Rocks" type="TileMapLayer" parent="." unique_id=1373331382]
