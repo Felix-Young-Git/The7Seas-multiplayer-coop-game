@@ -11,7 +11,7 @@ func _ready():
 		var button = recipe_button_scene.instantiate()
 		
 		container.add_child(button)
-		button.set_recipe(recipe)
+		button.set_recipe(recipe, inventory)
 		
 		button.pressed.connect(craft_recipe.bind(recipe))
 
