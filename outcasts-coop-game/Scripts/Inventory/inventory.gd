@@ -120,6 +120,31 @@ func get_item_count(item : ItemData) -> int:
 			total += slot.quantity
 	return total
 
+#swap to slots' items
+func swap_slots(index_a : int, index_b : int):
+	if index_a == index_b:
+		return
+
+	var slot_a = item_slots[index_a]
+	var slot_b = item_slots[index_b]
+
+	# Swap item
+	var temp_item = slot_a.item
+	slot_a.item = slot_b.item
+	slot_b.item = temp_item
+
+	# Swap quantity
+	var temp_quantity = slot_a.quantity
+	slot_a.quantity = slot_b.quantity
+	slot_b.quantity = temp_quantity
+
+	UpdatedInventory.emit()
+
+	UpdatedSlot.emit(slot_a)
+	UpdatedSlot.emit(slot_b)
+
+
+
 
 #crafting
 func can_craft(recipe: CraftRecipe)->bool:
