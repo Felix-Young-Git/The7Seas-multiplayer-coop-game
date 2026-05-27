@@ -17,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://tvgmwpgmkcj" path="res://Recources/Items/Tools/Pickaxe.tres" id="13_heduu"]
 [ext_resource type="Script" uid="uid://dvps6u08renn0" path="res://Scenes/Player/inventory_state_ui.gd" id="14_blbca"]
 [ext_resource type="PackedScene" uid="uid://boueblx3gvqby" path="res://UI/Inventory UI/hotbar_ui.tscn" id="17_0135u"]
+[ext_resource type="PackedScene" uid="uid://d1tuv0pb3cv6m" path="res://UI/CraftingUI/crafting_ui.tscn" id="18_t1b34"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k53q1"]
 atlas = ExtResource("1_0r3qt")
@@ -415,3 +416,5 @@ slot_scene = ExtResource("11_awu6j")
 [node name="InventoryOpenUI" parent="InventoryUI" unique_id=152834568 instance=ExtResource("10_cmrrg")]
 slot_scene = ExtResource("11_awu6j")
 metadata/_edit_use_anchors_ = true
+
+[node name="CraftingUI" parent="InventoryUI" unique_id=670378048 instance=ExtResource("18_t1b34")]

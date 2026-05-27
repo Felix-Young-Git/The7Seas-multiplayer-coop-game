@@ -152,7 +152,7 @@ func can_craft(recipe: CraftRecipe)->bool:
 		var required_amount : int = recipe.ingredients[ingredient]
 		var inventory_amount : int = get_item_count(ingredient)
 		
-		if inventory_amount < required_amount:
+		if inventory_amount >= required_amount:
 			return true
 			
 	return false

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dnsivnnl0buqr"]
+
+[ext_resource type="Script" uid="uid://cfug4v40hkhhw" path="res://UI/CraftingUI/recipe_button.gd" id="1_vff45"]
+
+[node name="RecipeButton" type="Button" unique_id=1516441805]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vff45")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1677410550]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NameLabel" type="Label" parent="." unique_id=849067950]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="IngredientsLabel" type="Label" parent="." unique_id=435824975]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Button" type="Button" parent="." unique_id=1197311628]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0

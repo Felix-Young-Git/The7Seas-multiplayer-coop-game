@@ -3,6 +3,7 @@ extends CanvasLayer
 
 @onready var hotbarUI = $HotbarUI
 @onready var inventoryUI = $InventoryOpenUI
+@onready var craftingUI = $CraftingUI
 
 #ui states
 enum UIState {
@@ -16,6 +17,8 @@ func set_state(state: UIState):
 		UIState.hotbar:
 			hotbarUI.visible = true
 			inventoryUI.visible = false
+			craftingUI.visible = false
 		UIState.inventory_open:
 			hotbarUI.visible = true
 			inventoryUI.visible = true
+			craftingUI.visible = true
