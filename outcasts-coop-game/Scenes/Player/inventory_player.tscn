@@ -17,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://bifwvs8sx2a4p" path="res://Recources/Items/Tools/Axe.tres" id="12_heduu"]
 [ext_resource type="Resource" uid="uid://tvgmwpgmkcj" path="res://Recources/Items/Tools/Pickaxe.tres" id="13_heduu"]
 [ext_resource type="Script" uid="uid://dvps6u08renn0" path="res://Scenes/Player/inventory_state_ui.gd" id="14_blbca"]
+[ext_resource type="Resource" uid="uid://dj3ms1vt8p51b" path="res://Recources/Items/Placeables/workbench.tres" id="14_og5ce"]
 [ext_resource type="PackedScene" uid="uid://boueblx3gvqby" path="res://UI/Inventory UI/hotbar_ui.tscn" id="17_0135u"]
 [ext_resource type="PackedScene" uid="uid://d1tuv0pb3cv6m" path="res://UI/CraftingUI/crafting_ui.tscn" id="18_t1b34"]
 [ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="19_ajwd1"]
@@ -410,6 +411,7 @@ start_items = Dictionary[ExtResource("11_7g3j5"), int]({
 ExtResource("12_heduu"): 1,
 ExtResource("13_heduu"): 1
 })
+workbench_crafting_station = ExtResource("14_og5ce")
 
 [node name="InventoryUI" type="CanvasLayer" parent="." unique_id=538736119]
 script = ExtResource("14_blbca")

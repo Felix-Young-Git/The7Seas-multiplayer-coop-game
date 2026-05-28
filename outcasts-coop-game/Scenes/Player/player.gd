@@ -9,6 +9,7 @@ extends CharacterBody2D
 @onready var inventory = %Inventory
 @onready var inventoryUI = $InventoryUI
 
+var nearby_stations : Array[String] = []
 var inventory_open : bool 
 var hotbar_size : int = 9
 var selected_slot : int = 0 #start by having the first slot in inventory selected
@@ -30,6 +31,7 @@ func _ready() -> void:
 		inventoryUI.visible = true
 		inventoryUI.set_state(inventoryUI.UIState.hotbar)
 		inventory_open = false
+
 		
 	else:
 		camera.enabled = false
@@ -92,3 +94,13 @@ func _input(event: InputEvent) -> void:
 			current_tool = DataTypes.Tools.Pickaxe
 	else:
 		current_tool = DataTypes.Tools.None
+
+#called went entering/exiting a workbench area
+func add_station(station_id : String):
+	if !nearby_stations.has(station_id):
+		nearby_stations.append(station_id)
+		inventory.UpdatedInventory.emit()
+
+func remove_station(station_id : String):
+	nearby_stations.erase(station_id)
+	inventory.UpdatedInventory.emit()

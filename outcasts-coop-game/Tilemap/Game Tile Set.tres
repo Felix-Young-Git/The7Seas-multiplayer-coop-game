@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="2_s5kci"]
 [ext_resource type="PackedScene" uid="uid://fmjy3nriosw6" path="res://Scenes/Objects/Rocks/rock.tscn" id="3_s5afx"]
 [ext_resource type="PackedScene" uid="uid://cqwl5rcvn1e2b" path="res://Scenes/Objects/Trees/tree.tscn" id="4_ghn77"]
+[ext_resource type="PackedScene" uid="uid://hr303lwe8bfj" path="res://Scenes/Objects/Placeables/workbench.tscn" id="5_wejem"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_82jcm"]
 texture = ExtResource("1_bpoxe")
@@ -314,6 +315,7 @@ texture = ExtResource("2_s5kci")
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ghn77"]
 scenes/1/scene = ExtResource("3_s5afx")
 scenes/2/scene = ExtResource("4_ghn77")
+scenes/3/scene = ExtResource("5_wejem")
 
 [resource]
 physics_layer_0/collision_layer = 1

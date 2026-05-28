@@ -12,5 +12,6 @@ ingredients = Dictionary[ExtResource("1_fcayr"), int]({
 ExtResource("2_euoap"): 1,
 ExtResource("3_3bvl3"): 1
 })
+required_stations = Array[String](["workbench"])
 output_item = ExtResource("4_euoap")
 metadata/_custom_type_script = "uid://r3ngic4u0f55"

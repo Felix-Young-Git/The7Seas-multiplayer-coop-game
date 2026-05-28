@@ -23,6 +23,7 @@ func _on_child_entered_tree(child: Node) -> void:
 		if not child.rock_damaged.is_connected(on_rock_damaged):
 			child.rock_damaged.connect(on_rock_damaged)
 
+
 func connect_tree_signals():
 	for child in tree_layer.get_children():
 		if child.has_signal("tree_damaged"):
@@ -32,7 +33,6 @@ func connect_rock_signals():
 	for child in rock_layer.get_children():
 		if child.has_signal("rock_damaged"):
 			child.rock_damaged.connect(on_rock_damaged)
-
 
 #apply damage to trees
 func on_tree_damaged(cell: Vector2i, hit_damage: int):

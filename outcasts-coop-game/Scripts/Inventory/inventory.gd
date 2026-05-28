@@ -11,9 +11,9 @@ signal UpdatedSlot (slot : ItemSlot)
 var owner_peer_id : int = 1
 var item_slots : Array[ItemSlot]
 
-
 @export var size : int = 18
 @export var start_items : Dictionary[ItemData, int]
+@export var workbench_crafting_station : ItemData
 
 func _ready() -> void:
 	#create slots
@@ -148,13 +148,21 @@ func swap_slots(index_a : int, index_b : int):
 
 #crafting
 func can_craft(recipe: CraftRecipe)->bool:
+	#check ingredients
 	for ingredient in recipe.ingredients:
 		var required_amount : int = recipe.ingredients[ingredient]
 		var inventory_amount : int = get_item_count(ingredient)
 		
 		if inventory_amount < required_amount:
 			return false
-			
+	
+	#check stations
+	var player_node = get_parent()
+		
+	for station in recipe.required_stations:
+		if !player_node.nearby_stations.has(station):
+			return false
+		
 	return true
 
 func craft(recipe: CraftRecipe):
