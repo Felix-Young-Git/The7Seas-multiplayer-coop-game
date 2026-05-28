@@ -21,7 +21,3 @@ tile_set = ExtResource("1_2n6f1")
 [node name="Rocks" type="TileMapLayer" parent="." unique_id=1373331382]
 tile_map_data = PackedByteArray("AAADAAMAAwAAAAAAAQAFAAMAAwAAAAAAAQAHAAMAAwAAAAAAAQAHAAUAAwAAAAAAAQA=")
 tile_set = ExtResource("1_2n6f1")
-
-[node name="CraftingStations" type="TileMapLayer" parent="." unique_id=815326368]
-tile_map_data = PackedByteArray("AAD+/wIAAwAAAAAAAwA=")
-tile_set = ExtResource("1_2n6f1")

@@ -13,6 +13,11 @@ radius = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ow8nq"]
 size = Vector2(14, 13)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kkr27"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Workbench" type="Node2D" unique_id=1432863559]
 script = ExtResource("1_kkr27")
 
@@ -32,6 +37,9 @@ debug_color = Color(0.81599635, 0.40722755, 0, 0.41960785)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1077687874]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ow8nq")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=110828422]
+replication_config = SubResource("SceneReplicationConfig_kkr27")
 
 [connection signal="area_entered" from="Crafting Radius" to="." method="_on_crafting_radius_area_entered"]
 [connection signal="area_exited" from="Crafting Radius" to="." method="_on_crafting_radius_area_exited"]

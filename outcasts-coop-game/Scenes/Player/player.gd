@@ -40,6 +40,12 @@ func _ready() -> void:
 
 #input for selected slot (PROBABLY SHOULD MOVE TO INPUT EVENTS SCRIPT AT SOME POINT)
 func _input(event: InputEvent) -> void:
+	if !is_multiplayer_authority():
+		return
+	
+	#place items
+	if event.is_action_pressed("Place"):
+		try_place_current_item()
 	
 	#inventory
 	if event.is_action_pressed("Inventory"):
@@ -104,3 +110,54 @@ func add_station(station_id : String):
 func remove_station(station_id : String):
 	nearby_stations.erase(station_id)
 	inventory.UpdatedInventory.emit()
+
+func try_place_current_item():
+	var slot = inventory.item_slots[selected_slot]
+
+	if !slot.item:
+		return
+
+	if slot.item is PlaceableItemData:
+		var placeable_item = slot.item as PlaceableItemData
+		request_place.rpc_id(
+			1,
+			placeable_item.resource_path,
+			get_global_mouse_position()
+		)
+
+@rpc("any_peer", "call_local")
+func request_place(item_path : String, world_position : Vector2):
+	if !multiplayer.is_server():
+		return
+	var sender = multiplayer.get_remote_sender_id()
+	var player = get_player_from_peer(sender)
+
+	if !player:
+		return
+	if !is_instance_valid(player):
+		return
+	var item = load(item_path) as PlaceableItemData
+	#this is returning false on the client so need to fix for multiplayer, should just switch to item_ids
+	print(player.inventory.has_item(item))
+	# Validate player actually has item
+	if !player.inventory.has_item(item):
+		return
+	print("5")
+	# Spawn object
+	var obj = item.placeable_scene.instantiate()
+	get_tree().current_scene.add_child(obj)
+	var tile_size = 16
+	world_position = world_position.snapped(Vector2.ONE * tile_size)
+	obj.global_position = world_position
+	
+
+	# Remove item from inventory
+	player.inventory.remove_item(item)
+
+
+func get_player_from_peer(peer_id : int) -> Player:
+	for player in get_tree().get_nodes_in_group("players"):
+		if player.get_multiplayer_authority() == peer_id:
+			return player
+	
+	return null

@@ -107,6 +107,7 @@ func get_empty_item_slot () -> ItemSlot:
 # is this item in the inventory?
 func has_item (item : ItemData) -> bool:
 	for slot in item_slots:
+		
 		if slot.item == item:
 			return true
 	
