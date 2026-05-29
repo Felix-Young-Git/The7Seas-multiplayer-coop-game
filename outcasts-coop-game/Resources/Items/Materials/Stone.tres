@@ -9,7 +9,7 @@ region = Rect2(114, 18, 10, 8)
 
 [resource]
 script = ExtResource("2_gg4o2")
-display_name = "Stone"
+item_id = "Stone"
 description = "Used to craft"
 max_stack_size = 10
 icon = SubResource("AtlasTexture_s6386")

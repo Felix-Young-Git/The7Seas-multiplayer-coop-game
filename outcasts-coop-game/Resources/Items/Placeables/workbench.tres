@@ -11,7 +11,7 @@ region = Rect2(49, 49, 14, 14)
 [resource]
 script = ExtResource("3_sjvdf")
 placeable_scene = ExtResource("2_wc6oq")
-display_name = "Workbench"
+item_id = "Workbench"
 description = "Basic crafting station"
 icon = SubResource("AtlasTexture_pf208")
 metadata/_custom_type_script = "uid://cjavsj2ggb7p0"

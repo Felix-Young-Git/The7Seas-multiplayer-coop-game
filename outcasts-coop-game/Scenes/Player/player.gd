@@ -20,7 +20,9 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(id)
 	
 	if has_node("%Inventory"):
-		%Inventory.owner_peer_id = id
+		var inventory_node = get_node("%Inventory")
+		inventory_node.owner_peer_id = id
+		inventory_node.set_multiplayer_authority(id)
 	
 
 func _ready() -> void:
@@ -76,12 +78,12 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Hotbar9"):
 		selected_slot = 8
 	
-	#scroll wheel
+	#scroll wheel 
 	if event.is_action_pressed("Wheel Up"):
-		selected_slot = wrapi(selected_slot - 1, 0, 8)
+		selected_slot = wrapi(selected_slot - 1, 0, 9)
 
 	if event.is_action_pressed("Wheel Down"):
-		selected_slot = wrapi(selected_slot + 1, 0, 8)
+		selected_slot = wrapi(selected_slot + 1, 0, 9)
 
 	#set selected
 	for i in range(hotbarUI.get_child_count()):
@@ -93,7 +95,7 @@ func _input(event: InputEvent) -> void:
 	#set current tool
 	var current_item = inventory.item_slots[selected_slot].item
 	if current_item is ToolItemData:
-		var current_tool_name = current_item.display_name
+		var current_tool_name = current_item.item_id
 		if current_tool_name == "Axe":
 			current_tool = DataTypes.Tools.Axe
 		if current_tool_name == "Pickaxe":
@@ -121,12 +123,12 @@ func try_place_current_item():
 		var placeable_item = slot.item as PlaceableItemData
 		request_place.rpc_id(
 			1,
-			placeable_item.resource_path,
+			placeable_item.item_id,
 			get_global_mouse_position()
 		)
 
-@rpc("any_peer", "call_local")
-func request_place(item_path : String, world_position : Vector2):
+@rpc("any_peer","call_local", "reliable")
+func request_place(item_id : String, world_position : Vector2):
 	if !multiplayer.is_server():
 		return
 	var sender = multiplayer.get_remote_sender_id()
@@ -136,19 +138,23 @@ func request_place(item_path : String, world_position : Vector2):
 		return
 	if !is_instance_valid(player):
 		return
-	var item = load(item_path) as PlaceableItemData
-	#this is returning false on the client so need to fix for multiplayer, should just switch to item_ids
-	print(player.inventory.has_item(item))
+	var item = ItemDatabase.get_item(item_id)
+	
 	# Validate player actually has item
-	if !player.inventory.has_item(item):
+	if !player.inventory.has_item(item.item_id):
 		return
-	print("5")
-	# Spawn object
+
+	# Spawn object - I THINK THIS IS THE PROBLEM FOR WHY THE CLIENT CAN'T SEE THEIR WORKBENCHS
+	var spawn_node = get_tree().current_scene.get_node("/root/InventoryTest")
 	var obj = item.placeable_scene.instantiate()
-	get_tree().current_scene.add_child(obj)
+	obj.name = "Workbench_" + str(Time.get_ticks_usec())
 	var tile_size = 16
 	world_position = world_position.snapped(Vector2.ONE * tile_size)
 	obj.global_position = world_position
+	
+	
+	spawn_node.add_child(obj)
+	
 	
 
 	# Remove item from inventory
@@ -161,3 +167,23 @@ func get_player_from_peer(peer_id : int) -> Player:
 			return player
 	
 	return null
+
+
+func send_craft_request(recipe_id : String):
+	request_craft_server.rpc_id(1, recipe_id)
+
+@rpc("any_peer","call_local",  "reliable")
+func request_craft_server(recipe_id: String):
+	if !multiplayer.is_server():
+		return
+	var sender = multiplayer.get_remote_sender_id()
+	#Ensure the sender actually owns this player character
+	if sender != get_multiplayer_authority():
+		return
+
+	var recipe = ItemDatabase.get_craft(recipe_id)
+	if !recipe:
+		return
+		
+	if inventory:
+		inventory.craft(recipe)

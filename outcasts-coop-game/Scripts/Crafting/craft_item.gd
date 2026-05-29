@@ -2,7 +2,7 @@ class_name CraftRecipe
 extends Resource
 
 
-
+@export var recipe_id : String
 @export var ingredients : Dictionary[ItemData, int]
 @export var required_stations : Array[String]
 

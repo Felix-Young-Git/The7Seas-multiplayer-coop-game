@@ -9,7 +9,7 @@ region = Rect2(80, 35, 16, 10)
 
 [resource]
 script = ExtResource("2_3nwor")
-display_name = "Wood"
+item_id = "Wood"
 description = "Used to craft"
 max_stack_size = 10
 icon = SubResource("AtlasTexture_ut7bl")

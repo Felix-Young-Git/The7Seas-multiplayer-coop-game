@@ -15,12 +15,16 @@ run/main_scene="uid://b5y2y1pe8cubq"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+ItemDatabase="*uid://ce52ye2eod2v4"
+
 [file_customization]
 
 folder_colors={
 "res://Assets/": "pink",
 "res://Enemies/": "red",
-"res://Recources/": "gray",
+"res://Resources/": "gray",
 "res://Scenes/Player/": "purple",
 "res://Scripts/": "yellow",
 "res://Tilemap/": "orange",

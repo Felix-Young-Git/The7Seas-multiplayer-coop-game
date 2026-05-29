@@ -13,16 +13,12 @@
 [ext_resource type="PackedScene" uid="uid://vfo0bca3448f" path="res://UI/Inventory UI/inventory_ui.tscn" id="10_cmrrg"]
 [ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="11_7g3j5"]
 [ext_resource type="PackedScene" uid="uid://nke8ttbdpq81" path="res://UI/Inventory UI/inventory_slot_ui.tscn" id="11_awu6j"]
-[ext_resource type="Resource" uid="uid://bkup7xajdrv52" path="res://Recources/Recipes/Player items and gear/AxeCraft.tres" id="11_blbca"]
-[ext_resource type="Resource" uid="uid://bifwvs8sx2a4p" path="res://Recources/Items/Tools/Axe.tres" id="12_heduu"]
-[ext_resource type="Resource" uid="uid://tvgmwpgmkcj" path="res://Recources/Items/Tools/Pickaxe.tres" id="13_heduu"]
+[ext_resource type="Resource" uid="uid://bifwvs8sx2a4p" path="res://Resources/Items/Tools/Axe.tres" id="12_heduu"]
+[ext_resource type="Resource" uid="uid://tvgmwpgmkcj" path="res://Resources/Items/Tools/Pickaxe.tres" id="13_heduu"]
 [ext_resource type="Script" uid="uid://dvps6u08renn0" path="res://Scenes/Player/inventory_state_ui.gd" id="14_blbca"]
-[ext_resource type="Resource" uid="uid://dj3ms1vt8p51b" path="res://Recources/Items/Placeables/workbench.tres" id="14_og5ce"]
+[ext_resource type="Resource" uid="uid://dj3ms1vt8p51b" path="res://Resources/Items/Placeables/workbench.tres" id="14_og5ce"]
 [ext_resource type="PackedScene" uid="uid://boueblx3gvqby" path="res://UI/Inventory UI/hotbar_ui.tscn" id="17_0135u"]
 [ext_resource type="PackedScene" uid="uid://d1tuv0pb3cv6m" path="res://UI/CraftingUI/crafting_ui.tscn" id="18_t1b34"]
-[ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="19_ajwd1"]
-[ext_resource type="Resource" uid="uid://cwpakcp2ct120" path="res://Recources/Recipes/Player items and gear/PickaxeCraft.tres" id="21_og5ce"]
-[ext_resource type="Resource" uid="uid://bhl7t5i6w5yfg" path="res://Recources/Recipes/Placeables/Crafting stations/WorkbenchCraft.tres" id="22_f58m6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k53q1"]
 atlas = ExtResource("1_0r3qt")
@@ -424,4 +420,3 @@ slot_scene = ExtResource("11_awu6j")
 metadata/_edit_use_anchors_ = true
 
 [node name="CraftingUI" parent="InventoryUI" unique_id=670378048 instance=ExtResource("18_t1b34")]
-recipes = Array[ExtResource("19_ajwd1")]([ExtResource("11_blbca"), ExtResource("21_og5ce"), ExtResource("22_f58m6")])
