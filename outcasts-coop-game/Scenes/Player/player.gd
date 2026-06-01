@@ -4,6 +4,7 @@ extends CharacterBody2D
 #tools
 @export var current_tool: DataTypes.Tools = DataTypes.Tools.None
 
+@onready var tilemap = get_tree().get_first_node_in_group("tilemap")
 @onready var hotbarUI = $InventoryUI/HotbarUI/Panel/GridContainer
 @onready var camera = $Camera2D
 @onready var inventory = %Inventory
@@ -14,6 +15,10 @@ var inventory_open : bool
 var hotbar_size : int = 9
 var selected_slot : int = 0 #start by having the first slot in inventory selected
 var player_direction: Vector2
+var current_boat : Boat = null
+var boat
+var in_boat := false
+var camera_target: Node2D
 
 func _enter_tree() -> void:
 	var id = name.to_int()
@@ -30,6 +35,7 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		camera.enabled = true
 		camera.make_current()
+		camera_target = self
 		inventoryUI.visible = true
 		inventoryUI.set_state(inventoryUI.UIState.hotbar)
 		inventory_open = false
@@ -44,6 +50,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
+	
+	if event.is_action_pressed("Interact"):
+		try_interact_boat()
 	
 	#place items
 	if event.is_action_pressed("Place"):
@@ -144,14 +153,18 @@ func request_place(item_id : String, world_position : Vector2):
 	if !player.inventory.has_item(item.item_id):
 		return
 
-	# Spawn object - I THINK THIS IS THE PROBLEM FOR WHY THE CLIENT CAN'T SEE THEIR WORKBENCHS
+	#If placing boat then check if placing in water
+	if item_id == "Boat":
+		var mouse_pos = get_global_mouse_position()
+		if tilemap.is_water_tile(mouse_pos) == false:
+			return
+
 	var spawn_node = get_tree().current_scene.get_node("/root/InventoryTest")
 	var obj = item.placeable_scene.instantiate()
-	obj.name = "Workbench_" + str(Time.get_ticks_usec())
+	obj.name = item_id + "_" + str(Time.get_ticks_usec())
 	var tile_size = 16
 	world_position = world_position.snapped(Vector2.ONE * tile_size)
 	obj.global_position = world_position
-	
 	
 	spawn_node.add_child(obj)
 	
@@ -187,3 +200,30 @@ func request_craft_server(recipe_id: String):
 		
 	if inventory:
 		inventory.craft(recipe)
+
+#boats - NEED TO CHANGE TO USE RPC's SO THAT WORKS FOR MULTIPLAYER as right now the player
+#		doesn't appear to enter the boat on the client's screen and then teleports when
+#		 the host exits, also the client can't control the boat when they enter and are 
+#		the only one in the boat - this happened after the host had entered and exited 
+#		befroe the client entered
+func try_interact_boat():
+	if !in_boat:
+		for area in $InteractionArea.get_overlapping_areas():
+			boat = area.get_parent()
+			if boat is Boat:
+				boat.interact(self)
+				return
+	else:
+		boat.interact(self)
+
+func enter_boat(boat: Boat):
+	current_boat = boat
+	visible = false
+	in_boat = true
+	camera_target = boat
+
+func exit_boat():
+	current_boat = null
+	visible = true
+	in_boat = false
+	camera_target = self

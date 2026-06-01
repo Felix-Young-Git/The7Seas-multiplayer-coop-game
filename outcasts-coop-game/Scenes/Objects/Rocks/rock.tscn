@@ -18,6 +18,7 @@ region_rect = Rect2(128, 18, 16, 12)
 script = ExtResource("2_a2n6y")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1180613489]
+collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=644369258]
 shape = SubResource("CircleShape2D_fqnu1")

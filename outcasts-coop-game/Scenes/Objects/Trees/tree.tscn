@@ -20,12 +20,14 @@ texture = SubResource("AtlasTexture_2cvnf")
 script = ExtResource("2_uxkxp")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=611513440]
+collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2087946610]
 position = Vector2(0, 10)
 shape = SubResource("CircleShape2D_pmq6s")
 
 [node name="DamageComponent" parent="." unique_id=1345764814 instance=ExtResource("3_t3pn8")]
+max_damage = 1
 
 [node name="hurt_component" parent="." unique_id=617453018 instance=ExtResource("4_2po4t")]
 tool = 1

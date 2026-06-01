@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var water_layer = $Water
 @onready var tree_layer = $Trees
 @onready var rock_layer = $Rocks
 @export var collectable_log_scene : PackedScene
@@ -7,6 +8,7 @@ extends Node2D
 
 #connect the signals
 func _ready() -> void:
+	add_to_group("tilemap")
 	connect_tree_signals()
 	connect_rock_signals()
 	tree_layer.child_entered_tree.connect(_on_child_entered_tree)
@@ -120,3 +122,10 @@ func add_small_rock(cell: Vector2i) -> void:
 	collectable_rock_instance.global_position = world_pos
 	collectable_rock_instance.name = "small_rock_" + str(cell.x) + "_" + str(cell.y)
 	get_parent().add_child(collectable_rock_instance, true)
+
+
+func is_water_tile(world_pos: Vector2) -> bool:
+	var local_pos = water_layer.to_local(world_pos)
+	var cell = water_layer.local_to_map(local_pos)
+	var tile_data = water_layer.get_cell_tile_data(cell)
+	return tile_data and tile_data.get_custom_data("is_water")

@@ -23,11 +23,19 @@ func _ready() -> void:
 
 
 func _process(delta : float) -> void:
+	if !is_multiplayer_authority():
+		return
+	var player = get_parent()
+	if player.camera_target:
+		player.camera.global_position = player.camera_target.global_position
 	if current_node_state:
 		current_node_state._on_process(delta)
 
 
 func _physics_process(delta: float) -> void:
+	var player = get_parent()
+	if player.in_boat:
+		return
 	if current_node_state:
 		current_node_state._on_physics_process(delta)
 		current_node_state._on_next_transitions()

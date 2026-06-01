@@ -9,10 +9,12 @@ func _ready():
 	register_item(preload("res://Resources/Items/Placeables/workbench.tres"))
 	register_item(preload("res://Resources/Items/Tools/Axe.tres"))
 	register_item(preload("res://Resources/Items/Tools/Pickaxe.tres"))
+	register_item(preload("res://Resources/Items/Placeables/Boat.tres"))
 
 	register_craft(preload("res://Resources/Recipes/Placeables/Crafting stations/WorkbenchCraft.tres"))
 	register_craft(preload("res://Resources/Recipes/Player items and gear/AxeCraft.tres"))
 	register_craft(preload("res://Resources/Recipes/Player items and gear/PickaxeCraft.tres"))
+	register_craft(preload("res://Resources/Recipes/Placeables/BoatCraft.tres"))
 
 func register_item(item : ItemData):
 	items[item.item_id] = item

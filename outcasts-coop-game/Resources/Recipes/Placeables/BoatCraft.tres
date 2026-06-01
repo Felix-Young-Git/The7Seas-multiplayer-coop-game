@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CraftRecipe" format=3 uid="uid://b4jfbuluy82ri"]
+
+[ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="1_v8g2o"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="2_t04o2"]
+[ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="2_y252b"]
+[ext_resource type="Resource" uid="uid://cwaiwm24spmg6" path="res://Resources/Items/Placeables/Boat.tres" id="3_t04o2"]
+
+[resource]
+script = ExtResource("2_y252b")
+recipe_id = "BoatCraft"
+ingredients = Dictionary[ExtResource("1_v8g2o"), int]({
+ExtResource("2_t04o2"): 5
+})
+required_stations = Array[String](["workbench"])
+output_item = ExtResource("3_t04o2")
+metadata/_custom_type_script = "uid://r3ngic4u0f55"
