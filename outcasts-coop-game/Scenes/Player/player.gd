@@ -19,6 +19,7 @@ var current_boat : Boat = null
 var boat
 var in_boat := false
 var camera_target: Node2D
+var MAX_PLACE_DISTANCE = 1000
 
 func _enter_tree() -> void:
 	var id = name.to_int()
@@ -52,6 +53,7 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("Interact"):
+		print("interact pressed")
 		try_interact_boat()
 	
 	#place items
@@ -155,9 +157,12 @@ func request_place(item_id : String, world_position : Vector2):
 
 	#If placing boat then check if placing in water
 	if item_id == "Boat":
-		var mouse_pos = get_global_mouse_position()
-		if tilemap.is_water_tile(mouse_pos) == false:
+		if tilemap.is_water_tile(world_position) == false:
 			return
+
+	#Stop the player from placing it super far away
+	if player.global_position.distance_to(world_position) > MAX_PLACE_DISTANCE:
+		return
 
 	var spawn_node = get_tree().current_scene.get_node("/root/InventoryTest")
 	var obj = item.placeable_scene.instantiate()
@@ -168,8 +173,6 @@ func request_place(item_id : String, world_position : Vector2):
 	
 	spawn_node.add_child(obj)
 	
-	
-
 	# Remove item from inventory
 	player.inventory.remove_item(item)
 
@@ -178,7 +181,6 @@ func get_player_from_peer(peer_id : int) -> Player:
 	for player in get_tree().get_nodes_in_group("players"):
 		if player.get_multiplayer_authority() == peer_id:
 			return player
-	
 	return null
 
 
@@ -209,21 +211,42 @@ func request_craft_server(recipe_id: String):
 func try_interact_boat():
 	if !in_boat:
 		for area in $InteractionArea.get_overlapping_areas():
-			boat = area.get_parent()
+			var boat = area.get_parent()
 			if boat is Boat:
-				boat.interact(self)
+				request_boat_interaction.rpc_id(
+					1,
+					boat.get_path()
+				)
 				return
 	else:
-		boat.interact(self)
+		request_boat_interaction.rpc_id(
+			1,
+			current_boat.get_path()
+		)
+@rpc("any_peer","call_local","reliable")
+func request_boat_interaction(boat_path: NodePath):
+	if !multiplayer.is_server():
+		return
 
-func enter_boat(boat: Boat):
-	current_boat = boat
+	var sender = multiplayer.get_remote_sender_id()
+	var player = get_player_from_peer(sender)
+	
+	var boat = get_node(boat_path)
+	boat.interact(player)
+
+
+@rpc("any_peer","call_local","reliable")
+func enter_boat(boat_path: NodePath):
+	current_boat = get_node(boat_path)
 	visible = false
 	in_boat = true
-	camera_target = boat
+	camera_target = current_boat
+	$CollisionShape2D.disabled = true
 
+@rpc("any_peer","call_local","reliable")
 func exit_boat():
 	current_boat = null
 	visible = true
 	in_boat = false
 	camera_target = self
+	$CollisionShape2D.disabled = false
