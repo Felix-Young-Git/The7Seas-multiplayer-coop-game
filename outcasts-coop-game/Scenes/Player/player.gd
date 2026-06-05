@@ -53,7 +53,6 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("Interact"):
-		print("interact pressed")
 		try_interact_boat()
 	
 	#place items
@@ -234,7 +233,7 @@ func request_boat_interaction(boat_path: NodePath):
 	var boat = get_node(boat_path)
 	boat.interact(player)
 
-
+#set the players boat, then remove the player from the scene basically, and set the camera on the boat
 @rpc("any_peer","call_local","reliable")
 func enter_boat(boat_path: NodePath):
 	current_boat = get_node(boat_path)
@@ -243,10 +242,12 @@ func enter_boat(boat_path: NodePath):
 	camera_target = current_boat
 	$CollisionShape2D.disabled = true
 
+#reposition and turn the player back on and reset camer
 @rpc("any_peer","call_local","reliable")
-func exit_boat():
-	current_boat = null
+func exit_boat(spawn_position: Vector2):
+	global_position = spawn_position
 	visible = true
 	in_boat = false
 	camera_target = self
 	$CollisionShape2D.disabled = false
+	current_boat = null

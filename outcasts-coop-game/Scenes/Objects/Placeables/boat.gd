@@ -7,8 +7,6 @@ var driver_peer_id : int = -1
 var passengers : Array[Player] = []
 var nearby_players: Array[Player] = []
 
-func _ready() -> void:
-	print("Boat authority: ", get_multiplayer_authority(), " local peer: ", multiplayer.get_unique_id())
 
 #area interaction
 func _on_entry_area_body_entered(body: CharacterBody2D) -> void:
@@ -59,10 +57,12 @@ func board(player: Player) -> void:
 	# First player becomes driver
 	if driver_peer_id == -1:
 		driver_peer_id = player.get_multiplayer_authority()
-		
-	set_multiplayer_authority(driver_peer_id)
-		#sync_authority.rpc(peer_id)
+	
 	sync_driver.rpc(driver_peer_id)
+	
+	set_multiplayer_authority(driver_peer_id)
+	sync_authority.rpc(driver_peer_id)
+
 	print(player.name + " boarded")
 	player.enter_boat.rpc(get_path())
 
@@ -74,27 +74,39 @@ func unboard(player: Player) -> void:
 		return
 	passengers.erase(player)
 	player.current_boat = null
-	player.global_position = global_position + Vector2(64, 0)
+	
+	var spawn_pos = global_position + Vector2(64, 0)
+	player.global_position = spawn_pos
+	
+	
 	if driver_peer_id == player.get_multiplayer_authority():
 		if passengers.size() > 0:
 			driver_peer_id = passengers[0].get_multiplayer_authority()
+			sync_driver.rpc(driver_peer_id)
 			set_multiplayer_authority(driver_peer_id)
-			sync_driver.rpc(player.get_path())
+			sync_authority.rpc(driver_peer_id)
 		else:
 			driver_peer_id = -1
 			clear_driver.rpc()
+			set_multiplayer_authority(1)
+			sync_authority.rpc(1)
+		
+			
+			
 	print(player.name + " left")
-	player.exit_boat.rpc()
+	player.exit_boat.rpc(spawn_pos)
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func sync_authority(peer_id: int):
 	set_multiplayer_authority(peer_id)
+	if has_node("MultiplayerSynchronizer"):
+		$MultiplayerSynchronizer.set_multiplayer_authority(peer_id)
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func sync_driver(peer_id: int):
 	driver_peer_id = peer_id
 	
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func clear_driver():
 	driver_peer_id = -1
