@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dlp3hcdvr8tbn"]
+
+[ext_resource type="Script" uid="uid://df3jh30pes6dl" path="res://Scenes/Objects/Placeables/boat_workbench.gd" id="1_tsk77"]
+[ext_resource type="Texture2D" uid="uid://cyv63aggllrdd" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Furniture.png" id="2_atke0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkrel"]
+atlas = ExtResource("2_atke0")
+region = Rect2(49, 49, 14, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vhhbg"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ow8nq"]
+size = Vector2(14, 13)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kkr27"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tsk77"]
+radius = 34.058773
+
+[node name="BoatWorkbench" type="Node2D" unique_id=1432863559]
+script = ExtResource("1_tsk77")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1218573277]
+texture = SubResource("AtlasTexture_fkrel")
+
+[node name="Crafting Radius" type="Area2D" parent="." unique_id=1802808054]
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Crafting Radius" unique_id=388758515]
+shape = SubResource("CircleShape2D_vhhbg")
+debug_color = Color(0.81599635, 0.40722755, 0, 0.41960785)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=711408318]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1077687874]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ow8nq")
+debug_color = Color(0.6824383, 0.29731017, 1, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=110828422]
+replication_config = SubResource("SceneReplicationConfig_kkr27")
+
+[node name="Boat Upgrade Radius" type="Area2D" parent="." unique_id=1796811979]
+collision_layer = 32
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boat Upgrade Radius" unique_id=1750604470]
+shape = SubResource("CircleShape2D_tsk77")
+
+[connection signal="area_entered" from="Crafting Radius" to="." method="_on_crafting_radius_area_entered"]
+[connection signal="area_exited" from="Crafting Radius" to="." method="_on_crafting_radius_area_exited"]
+[connection signal="body_entered" from="Crafting Radius" to="." method="_on_crafting_radius_body_entered"]
+[connection signal="body_exited" from="Crafting Radius" to="." method="_on_crafting_radius_body_exited"]
+[connection signal="area_entered" from="Boat Upgrade Radius" to="." method="_on_boat_upgrade_radius_area_entered"]
+[connection signal="area_exited" from="Boat Upgrade Radius" to="." method="_on_boat_upgrade_radius_area_exited"]
+[connection signal="body_entered" from="Boat Upgrade Radius" to="." method="_on_boat_upgrade_radius_body_entered"]
+[connection signal="body_exited" from="Boat Upgrade Radius" to="." method="_on_boat_upgrade_radius_body_exited"]

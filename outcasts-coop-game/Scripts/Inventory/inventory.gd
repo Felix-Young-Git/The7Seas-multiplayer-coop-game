@@ -15,6 +15,7 @@ var item_slots : Array[ItemSlot]
 @export var start_items : Dictionary[ItemData, int]
 @export var workbench_crafting_station : ItemData
 
+
 func _ready() -> void:
 	#create slots
 	for i in range(size):
@@ -142,10 +143,11 @@ func swap_slots(index_a : int, index_b : int):
 	UpdatedSlot.emit(slot_b)
 
 
-
-
 #crafting
-func can_craft(recipe : CraftRecipe)->bool:
+func can_craft(recipe : CraftGeneral)->bool:
+	
+	if recipe == null:
+		return false
 	
 	#check ingredients
 	for ingredient in recipe.ingredients:
@@ -162,7 +164,7 @@ func can_craft(recipe : CraftRecipe)->bool:
 			return false
 	return true
 
-func craft(recipe : CraftRecipe):
+func craft(recipe : CraftGeneral):
 	if !can_craft(recipe):
 		return
 
@@ -170,9 +172,22 @@ func craft(recipe : CraftRecipe):
 		var amount_to_remove : int = recipe.ingredients[ingredient]
 		for i in range(amount_to_remove):
 			remove_item(ingredient)
-			
-	for i in range(recipe.output_amount):
-		add_item(recipe.output_item)
+
+	if recipe is CraftRecipe:
+		for i in range(recipe.output_amount):
+			add_item(recipe.output_item)
+		
+	if recipe is UpgradeRecipe:
+		#find the boat module that the recipe is for
+		if recipe.upgrade_name == "heat_protection_module":
+			var player_node = get_parent()
+			var module = FireProtectionModule.new()
+			var count = 0
+			for station in player_node.nearby_stations:
+				print(station)
+				if station == "boat_workbench":
+					player_node.nearby_station_instances[count].craft_upgrade(module)
+				count+=1
 
 
 

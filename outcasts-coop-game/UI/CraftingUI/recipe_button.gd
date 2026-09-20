@@ -2,13 +2,17 @@ class_name RecipeButton
 extends Button
 
 var inventory : Inventory
-var recipe : CraftRecipe
+var recipe : CraftGeneral
 
-func set_recipe(new_recipe : CraftRecipe, player_inventory : Inventory):
+func set_recipe(new_recipe : CraftGeneral, player_inventory : Inventory):
 	recipe = new_recipe
 	inventory = player_inventory
-	text = recipe.output_item.item_id
-	icon = recipe.output_item.icon
+	
+	if recipe is CraftRecipe:
+		text = recipe.output_item.item_id
+		icon = recipe.output_item.icon
+	elif recipe is UpgradeRecipe:
+		text = recipe.upgrade_name
 	disabled = !inventory.can_craft(recipe)
 	
 	inventory.UpdatedInventory.connect(refresh)

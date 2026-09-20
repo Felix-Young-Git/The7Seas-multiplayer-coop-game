@@ -25,6 +25,9 @@
 [ext_resource type="Resource" uid="uid://cwpakcp2ct120" path="res://Resources/Recipes/Player items and gear/PickaxeCraft.tres" id="21_og5ce"]
 [ext_resource type="Resource" uid="uid://bhl7t5i6w5yfg" path="res://Resources/Recipes/Placeables/Crafting stations/WorkbenchCraft.tres" id="22_f58m6"]
 [ext_resource type="Resource" uid="uid://b4jfbuluy82ri" path="res://Resources/Recipes/Placeables/BoatCraft.tres" id="24_f58m6"]
+[ext_resource type="Resource" uid="uid://7mjormiw5dbp" path="res://Resources/Recipes/Placeables/Crafting stations/BoatWorkbenchCraft.tres" id="26_q7423"]
+[ext_resource type="Script" uid="uid://cghnrjtba76o" path="res://Scripts/Crafting/upgrade.gd" id="27_fgnu3"]
+[ext_resource type="Resource" uid="uid://gy8bj3uvvgv4" path="res://Resources/Recipes/Boat Upgrades/LavaBoatUpgradeCraft.tres" id="28_0ginl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k53q1"]
 atlas = ExtResource("1_0r3qt")
@@ -163,7 +166,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fhl08")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Chopping Back",
 "speed": 3.0
 }, {
@@ -174,7 +177,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_od3ui")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Chopping Front",
 "speed": 3.0
 }, {
@@ -185,7 +188,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x3vf3")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Chopping Left",
 "speed": 3.0
 }, {
@@ -196,7 +199,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5htga")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Chopping Right",
 "speed": 3.0
 }, {
@@ -207,7 +210,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gu6f8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle Back",
 "speed": 3.0
 }, {
@@ -218,7 +221,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lfmf2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle Front",
 "speed": 3.0
 }, {
@@ -229,7 +232,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_b1ygp")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle Left",
 "speed": 3.0
 }, {
@@ -240,7 +243,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_n471f")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle Right",
 "speed": 3.0
 }, {
@@ -251,7 +254,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gk6dx")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Mining Back",
 "speed": 3.0
 }, {
@@ -262,7 +265,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_74mp2")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Mining Front",
 "speed": 3.0
 }, {
@@ -273,7 +276,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_06tpx")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Mining Left",
 "speed": 3.0
 }, {
@@ -284,7 +287,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dey5f")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Mining Right",
 "speed": 3.0
 }, {
@@ -295,7 +298,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hshwv")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk Back",
 "speed": 3.0
 }, {
@@ -306,7 +309,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8mwp6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk Front",
 "speed": 3.0
 }, {
@@ -317,7 +320,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8viyr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk Left",
 "speed": 3.0
 }, {
@@ -328,7 +331,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_76lrf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk Right",
 "speed": 3.0
 }]
@@ -430,7 +433,8 @@ slot_scene = ExtResource("11_awu6j")
 metadata/_edit_use_anchors_ = true
 
 [node name="CraftingUI" parent="InventoryUI" unique_id=670378048 instance=ExtResource("18_t1b34")]
-recipes = Array[ExtResource("19_ajwd1")]([ExtResource("11_blbca"), ExtResource("21_og5ce"), ExtResource("22_f58m6"), ExtResource("24_f58m6")])
+recipes = Array[ExtResource("19_ajwd1")]([ExtResource("11_blbca"), ExtResource("21_og5ce"), ExtResource("22_f58m6"), ExtResource("24_f58m6"), ExtResource("26_q7423")])
+upgrades = Array[ExtResource("27_fgnu3")]([ExtResource("28_0ginl")])
 
 [node name="InteractionArea" type="Area2D" parent="." unique_id=849287665]
 

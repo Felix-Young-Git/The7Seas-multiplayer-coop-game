@@ -3,16 +3,21 @@ extends Node2D
 @onready var water_layer = $Water
 @onready var tree_layer = $Trees
 @onready var rock_layer = $Rocks
+@onready var berry_layer = $Berries
 @export var collectable_log_scene : PackedScene
 @export var collectable_rock_scene : PackedScene
+@export var collectable_heat_resist_berry : PackedScene
 
 #connect the signals
 func _ready() -> void:
 	add_to_group("tilemap")
 	connect_tree_signals()
 	connect_rock_signals()
+	connect_heat_resist_berry_signals()
 	tree_layer.child_entered_tree.connect(_on_child_entered_tree)
 	rock_layer.child_entered_tree.connect(_on_child_entered_tree)
+	berry_layer.child_entered_tree.connect(_on_child_entered_tree)
+
 
 func _on_child_entered_tree(child: Node) -> void:
 	if child.has_signal("tree_damaged"):
@@ -24,6 +29,52 @@ func _on_child_entered_tree(child: Node) -> void:
 		# Avoid duplicate connections just in case
 		if not child.rock_damaged.is_connected(on_rock_damaged):
 			child.rock_damaged.connect(on_rock_damaged)
+	
+	if child.has_signal("bush_picked"):
+		if not child.bush_picked.is_connected(on_bush_picked):
+			child.bush_picked.connect(on_bush_picked)
+
+func connect_heat_resist_berry_signals():
+	for child in berry_layer.get_children():
+		if child.has_signal("bush_picked"):
+			child.bush_picked.connect(on_bush_picked)
+
+func on_bush_picked(cell: Vector2i):
+	if multiplayer.is_server():
+		server_apply_bush_picked(cell)
+	else:
+		server_apply_bush_picked.rpc(cell)
+
+@rpc("any_peer", "call_local", "reliable")
+func server_apply_bush_picked(cell: Vector2i) -> void:
+	if multiplayer.is_server():
+		var bush = find_bush_at_cell(cell)
+		if bush:
+			bush.update_bush_to_picked()
+			sync_harvest_bush.rpc(cell)
+
+
+func find_bush_at_cell(cell: Vector2i) -> Node:
+	for child in berry_layer.get_children():
+		if child.has_method("get_cell_from_self"):
+			if child.get_cell_from_self() == cell:
+				return child
+	return null
+
+@rpc("call_local")
+func sync_harvest_bush(cell: Vector2i):
+	add_heat_resist_berry(cell)
+	berry_layer.erase_cell(cell)
+
+func add_heat_resist_berry(cell : Vector2i):
+	if not multiplayer.is_server():
+		return
+	
+	var collectable_heat_resist_berry_instance = collectable_heat_resist_berry.instantiate() as Node2D
+	var world_pos = berry_layer.to_global(berry_layer.map_to_local(cell))
+	collectable_heat_resist_berry_instance.global_position = world_pos
+	collectable_heat_resist_berry_instance.name = "heat_resist_berry_" + str(cell.x) + "_" + str(cell.y)
+	get_parent().add_child(collectable_heat_resist_berry_instance, true)
 
 
 func connect_tree_signals():

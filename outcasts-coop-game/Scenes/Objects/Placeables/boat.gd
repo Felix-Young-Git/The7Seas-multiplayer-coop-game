@@ -1,11 +1,19 @@
 class_name Boat
 extends CharacterBody2D
 
-const BOAT_SPEED := 300.0
+var boat_speed := 300.0
 
 var driver_peer_id : int = -1
 var passengers : Array[Player] = []
 var nearby_players: Array[Player] = []
+
+
+#boat exit stuff
+@onready var tilemap = get_tree().get_first_node_in_group("tilemap")
+@export var exit_check_radius : float = 32.0
+@export var exit_sample_points : int = 8
+
+var modules : Array[BoatModule] = []
 
 
 #area interaction
@@ -35,8 +43,10 @@ func _physics_process(_delta: float) -> void:
 		"Down"
 	)
 	
+	for module in modules:
+		boat_speed = module.modify_speed(boat_speed, self)
 	
-	velocity = direction * BOAT_SPEED
+	velocity = direction * boat_speed
 	move_and_slide()
 
 
@@ -67,17 +77,61 @@ func board(player: Player) -> void:
 	player.enter_boat.rpc(get_path())
 
 
+func find_valid_exit_point():
+	print("running find exit point")
+	var origin = global_position
+	var best_point = null
+	var best_dist = INF
+	for i in range(exit_sample_points):
+		var angle = TAU * i / exit_sample_points
+		var candidate = origin + Vector2(cos(angle), sin(angle)) * exit_check_radius
+
+		if is_land_at(candidate):
+			var d = origin.distance_to(candidate)
+			if d < best_dist:
+				best_dist = d
+				best_point = candidate
+
+	return best_point
+
+func is_land_at(world_pos: Vector2):
+	print("running is land at")
+	#gets the first child of the tilemap node, which is the water tile map layer
+	var water_tilemap = tilemap.get_child(1)  
+	var map_coords = water_tilemap.local_to_map(
+		water_tilemap.to_local(world_pos)
+	)
+	var tile_data = water_tilemap.get_cell_tile_data(map_coords)
+	#the only tile data I have in when writing this is water, so if the tile 
+	#doesn't have that then it is land
+	#the comment is what I changed it from, not sure why it needs to be !=, also might need
+	#to make it not spawn the player in objects
+	if tile_data != null: # ==
+		return true  # empty cell = not water = treat as land
+	return false
+
 func unboard(player: Player) -> void:
 	if !multiplayer.is_server():
 		return
 	if !(player.current_boat == self):
 		return
+		
+	#Check if land is nearby so the player can exit on the land
+	var exit_pos = find_valid_exit_point()
+	if exit_pos == null:
+		print("no land nearby")
+		return
+	
+	player.global_position = exit_pos
+	
+	
+	#this needs to go once the new exit mechanic is in
+	#var spawn_pos = global_position + Vector2(64, 0)
+	#player.global_position = spawn_pos
+	
+	#leave this
 	passengers.erase(player)
 	player.current_boat = null
-	
-	var spawn_pos = global_position + Vector2(64, 0)
-	player.global_position = spawn_pos
-	
 	
 	if driver_peer_id == player.get_multiplayer_authority():
 		if passengers.size() > 0:
@@ -94,7 +148,7 @@ func unboard(player: Player) -> void:
 			
 			
 	print(player.name + " left")
-	player.exit_boat.rpc(spawn_pos)
+	player.exit_boat.rpc(exit_pos)
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -110,3 +164,20 @@ func sync_driver(peer_id: int):
 @rpc("any_peer", "call_local", "reliable")
 func clear_driver():
 	driver_peer_id = -1
+	
+
+#upgrades
+func install_upgrade(module: BoatModule):
+	modules.append(module)
+	print("installed module")
+	on_upgrade()
+
+func remove_upgrade(module: BoatModule):
+	modules.erase(module)
+	on_upgrade()
+
+#This is going to be problamatic when I have multiple visuals
+func on_upgrade():
+	for module in modules:
+		module.modify_boat_visuals(self)
+		module.modify_collision(self)

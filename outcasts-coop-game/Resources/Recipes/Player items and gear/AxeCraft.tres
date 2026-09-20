@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CraftRecipe" format=3 uid="uid://bkup7xajdrv52"]
 
-[ext_resource type="Script" uid="uid://cikhxgwvfc0tk" path="res://Scripts/Items/resources_item_data.gd" id="1_56i6n"]
+[ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="1_akclt"]
 [ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="1_k57co"]
 [ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/Stone.tres" id="2_yt0t7"]
 [ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="3_ri2lm"]
@@ -9,7 +9,7 @@
 [resource]
 script = ExtResource("1_k57co")
 recipe_id = "AxeCraft"
-ingredients = Dictionary[ExtResource("1_56i6n"), int]({
+ingredients = Dictionary[ExtResource("1_akclt"), int]({
 ExtResource("2_yt0t7"): 1,
 ExtResource("3_ri2lm"): 1
 })

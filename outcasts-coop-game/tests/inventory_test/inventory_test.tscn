@@ -13,7 +13,7 @@ enemy_scene = ExtResource("3_baps0")
 test_tilemap = ExtResource("4_2cc8h")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=617825459]
-_spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk", "uid://cxfwq6rc1uo3v", "uid://cimvvxtnjbuno", "uid://l7apvn6exj7i", "uid://b0x4xr7aii5wd", "uid://hr303lwe8bfj", "uid://balxck1xb2kqb")
+_spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk", "uid://cxfwq6rc1uo3v", "uid://cimvvxtnjbuno", "uid://l7apvn6exj7i", "uid://b0x4xr7aii5wd", "uid://hr303lwe8bfj", "uid://balxck1xb2kqb", "uid://dlp3hcdvr8tbn", "uid://27nhdm4rljp7")
 spawn_path = NodePath("..")
 
 [node name="UI" parent="." unique_id=841428912 instance=ExtResource("2_pri47")]

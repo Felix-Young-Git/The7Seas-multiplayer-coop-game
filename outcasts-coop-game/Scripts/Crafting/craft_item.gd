@@ -1,5 +1,5 @@
 class_name CraftRecipe
-extends Resource
+extends CraftGeneral
 
 
 @export var recipe_id : String

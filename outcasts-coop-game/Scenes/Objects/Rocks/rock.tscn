@@ -24,6 +24,7 @@ collision_layer = 8
 shape = SubResource("CircleShape2D_fqnu1")
 
 [node name="DamageComponent" parent="." unique_id=1345764814 instance=ExtResource("2_vqgqf")]
+max_damage = 1
 
 [node name="hurt_component" parent="." unique_id=617453018 instance=ExtResource("3_a2n6y")]
 tool = 2
