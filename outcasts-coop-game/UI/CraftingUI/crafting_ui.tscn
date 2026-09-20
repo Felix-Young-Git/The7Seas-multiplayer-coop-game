@@ -21,13 +21,13 @@ recipe_button_scene = ExtResource("2_yps4m")
 recipes = Array[ExtResource("3_sfxmc")]([ExtResource("4_56i16"), ExtResource("5_pmjod"), ExtResource("7_56i16"), ExtResource("6_sfxmc"), ExtResource("8_pmjod")])
 
 [node name="Panel" type="Panel" parent="." unique_id=313559087]
-custom_minimum_size = Vector2(160, 400)
+custom_minimum_size = Vector2(200, 400)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel" unique_id=992576502]
-custom_minimum_size = Vector2(160, 400)
+custom_minimum_size = Vector2(200, 400)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0

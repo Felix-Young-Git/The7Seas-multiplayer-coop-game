@@ -47,7 +47,7 @@ func _ready() -> void:
 		camera.enabled = false
 		inventoryUI.visible = false
 
-
+#INPUT-------------------------------------------------------------
 #input for selected slot (PROBABLY SHOULD MOVE TO INPUT EVENTS SCRIPT AT SOME POINT)
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
@@ -96,39 +96,80 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Wheel Down"):
 		selected_slot = wrapi(selected_slot + 1, 0, 9)
 
-	#set selected
+	if selected_slot != last_selected_slot:
+		last_selected_slot = selected_slot
+		refresh_selection()
+#----------------------------------------------------------------------
+
+
+#Code form claude for ghost placement---------------------------------------------
+@export var grid_size: Vector2 = Vector2(16, 16)
+@export var snap_to_grid: bool = true
+var ghost: Node2D = null
+var ghost_item: ItemData = null
+var last_selected_slot : int = -1
+
+func refresh_selection() -> void:
+	# highlight the hotbar slot
 	for i in range(hotbarUI.get_child_count()):
-		if i == (selected_slot):
-			hotbarUI.get_child(i).set_selected(true)
-		else:
-			hotbarUI.get_child(i).set_selected(false)
-	
-	#set current tool
-	var current_item = inventory.item_slots[selected_slot].item
-	if current_item is ToolItemData:
-		var current_tool_name = current_item.item_id
-		if current_tool_name == "Axe":
-			current_tool = DataTypes.Tools.Axe
-		if current_tool_name == "Pickaxe":
-			current_tool = DataTypes.Tools.Pickaxe
+		hotbarUI.get_child(i).set_selected(i == selected_slot)
+
+	var item : ItemData = inventory.item_slots[selected_slot].item
+
+	# tool
+	current_tool = DataTypes.Tools.None
+	if item is ToolItemData:
+		match item.item_id:
+			"Axe": current_tool = DataTypes.Tools.Axe
+			"Pickaxe": current_tool = DataTypes.Tools.Pickaxe
+
+	# ghost
+	if item is PlaceableItemData:
+		if ghost_item != item:  # don't rebuild if it's already the right ghost
+			start_placing(item)
 	else:
-		current_tool = DataTypes.Tools.None
+		cancel_placing()  # also covers empty slots, since null is not PlaceableItemData
 
-#called went entering/exiting a workbench area, 
-#currently have workbench and boat_workbench
-func add_station(station_id : String, station : Node2D):
-	if !nearby_stations.has(station_id):
-		nearby_stations.append(station_id)
-		nearby_station_instances.append(station)
-		inventory.UpdatedInventory.emit()
+func start_placing(item: ItemData) -> void:
+	cancel_placing()
+	if item == null or item.placeable_scene == null:
+		return
+	ghost_item = item
+	ghost = item.placeable_scene.instantiate()
+	ghost.set("is_ghost", true)  # optional flag, see note below
+	ghost.modulate = Color(1, 1, 1, 0.5)
+	ghost.z_index = 100
+	ghost.process_mode = Node.PROCESS_MODE_DISABLED
+	_disable_collisions(ghost)
+	get_tree().current_scene.add_child(ghost)
 
-func remove_station(station_id : String, station : Node2D):
-	nearby_stations.erase(station_id)
-	nearby_station_instances.erase(station)
-	inventory.UpdatedInventory.emit()
+func cancel_placing() -> void:
+	if ghost:
+		ghost.queue_free()
+	ghost = null
+	ghost_item = null
 
+func _process(_delta: float) -> void:
+	if not ghost:
+		return
+	# Hide the ghost while the mouse is over inventory/UI
+	var over_ui := get_viewport().gui_get_hovered_control() != null
+	ghost.visible = not over_ui
 
+	var pos := get_global_mouse_position()
+	if snap_to_grid:
+		pos = pos.snapped(grid_size)
+	ghost.global_position = pos
 
+func _disable_collisions(node: Node) -> void:
+	if node is CollisionObject2D:
+		node.collision_layer = 0
+		node.collision_mask = 0
+	for child in node.get_children():
+		_disable_collisions(child)
+#--------------------------------------------------------------------------------
+
+#PLACEING--------------------------------------------------------------------
 func try_place_current_item():
 	var slot = inventory.item_slots[selected_slot]
 
@@ -177,9 +218,10 @@ func request_place(item_id : String, world_position : Vector2):
 	obj.global_position = world_position
 	
 	spawn_node.add_child(obj)
-	
+	cancel_placing()
 	# Remove item from inventory
 	player.inventory.remove_item(item)
+#--------------------------------------------------------------------------
 
 
 func get_player_from_peer(peer_id : int) -> Player:
@@ -187,6 +229,21 @@ func get_player_from_peer(peer_id : int) -> Player:
 		if player.get_multiplayer_authority() == peer_id:
 			return player
 	return null
+
+
+#CRAFTING---------------------------------------------------------
+#called went entering/exiting a workbench area, 
+#currently have workbench and boat_workbench
+func add_station(station_id : String, station : Node2D):
+	if !nearby_stations.has(station_id):
+		nearby_stations.append(station_id)
+		nearby_station_instances.append(station)
+		inventory.UpdatedInventory.emit()
+
+func remove_station(station_id : String, station : Node2D):
+	nearby_stations.erase(station_id)
+	nearby_station_instances.erase(station)
+	inventory.UpdatedInventory.emit()
 
 
 func send_craft_request(recipe_id : String):
@@ -207,8 +264,11 @@ func request_craft_server(recipe_id: String):
 		
 	if inventory:
 		inventory.craft(recipe)
+#-----------------------------------------------------------------------
 
 
+
+#BOAT STUFF--------------------------------------------------------------
 func try_interact_boat():
 	if !in_boat:
 		for area in $InteractionArea.get_overlapping_areas():
