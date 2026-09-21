@@ -42,7 +42,8 @@ func _ready() -> void:
 		inventoryUI.set_state(inventoryUI.UIState.hotbar)
 		inventory_open = false
 
-		
+		inventory.UpdatedInventory.connect(refresh_selection)
+		refresh_selection()
 	else:
 		camera.enabled = false
 		inventoryUI.visible = false
@@ -140,8 +141,10 @@ func start_placing(item: ItemData) -> void:
 	ghost.modulate = Color(1, 1, 1, 0.5)
 	ghost.z_index = 100
 	ghost.process_mode = Node.PROCESS_MODE_DISABLED
+	ghost.top_level = true
 	_disable_collisions(ghost)
-	get_tree().current_scene.add_child(ghost)
+	add_child(ghost)
+	#get_tree().current_scene.add_child(ghost)
 
 func cancel_placing() -> void:
 	if ghost:
@@ -210,7 +213,7 @@ func request_place(item_id : String, world_position : Vector2):
 	if player.global_position.distance_to(world_position) > MAX_PLACE_DISTANCE:
 		return
 
-	var spawn_node = get_tree().current_scene.get_node("/root/InventoryTest")
+	var spawn_node = get_tree().current_scene.get_node("/root/Game")
 	var obj = item.placeable_scene.instantiate()
 	obj.name = item_id + "_" + str(Time.get_ticks_usec())
 	var tile_size = 16
@@ -218,7 +221,6 @@ func request_place(item_id : String, world_position : Vector2):
 	obj.global_position = world_position
 	
 	spawn_node.add_child(obj)
-	cancel_placing()
 	# Remove item from inventory
 	player.inventory.remove_item(item)
 #--------------------------------------------------------------------------
@@ -265,7 +267,6 @@ func request_craft_server(recipe_id: String):
 	if inventory:
 		inventory.craft(recipe)
 #-----------------------------------------------------------------------
-
 
 
 #BOAT STUFF--------------------------------------------------------------

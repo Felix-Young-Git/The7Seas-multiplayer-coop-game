@@ -22,8 +22,6 @@ func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		print("Collected by ", body.name)
 		
-		#need to use the body's name to give the item to the right player
-		#in order to fix this
 		if get_parent().name.contains("small_rock"):
 			print("collecting rock")
 			body.inventory.add_item(small_rock)

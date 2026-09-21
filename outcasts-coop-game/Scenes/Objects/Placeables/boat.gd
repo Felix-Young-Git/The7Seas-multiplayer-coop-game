@@ -164,19 +164,62 @@ func sync_driver(peer_id: int):
 @rpc("any_peer", "call_local", "reliable")
 func clear_driver():
 	driver_peer_id = -1
+
+
+
+#UPGRADES---------------------------------------------------------------
+func _create_module(module_id: String) -> BoatModule:
+	match module_id:
+		"heat_protection_module":
+			return FireProtectionModule.new()
+	return null
+
+
+func install_upgrade(module: BoatModule):
+	if !multiplayer.is_server():
+		return
+	apply_upgrade.rpc(module.module_id)
 	
 
-#upgrades
-func install_upgrade(module: BoatModule):
+@rpc("any_peer", "call_local", "reliable")
+func apply_upgrade(module_id : String):
+	var sender := multiplayer.get_remote_sender_id()
+	if sender != 1 and sender != 0:
+		return
+	for m in modules:
+		if m.module_id == module_id:
+			return  # already installed
+
+	var module := _create_module(module_id)
+	if module == null:
+		return
+
 	modules.append(module)
 	print("installed module")
 	on_upgrade()
 
+
 func remove_upgrade(module: BoatModule):
+	if !multiplayer.is_server():
+		return
+	erase_upgrade.rpc(module.module_id)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func erase_upgrade(module_id : String):
+	var sender := multiplayer.get_remote_sender_id()
+	if sender != 1 and sender != 0:
+		return
+	
+	var module := _create_module(module_id)
+	if module == null:
+		return
+	
 	modules.erase(module)
+	print("removed module")
 	on_upgrade()
 
-#This is going to be problamatic when I have multiple visuals
+
 func on_upgrade():
 	for module in modules:
 		module.modify_boat_visuals(self)

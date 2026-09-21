@@ -2,6 +2,8 @@
 extends Resource
 class_name BoatModule
 
+var module_id : String = ""
+
 func modify_speed(current_speed: float, boat: Boat) -> float:
 	return current_speed  # no change by default
 
