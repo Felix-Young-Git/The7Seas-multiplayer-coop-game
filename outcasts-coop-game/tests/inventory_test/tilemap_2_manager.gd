@@ -180,3 +180,15 @@ func is_water_tile(world_pos: Vector2) -> bool:
 	var cell = water_layer.local_to_map(local_pos)
 	var tile_data = water_layer.get_cell_tile_data(cell)
 	return tile_data and tile_data.get_custom_data("is_water")
+	
+#Functions from claude for removing collectable items that are not from destroyed objects
+func remove_tile_everywhere(layer_name: StringName, cell: Vector2i) -> void:
+	if not multiplayer.is_server():
+		return
+	sync_remove_tile.rpc(layer_name, cell)
+
+@rpc("authority", "call_local", "reliable")
+func sync_remove_tile(layer_name: StringName, cell: Vector2i) -> void:
+	var layer := get_node_or_null(NodePath(layer_name)) as TileMapLayer
+	if layer:
+		layer.erase_cell(cell)

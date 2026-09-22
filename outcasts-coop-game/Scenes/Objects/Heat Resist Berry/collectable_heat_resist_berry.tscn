@@ -20,7 +20,7 @@ properties/0/replication_mode = 1
 texture = SubResource("AtlasTexture_e33q6")
 
 [node name="Collectable Component" parent="." unique_id=90339270 instance=ExtResource("2_1kwdk")]
-heat_resist_berry = ExtResource("3_ydegi")
+item = ExtResource("3_ydegi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collectable Component" unique_id=167973706]
 shape = SubResource("CircleShape2D_kh6dg")

@@ -1,38 +1,33 @@
-#This goes on an item that should be able to be picked up by the player
 class_name CollectableComponent
 extends Area2D
 
-@export var small_log : ResourseItemData
-@export var small_rock : ResourseItemData
-@export var heat_resist_berry : ResourseItemData
+@export var item : ResourseItemData
 
-var is_collected: bool = false
+var is_collected : bool = false
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
-
 func _on_body_entered(body: Node2D) -> void:
 	if not multiplayer.is_server():
 		return
-	
-	if is_collected:
+	if is_collected or item == null:
 		return
-	
 	if body is Player:
-		print("Collected by ", body.name)
-		
-		if get_parent().name.contains("small_rock"):
-			print("collecting rock")
-			body.inventory.add_item(small_rock)
-		
-		if get_parent().name.contains("small_log"):
-			print("collecting log")
-			body.inventory.add_item(small_log)
-		
-		if get_parent().name.contains("heat_resist_berry"):
-			print("collecting berry")
-			body.inventory.add_item(heat_resist_berry)
-		
-		#the collectable component will be attached to another node so that node will be removed
-		get_parent().queue_free()
+		# only collect if the player actually had room
+		if not body.inventory.add_item(item):
+			return
+		is_collected = true
+		_remove_collectable()
+
+func _remove_collectable() -> void:
+	var node := get_parent()
+	var layer := node.get_parent()
+	if layer is TileMapLayer:
+		# placed in a tilemap: the cell has to be erased on every peer
+		var cell : Vector2i = layer.local_to_map(layer.to_local(node.global_position))
+		var tilemap = get_tree().get_first_node_in_group("tilemap")
+		tilemap.remove_tile_everywhere.call_deferred(layer.name, cell)
+	else:
+		# spawned at runtime (your dropped logs/rocks/berries)
+		node.queue_free()
