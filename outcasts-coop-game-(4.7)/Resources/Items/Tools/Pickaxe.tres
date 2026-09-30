@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ToolItemData" format=3 uid="uid://tvgmwpgmkcj"]
+
+[ext_resource type="Texture2D" uid="uid://7yyff5f7xk1r" path="res://Assets/Sprout Lands - Sprites - Basic pack/Characters/Tools.png" id="1_aomf1"]
+[ext_resource type="Script" uid="uid://deiprqcwhrvji" path="res://Scripts/Items/tool_item_data.gd" id="2_5hxy1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8p0f"]
+atlas = ExtResource("1_aomf1")
+region = Rect2(80, 64, 6, 9)
+
+[resource]
+script = ExtResource("2_5hxy1")
+item_id = "Pickaxe"
+description = "Used to get stone"
+icon = SubResource("AtlasTexture_v8p0f")
+metadata/_custom_type_script = "uid://deiprqcwhrvji"

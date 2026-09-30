@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://balxck1xb2kqb"]
+
+[ext_resource type="Texture2D" uid="uid://dex6h0hv721vj" path="res://Assets/Sprout Lands - Sprites - Basic pack/Tilesets/Wooden_House_Walls_Tilset.png" id="1_onck8"]
+[ext_resource type="Script" uid="uid://d0niowrg3hsuq" path="res://Scenes/Objects/Placeables/boat.gd" id="1_qwady"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwady"]
+atlas = ExtResource("1_onck8")
+region = Rect2(48, 0, 32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gmddh"]
+radius = 43.011627
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bw4mh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qwady"]
+size = Vector2(26, 20)
+
+[node name="Boat" type="CharacterBody2D" unique_id=1504839505]
+collision_layer = 64
+collision_mask = 257
+script = ExtResource("1_qwady")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1483825829]
+texture = SubResource("AtlasTexture_qwady")
+
+[node name="EntryArea" type="Area2D" parent="." unique_id=1456218528]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntryArea" unique_id=132143659]
+shape = SubResource("CircleShape2D_gmddh")
+debug_color = Color(0.49638605, 0.43055144, 1, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2054849009]
+replication_config = SubResource("SceneReplicationConfig_bw4mh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=167824364]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_qwady")
+
+[connection signal="body_entered" from="EntryArea" to="." method="_on_entry_area_body_entered"]
+[connection signal="body_exited" from="EntryArea" to="." method="_on_entry_area_body_exited"]

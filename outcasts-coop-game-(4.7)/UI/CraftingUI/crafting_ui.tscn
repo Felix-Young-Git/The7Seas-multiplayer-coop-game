@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://d1tuv0pb3cv6m"]
+
+[ext_resource type="Script" uid="uid://cd4o1vn6hawin" path="res://UI/CraftingUI/crafting_ui.gd" id="1_ycv70"]
+[ext_resource type="PackedScene" uid="uid://dnsivnnl0buqr" path="res://UI/CraftingUI/recipe_button.tscn" id="2_yps4m"]
+[ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="3_sfxmc"]
+[ext_resource type="Resource" uid="uid://bkup7xajdrv52" path="res://Resources/Recipes/Player items and gear/AxeCraft.tres" id="4_56i16"]
+[ext_resource type="Resource" uid="uid://cwpakcp2ct120" path="res://Resources/Recipes/Player items and gear/PickaxeCraft.tres" id="5_pmjod"]
+[ext_resource type="Resource" uid="uid://bhl7t5i6w5yfg" path="res://Resources/Recipes/Placeables/Crafting stations/WorkbenchCraft.tres" id="6_sfxmc"]
+[ext_resource type="Resource" uid="uid://7mjormiw5dbp" path="res://Resources/Recipes/Placeables/Crafting stations/BoatWorkbenchCraft.tres" id="7_56i16"]
+[ext_resource type="Resource" uid="uid://b4jfbuluy82ri" path="res://Resources/Recipes/Placeables/BoatCraft.tres" id="8_pmjod"]
+
+[node name="CraftingUI" type="Control" unique_id=670378048]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ycv70")
+recipe_button_scene = ExtResource("2_yps4m")
+recipes = Array[ExtResource("3_sfxmc")]([ExtResource("4_56i16"), ExtResource("5_pmjod"), ExtResource("7_56i16"), ExtResource("6_sfxmc"), ExtResource("8_pmjod")])
+
+[node name="Panel" type="Panel" parent="." unique_id=313559087]
+custom_minimum_size = Vector2(310, 400)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel" unique_id=992576502]
+custom_minimum_size = Vector2(310, 400)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer" unique_id=192654305]
+custom_minimum_size = Vector2(100, 400)
+layout_mode = 2

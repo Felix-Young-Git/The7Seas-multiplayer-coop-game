@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cd5ak5g8yefcp"]
+
+[ext_resource type="Script" uid="uid://drusso3xleg6e" path="res://tests/state machine test/multiplayer_test_state_machine.gd" id="1_npqup"]
+[ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Scenes/Player/player.tscn" id="2_jrofp"]
+[ext_resource type="PackedScene" uid="uid://do3pgbraprlfk" path="res://Enemies/enemy.tscn" id="3_g7g8a"]
+[ext_resource type="PackedScene" uid="uid://ch4qj8h4slrlb" path="res://UI/loginUI/ui.tscn" id="4_qoy5u"]
+
+[node name="StateMachineTest" type="Node2D" unique_id=1411555088]
+script = ExtResource("1_npqup")
+player_scene = ExtResource("2_jrofp")
+enemy_scene = ExtResource("3_g7g8a")
+
+[node name="PlayerMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=650619391]
+_spawnable_scenes = PackedStringArray("uid://c1ajbvuspr3jl")
+spawn_path = NodePath("..")
+
+[node name="EnemyMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=717113685]
+_spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk")
+spawn_path = NodePath("..")
+
+[node name="UI" parent="." unique_id=841428912 instance=ExtResource("4_qoy5u")]

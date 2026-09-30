@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bgpfjqtrhpnn8"]
+
+[ext_resource type="Script" uid="uid://c8xk3qn4ow6qj" path="res://tests/tilemap test/multiplayer_tilemap_test.gd" id="1_bo7ie"]
+[ext_resource type="PackedScene" uid="uid://ch4qj8h4slrlb" path="res://UI/loginUI/ui.tscn" id="1_ficcx"]
+[ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Scenes/Player/player.tscn" id="2_js8vq"]
+[ext_resource type="PackedScene" uid="uid://do3pgbraprlfk" path="res://Enemies/enemy.tscn" id="3_mugl1"]
+[ext_resource type="PackedScene" uid="uid://b6r8b48flbgx1" path="res://tests/tilemap test/test_tilemap.tscn" id="4_js8vq"]
+
+[node name="Tilemap Test" type="Node2D" unique_id=844900837]
+script = ExtResource("1_bo7ie")
+player_scene = ExtResource("2_js8vq")
+enemy_scene = ExtResource("3_mugl1")
+test_tilemap = ExtResource("4_js8vq")
+
+[node name="PlayerMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=2124351106]
+_spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk", "uid://b6r8b48flbgx1", "uid://c1ajbvuspr3jl")
+spawn_path = NodePath("..")
+
+[node name="UI" parent="." unique_id=841428912 instance=ExtResource("1_ficcx")]

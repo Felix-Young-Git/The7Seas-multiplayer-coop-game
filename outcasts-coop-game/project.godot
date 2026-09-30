@@ -12,12 +12,19 @@ config_version=5
 
 config/name="Outcasts coop game"
 run/main_scene="uid://b5y2y1pe8cubq"
-config/features=PackedStringArray("4.7", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 ItemDatabase="*uid://ce52ye2eod2v4"
+EOSGRuntime="*uid://7saywdx0ipep"
+Hplatform="*uid://yl2muvqrdiud"
+HAuth="*uid://786t1jiowvvg"
+Hachievements="*uid://bis404dty5u5c"
+Hlobbies="*uid://6iqvm33q0tb1"
+Hp2p="*uid://u6ae5fpm6l8q"
+Hsessions="*uid://bieh2rxxahuu2"
 
 [file_customization]
 

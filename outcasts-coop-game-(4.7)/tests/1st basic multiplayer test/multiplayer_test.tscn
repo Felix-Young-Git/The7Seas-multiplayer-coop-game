@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://cmr0ovwk5ahxv"]
+
+[ext_resource type="Script" uid="uid://dvkd26c7tgarr" path="res://tests/1st basic multiplayer test/multiplayer_test.gd" id="1_3fc8k"]
+[ext_resource type="PackedScene" uid="uid://c1ajbvuspr3jl" path="res://Scenes/Player/player.tscn" id="2_3vuks"]
+[ext_resource type="PackedScene" uid="uid://do3pgbraprlfk" path="res://Enemies/enemy.tscn" id="3_wvsrd"]
+
+[node name="MultiplayerTest" type="Node2D" unique_id=1481677403]
+script = ExtResource("1_3fc8k")
+player_scene = ExtResource("2_3vuks")
+enemy_scene = ExtResource("3_wvsrd")
+
+[node name="PlayerMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=213665779]
+_spawnable_scenes = PackedStringArray("uid://c1ajbvuspr3jl")
+spawn_path = NodePath("..")
+
+[node name="EnemyMultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1453358010]
+_spawnable_scenes = PackedStringArray("uid://do3pgbraprlfk")
+spawn_path = NodePath("..")
+
+[node name="UI" type="HBoxContainer" parent="." unique_id=273578916]
+custom_minimum_size = Vector2(282, 0)
+offset_top = 540.0
+offset_right = 282.0
+offset_bottom = 641.0
+
+[node name="Buttons" type="VBoxContainer" parent="UI" unique_id=1990157534]
+custom_minimum_size = Vector2(116, 0)
+layout_mode = 2
+
+[node name="Host" type="Button" parent="UI/Buttons" unique_id=1065535417]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="UI/Buttons" unique_id=634532904]
+layout_mode = 2
+text = "Join"
+
+[node name="SpawnEnemy" type="Button" parent="UI/Buttons" unique_id=1439052189]
+visible = false
+layout_mode = 2
+text = "Spawn Enemy"
+
+[node name="IPInfo" type="VBoxContainer" parent="UI" unique_id=125273793]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HostInfo" type="HBoxContainer" parent="UI/IPInfo" unique_id=1453602127]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+
+[node name="HostPortInput" type="LineEdit" parent="UI/IPInfo/HostInfo" unique_id=442152279]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+placeholder_text = "port #"
+
+[node name="HostIP" type="Label" parent="UI/IPInfo/HostInfo" unique_id=779905204]
+custom_minimum_size = Vector2(200, 31)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Your IP: 192.168.1.56"
+
+[node name="JoinInfo" type="HBoxContainer" parent="UI/IPInfo" unique_id=1580910372]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="JoinPortInput" type="LineEdit" parent="UI/IPInfo/JoinInfo" unique_id=1069418362]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+placeholder_text = "port #"
+
+[node name="JoinIPInput" type="LineEdit" parent="UI/IPInfo/JoinInfo" unique_id=1653493862]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "IP address"
+
+[connection signal="pressed" from="UI/Buttons/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="UI/Buttons/Join" to="." method="_on_join_pressed"]

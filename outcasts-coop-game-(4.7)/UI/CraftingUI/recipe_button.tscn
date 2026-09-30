@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dnsivnnl0buqr"]
+
+[ext_resource type="Script" uid="uid://cfug4v40hkhhw" path="res://UI/CraftingUI/recipe_button.gd" id="1_vff45"]
+
+[node name="RecipeRow" type="HBoxContainer" unique_id=296987527]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vff45")
+
+[node name="Button" type="Button" parent="." unique_id=1197311628]
+layout_mode = 2
+alignment = 0
+
+[node name="IngredientsLabel" type="RichTextLabel" parent="." unique_id=369411332]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+fit_content = true
+scroll_active = false

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://cwaiwm24spmg6"]
+
+[ext_resource type="Script" uid="uid://cjavsj2ggb7p0" path="res://Scripts/Items/placeable_item_data.gd" id="1_0henj"]
+[ext_resource type="Texture2D" uid="uid://dex6h0hv721vj" path="res://Assets/Sprout Lands - Sprites - Basic pack/Tilesets/Wooden_House_Walls_Tilset.png" id="1_1aw2y"]
+[ext_resource type="PackedScene" uid="uid://balxck1xb2kqb" path="res://Scenes/Objects/Placeables/boat.tscn" id="2_0kutw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opfxv"]
+atlas = ExtResource("1_1aw2y")
+region = Rect2(48, 0, 32, 32)
+
+[resource]
+script = ExtResource("1_0henj")
+placeable_scene = ExtResource("2_0kutw")
+item_id = "Boat"
+description = "To travel on water"
+icon = SubResource("AtlasTexture_opfxv")
+metadata/_custom_type_script = "uid://cjavsj2ggb7p0"

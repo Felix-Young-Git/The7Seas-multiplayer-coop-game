@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://cemwsvxcbmyob"]
+
+[ext_resource type="Texture2D" uid="uid://cyv63aggllrdd" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Furniture.png" id="1_vdfe3"]
+[ext_resource type="PackedScene" uid="uid://dlp3hcdvr8tbn" path="res://Scenes/Objects/Placeables/boat_workbench.tscn" id="2_7w635"]
+[ext_resource type="Script" uid="uid://cjavsj2ggb7p0" path="res://Scripts/Items/placeable_item_data.gd" id="3_7n1cg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf208"]
+atlas = ExtResource("1_vdfe3")
+region = Rect2(49, 49, 14, 14)
+
+[resource]
+script = ExtResource("3_7n1cg")
+placeable_scene = ExtResource("2_7w635")
+item_id = "BoatWorkbench"
+description = "Crafting station for boats"
+icon = SubResource("AtlasTexture_pf208")
+metadata/_custom_type_script = "uid://cjavsj2ggb7p0"

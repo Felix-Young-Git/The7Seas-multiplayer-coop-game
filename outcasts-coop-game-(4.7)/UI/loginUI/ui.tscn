@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://ch4qj8h4slrlb"]
+
+[ext_resource type="Script" uid="uid://deta41wfge7xq" path="res://UI/loginUI/ui.gd" id="1_2fwl4"]
+
+[node name="LoginUI" type="CanvasLayer" unique_id=841428912]
+script = ExtResource("1_2fwl4")
+
+[node name="LoginVBox" type="HBoxContainer" parent="." unique_id=2066048060]
+custom_minimum_size = Vector2(282, 0)
+offset_top = 540.0
+offset_right = 282.0
+offset_bottom = 641.0
+
+[node name="Buttons" type="VBoxContainer" parent="LoginVBox" unique_id=1410101049]
+custom_minimum_size = Vector2(116, 99)
+layout_mode = 2
+
+[node name="Host" type="Button" parent="LoginVBox/Buttons" unique_id=171469957]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="LoginVBox/Buttons" unique_id=1393370908]
+layout_mode = 2
+text = "Join"
+
+[node name="SpawnEnemy" type="Button" parent="LoginVBox/Buttons" unique_id=479043971]
+visible = false
+layout_mode = 2
+text = "Spawn Enemy"
+
+[node name="IPInfo" type="VBoxContainer" parent="LoginVBox" unique_id=1931922796]
+custom_minimum_size = Vector2(200, 99)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HostIP" type="Label" parent="LoginVBox/IPInfo" unique_id=1798769985]
+custom_minimum_size = Vector2(200, 31)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 12
+text = "Your IP: 192.168.1.56"
+
+[node name="JoinIPInput" type="LineEdit" parent="LoginVBox/IPInfo" unique_id=93550869]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+placeholder_text = "IP address"
