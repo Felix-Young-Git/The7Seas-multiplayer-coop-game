@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://l7apvn6exj7i"]
+
+[ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="1_n22e8"]
+[ext_resource type="PackedScene" uid="uid://dmckwmscouuee" path="res://Scripts/Components/collectable_component.tscn" id="2_yn6uc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igri3"]
+atlas = ExtResource("1_n22e8")
+region = Rect2(80, 35, 16, 10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3mdbu"]
+radius = 7.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_n22e8"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Collectable Log" type="Sprite2D" unique_id=339874449]
+texture = SubResource("AtlasTexture_igri3")
+
+[node name="Collectable Component" parent="." unique_id=90339270 instance=ExtResource("2_yn6uc")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collectable Component" unique_id=689778682]
+shape = SubResource("CircleShape2D_3mdbu")
+debug_color = Color(4.813075e-08, 0.6318673, 0.46100616, 0.41960785)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1402958621]
+replication_config = SubResource("SceneReplicationConfig_n22e8")
