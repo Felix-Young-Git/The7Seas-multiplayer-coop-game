@@ -6,7 +6,7 @@ extends Node2D
 @export var test_tilemap : PackedScene
 
 @onready var ui = $UI
-
+#this is test comment
 signal join_result(ok: bool)
 
 func _ready() -> void:
