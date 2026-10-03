@@ -32,3 +32,7 @@ tile_set = ExtResource("1_2n6f1")
 [node name="Berries" type="TileMapLayer" parent="." unique_id=1731373408]
 tile_map_data = PackedByteArray("AAACAAEAAwAAAAAABAA=")
 tile_set = ExtResource("1_2n6f1")
+
+[node name="Objects" type="TileMapLayer" parent="." unique_id=1986182177]
+tile_map_data = PackedByteArray("AAD9/wIAAwAAAAAABQA=")
+tile_set = ExtResource("1_2n6f1")

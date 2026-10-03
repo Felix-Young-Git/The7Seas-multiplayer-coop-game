@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cqwl5rcvn1e2b" path="res://Scenes/Objects/Trees/tree.tscn" id="4_ghn77"]
 [ext_resource type="PackedScene" uid="uid://hr303lwe8bfj" path="res://Scenes/Objects/Placeables/workbench.tscn" id="5_wejem"]
 [ext_resource type="PackedScene" uid="uid://c1encmyuj25uo" path="res://Scenes/Objects/Heat Resist Berry/heat_resist_berry.tscn" id="7_sm0w1"]
+[ext_resource type="PackedScene" uid="uid://brqb15hjouhyn" path="res://Scenes/Objects/win_location.tscn" id="8_44sjv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sm0w1"]
 texture = ExtResource("1_1ejsn")
@@ -359,6 +360,7 @@ scenes/1/scene = ExtResource("3_s5afx")
 scenes/2/scene = ExtResource("4_ghn77")
 scenes/3/scene = ExtResource("5_wejem")
 scenes/4/scene = ExtResource("7_sm0w1")
+scenes/5/scene = ExtResource("8_44sjv")
 
 [resource]
 physics_layer_0/collision_layer = 1

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://brqb15hjouhyn"]
+
+[ext_resource type="Script" uid="uid://b2701ohclm0q5" path="res://Scenes/Objects/win_location.gd" id="1_fgs6q"]
+[ext_resource type="Texture2D" uid="uid://cyv63aggllrdd" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Furniture.png" id="1_w41xm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkv33"]
+atlas = ExtResource("1_w41xm")
+region = Rect2(32, 82, 16, 13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx60d"]
+
+[node name="Win Location" type="Node2D" unique_id=2012416077]
+script = ExtResource("1_fgs6q")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2036046684]
+texture = SubResource("AtlasTexture_nkv33")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1693494197]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1512946435]
+shape = SubResource("RectangleShape2D_fx60d")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

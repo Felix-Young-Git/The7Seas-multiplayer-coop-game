@@ -87,3 +87,5 @@ func _peer_connected(id):
 
 func _server_disconnected():
 	print("Disconnected from server!")
+	await EosNetwork.exit_game()
+	get_tree().change_scene_to_file("res://scenes/start_menu.tscn")

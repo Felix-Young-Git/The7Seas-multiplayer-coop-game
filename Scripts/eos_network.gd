@@ -55,15 +55,21 @@ func _ready() -> void:
 		logged_in.emit()
 	
 func exit_game():
+	var lobby := local_lobby
+	local_lobby = null
+	is_server = false
+	peer_user_ids.clear()
+
 	if peer:
 		peer.close()
-	
 	if multiplayer.multiplayer_peer:
 		multiplayer.multiplayer_peer = null
-	if is_server and local_lobby:
-		await local_lobby.destroy_async()
-	elif local_lobby:
-		await local_lobby.leave_async()
+
+	if lobby and lobby.is_valid():
+		if lobby.is_owner():
+			await lobby.destroy_async()
+		else:
+			await lobby.leave_async()
 	
 func _exit_tree() -> void:
 	exit_game()

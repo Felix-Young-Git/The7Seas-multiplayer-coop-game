@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://c67nhtteolj5m"]
+
+[ext_resource type="Script" uid="uid://7x0pd0fy4bbq" path="res://Scenes/screens/end_screen.gd" id="1_rxiwv"]
+
+[node name="End Screen" type="CanvasLayer" unique_id=1541132203]
+script = ExtResource("1_rxiwv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=61986014]
+
+[node name="BoxContainer" type="HBoxContainer" parent="." unique_id=1626480608]
+custom_minimum_size = Vector2(400, 100)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -201.0
+offset_top = -49.0
+offset_right = 199.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 200
+
+[node name="Replay Button" type="Button" parent="BoxContainer" unique_id=734772470]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
+text = "Back to Start"
+
+[node name="Quit Button" type="Button" parent="BoxContainer" unique_id=678624650]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Quit"
+
+[connection signal="pressed" from="BoxContainer/Replay Button" to="." method="_on_replay_button_pressed"]
+[connection signal="pressed" from="BoxContainer/Quit Button" to="." method="_on_quit_button_pressed"]
