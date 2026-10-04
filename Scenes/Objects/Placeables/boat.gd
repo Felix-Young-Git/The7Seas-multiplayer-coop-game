@@ -81,7 +81,7 @@ func board(player: Player) -> void:
 
 
 func find_valid_exit_point():
-	print("running find exit point")
+	#print("running find exit point")
 	var origin = global_position
 	var best_point = null
 	var best_dist = INF
@@ -98,7 +98,7 @@ func find_valid_exit_point():
 	return best_point
 
 func is_land_at(world_pos: Vector2):
-	print("running is land at")
+	#print("running is land at")
 	#gets the first child of the tilemap node, which is the water tile map layer
 	var water_tilemap = tilemap.get_child(1)  
 	var map_coords = water_tilemap.local_to_map(

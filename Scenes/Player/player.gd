@@ -141,8 +141,9 @@ func start_placing(item: PlaceableItemData) -> void:
 	ghost.modulate = Color(1, 1, 1, 0.5)
 	ghost.z_index = 100
 	ghost.process_mode = Node.PROCESS_MODE_DISABLED
+	ghost.top_level = true          # use global coordinates, ignore the player's transform
 	_disable_collisions(ghost)
-	get_tree().current_scene.add_child(ghost)
+	add_child(ghost)   
 
 @rpc("any_peer","call_local", "reliable")
 func request_place(item_id : String, world_position : Vector2):
@@ -172,7 +173,7 @@ func request_place(item_id : String, world_position : Vector2):
 	if player.global_position.distance_to(world_position) > MAX_PLACE_DISTANCE:
 		return
 
-	var spawn_node = get_tree().current_scene.get_node("/root/InventoryTest")
+	var spawn_node = get_tree().current_scene.get_node("/root/Game")
 	var obj = item.placeable_scene.instantiate()
 	obj.name = item_id + "_" + str(Time.get_ticks_usec())
 	var tile_size = 16
