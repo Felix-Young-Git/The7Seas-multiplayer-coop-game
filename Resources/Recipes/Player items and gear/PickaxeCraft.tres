@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CraftRecipe" format=3 uid="uid://cwpakcp2ct120"]
 
-[ext_resource type="Script" uid="uid://cikhxgwvfc0tk" path="res://Scripts/Items/resources_item_data.gd" id="1_fcayr"]
+[ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="1_8f72q"]
 [ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="1_skqjs"]
 [ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/Stone.tres" id="2_euoap"]
 [ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="3_3bvl3"]
@@ -9,7 +9,7 @@
 [resource]
 script = ExtResource("1_skqjs")
 recipe_id = "PickaxeCraft"
-ingredients = Dictionary[ExtResource("1_fcayr"), int]({
+ingredients = Dictionary[ExtResource("1_8f72q"), int]({
 ExtResource("2_euoap"): 1,
 ExtResource("3_3bvl3"): 1
 })

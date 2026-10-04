@@ -41,7 +41,7 @@ func get_cell_from_self() -> Vector2i:
 func _on_pick_area_body_entered(body: Node2D) -> void:
 	if body is Player:
 		nearby_players.append(body)
-		print(nearby_players)
+		#print(nearby_players)
 
 
 func _on_pick_area_body_exited(body: Node2D) -> void:

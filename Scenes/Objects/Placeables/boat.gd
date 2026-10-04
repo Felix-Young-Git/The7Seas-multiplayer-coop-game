@@ -7,6 +7,9 @@ var driver_peer_id : int = -1
 var passengers : Array[Player] = []
 var nearby_players: Array[Player] = []
 
+#boats should initially collide with lava
+func _ready() -> void:
+	set_collision_mask_value(9, true)
 
 #boat exit stuff
 @onready var tilemap = get_tree().get_first_node_in_group("tilemap")
@@ -166,16 +169,39 @@ func clear_driver():
 	driver_peer_id = -1
 	
 
-#upgrades
+# map ids to module classes (add new upgrades here)
+func _create_module(id : String) -> BoatModule:
+	match id:
+		"fire_protection":
+			return FireProtectionModule.new()
+	return null
+
+
+
+# server-side entry point (called from the workbench)
 func install_upgrade(module: BoatModule):
-	modules.append(module)
-	on_upgrade()
+	if !multiplayer.is_server():
+		return
+	apply_upgrade.rpc(module.module_id)
 
 func remove_upgrade(module: BoatModule):
-	modules.erase(module)
-	on_upgrade()
+	if !multiplayer.is_server():
+		return
+	remove_upgrade_rpc.rpc(module.module_id)
 
-#This is going to be problamatic when I have multiple visuals
-func on_upgrade():
+# runs on the server AND every client, each building its own module
+@rpc("authority", "call_local", "reliable")
+func apply_upgrade(id : String):
+	var module = _create_module(id)
+	if module == null:
+		return
+	modules.append(module)
+	module.modify_boat_visuals(self)
+	module.modify_collision(self)
+
+@rpc("authority", "call_local", "reliable")
+func remove_upgrade_rpc(id : String):
 	for module in modules:
-		module.modify_boat_visuals(self)
+		if module.module_id == id:
+			modules.erase(module)
+			break

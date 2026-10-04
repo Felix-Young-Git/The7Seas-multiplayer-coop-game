@@ -11,6 +11,7 @@ extends CharacterBody2D
 @onready var inventoryUI = $InventoryUI
 
 var nearby_stations : Array[String] = []
+var nearby_station_nodes : Dictionary = {}
 var inventory_open : bool 
 var hotbar_size : int = 9
 var selected_slot : int = 0 #start by having the first slot in inventory selected
@@ -115,14 +116,22 @@ func _input(event: InputEvent) -> void:
 
 #called went entering/exiting a workbench area, 
 #currently have workbench and boat_workbench
-func add_station(station_id : String):
+func add_station(station_id : String, station_node : Node = null ):
+	if station_node:
+		nearby_station_nodes[station_id] = station_node
 	if !nearby_stations.has(station_id):
 		nearby_stations.append(station_id)
-		inventory.UpdatedInventory.emit()
-
-func remove_station(station_id : String):
-	nearby_stations.erase(station_id)
 	inventory.UpdatedInventory.emit()
+
+func remove_station(station_id : String, station_node : Node = null):
+	# only clear if it's the same bench we're leaving (handles overlapping benches)
+	if station_node == null or nearby_station_nodes.get(station_id) == station_node:
+		nearby_station_nodes.erase(station_id)
+		nearby_stations.erase(station_id)
+	inventory.UpdatedInventory.emit()
+
+func get_station_node(station_id : String) -> Node:
+	return nearby_station_nodes.get(station_id)
 
 func try_place_current_item():
 	var slot = inventory.item_slots[selected_slot]

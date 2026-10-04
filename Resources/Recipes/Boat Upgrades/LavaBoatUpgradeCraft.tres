@@ -10,5 +10,6 @@ recipe_id = "LavaBoatUpgradeCraft"
 ingredients = Dictionary[ExtResource("1_phvsx"), int]({
 ExtResource("2_1qojj"): 1
 })
+required_stations = Array[String](["boat_workbench"])
 upgrade_name = "Boat Heat Coating"
 metadata/_custom_type_script = "uid://cghnrjtba76o"

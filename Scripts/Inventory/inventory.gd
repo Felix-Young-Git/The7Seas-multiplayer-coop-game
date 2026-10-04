@@ -163,12 +163,27 @@ func can_craft(recipe : CraftGeneral)->bool:
 	for station in recipe.required_stations:
 		if !player_node.nearby_stations.has(station):
 			return false
+	
+	if recipe is UpgradeRecipe:
+		var workbench = player_node.get_station_node("boat_workbench")
+		if workbench == null or workbench.get_nearby_boat() == null:
+			return false
 	return true
 
 func craft(recipe : CraftGeneral):
 	if !can_craft(recipe):
 		return
 
+	if recipe is UpgradeRecipe:
+		var module : BoatModule = null
+		if recipe.upgrade_name == "Boat Heat Coating":
+			module = FireProtectionModule.new()
+		if module == null:
+			return
+		var workbench = get_parent().get_station_node("boat_workbench")
+		if !workbench.craft_upgrade(module):
+			return  # install failed, so don't consume ingredients
+			
 	for ingredient in recipe.ingredients:
 		var amount_to_remove : int = recipe.ingredients[ingredient]
 		for i in range(amount_to_remove):
@@ -177,8 +192,6 @@ func craft(recipe : CraftGeneral):
 	if recipe is CraftRecipe:
 		for i in range(recipe.output_amount):
 			add_item(recipe.output_item)
-		
-
 
 
 func sync_inventory():

@@ -11,12 +11,12 @@ func _enter_tree() -> void:
 #when a player enters the area send signal
 func _on_crafting_radius_body_entered(body: Node2D) -> void:
 	if body is Player:
-		body.add_station("boat_workbench")
+		body.add_station("boat_workbench", self)
 
 #when the player exits the area send signal
 func _on_crafting_radius_body_exited(body: Node2D) -> void:
 	if body is Player:
-		body.remove_station("boat_workbench")
+		body.remove_station("boat_workbench", self)
 
 #crafting
 func get_nearby_boat() -> Boat:

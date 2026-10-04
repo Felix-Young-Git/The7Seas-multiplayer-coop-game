@@ -151,6 +151,7 @@ Interact={
 2d_physics/layer_6="Crafting"
 2d_physics/layer_7="Boat"
 2d_physics/layer_8="Water"
+2d_physics/layer_9="Lava"
 
 [physics]
 
