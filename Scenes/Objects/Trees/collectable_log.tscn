@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="1_n22e8"]
 [ext_resource type="PackedScene" uid="uid://dmckwmscouuee" path="res://Scripts/Components/collectable_component.tscn" id="2_yn6uc"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="3_yn6uc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igri3"]
 atlas = ExtResource("1_n22e8")
@@ -19,6 +20,7 @@ properties/0/replication_mode = 1
 texture = SubResource("AtlasTexture_igri3")
 
 [node name="Collectable Component" parent="." unique_id=90339270 instance=ExtResource("2_yn6uc")]
+item = ExtResource("3_yn6uc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collectable Component" unique_id=689778682]
 shape = SubResource("CircleShape2D_3mdbu")
