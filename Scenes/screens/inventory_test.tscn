@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ch4qj8h4slrlb" path="res://UI/loginUI/ui.tscn" id="5_343r0"]
 
 [node name="InventoryTest" type="Node2D" unique_id=1978064845]
+y_sort_enabled = true
 script = ExtResource("1_jjdth")
 player_scene = ExtResource("2_pe2db")
 enemy_scene = ExtResource("3_pvp4g")
