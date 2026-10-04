@@ -10,6 +10,13 @@ extends CharacterBody2D
 @onready var inventory = %Inventory
 @onready var inventoryUI = $InventoryUI
 
+@export var grid_size: Vector2 = Vector2(16, 16)
+@export var snap_to_grid: bool = true
+
+var ghost: Node2D = null
+var ghost_item: PlaceableItemData = null
+
+var last_selected_slot : int = -1
 var nearby_stations : Array[String] = []
 var nearby_station_nodes : Dictionary = {}
 var inventory_open : bool 
@@ -33,6 +40,7 @@ func _enter_tree() -> void:
 	
 
 func _ready() -> void:
+	
 	add_to_group("players")
 	if is_multiplayer_authority():
 		camera.enabled = true
@@ -41,7 +49,8 @@ func _ready() -> void:
 		inventoryUI.visible = true
 		inventoryUI.set_state(inventoryUI.UIState.hotbar)
 		inventory_open = false
-
+		inventory.UpdatedInventory.connect(refresh_selection)
+		refresh_selection()
 		
 	else:
 		camera.enabled = false
@@ -96,23 +105,121 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Wheel Down"):
 		selected_slot = wrapi(selected_slot + 1, 0, 9)
 
-	#set selected
+	if selected_slot != last_selected_slot:
+		last_selected_slot = selected_slot
+		refresh_selection()
+
+#Ghost preview------------------------------------------------------------------
+func refresh_selection() -> void:
+	# highlight the hotbar slot
 	for i in range(hotbarUI.get_child_count()):
-		if i == (selected_slot):
-			hotbarUI.get_child(i).set_selected(true)
-		else:
-			hotbarUI.get_child(i).set_selected(false)
-	
-	#set current tool
-	var current_item = inventory.item_slots[selected_slot].item
-	if current_item is ToolItemData:
-		var current_tool_name = current_item.item_id
-		if current_tool_name == "Axe":
-			current_tool = DataTypes.Tools.Axe
-		if current_tool_name == "Pickaxe":
-			current_tool = DataTypes.Tools.Pickaxe
+		hotbarUI.get_child(i).set_selected(i == selected_slot)
+
+	var item : ItemData = inventory.item_slots[selected_slot].item
+
+	# tool
+	current_tool = DataTypes.Tools.None
+	if item is ToolItemData:
+		match item.item_id:
+			"Axe": current_tool = DataTypes.Tools.Axe
+			"Pickaxe": current_tool = DataTypes.Tools.Pickaxe
+
+	# ghost
+	if item is PlaceableItemData:
+		if ghost_item != item:  # don't rebuild if it's already the right ghost
+			start_placing(item)
 	else:
-		current_tool = DataTypes.Tools.None
+		cancel_placing()
+
+func start_placing(item: PlaceableItemData) -> void:
+	cancel_placing()
+	if item == null or item.placeable_scene == null:
+		return
+	ghost_item = item
+	ghost = item.placeable_scene.instantiate()
+	ghost.set("is_ghost", true)  # optional flag, see note below
+	ghost.modulate = Color(1, 1, 1, 0.5)
+	ghost.z_index = 100
+	ghost.process_mode = Node.PROCESS_MODE_DISABLED
+	_disable_collisions(ghost)
+	get_tree().current_scene.add_child(ghost)
+
+@rpc("any_peer","call_local", "reliable")
+func request_place(item_id : String, world_position : Vector2):
+	if !multiplayer.is_server():
+		return
+	var sender = multiplayer.get_remote_sender_id()
+	if sender == 0:
+		sender = 1
+	var player = get_player_from_peer(sender)
+
+	if !player:
+		return
+	if !is_instance_valid(player):
+		return
+	var item = ItemDatabase.get_item(item_id)
+	
+	# Validate player actually has item
+	if !player.inventory.has_item(item.item_id):
+		return
+
+	#If placing boat then check if placing in water
+	if item_id == "Boat":
+		if tilemap.is_water_tile(world_position) == false:
+			return
+
+	#Stop the player from placing it super far away
+	if player.global_position.distance_to(world_position) > MAX_PLACE_DISTANCE:
+		return
+
+	var spawn_node = get_tree().current_scene.get_node("/root/InventoryTest")
+	var obj = item.placeable_scene.instantiate()
+	obj.name = item_id + "_" + str(Time.get_ticks_usec())
+	var tile_size = 16
+	world_position = world_position.snapped(Vector2.ONE * tile_size)
+	obj.global_position = world_position
+	
+	spawn_node.add_child(obj)
+	
+	# Remove item from inventory
+	player.inventory.remove_item(item)
+
+func cancel_placing() -> void:
+	if ghost:
+		ghost.queue_free()
+	ghost = null
+	ghost_item = null
+
+func _process(_delta: float) -> void:
+	if not ghost:
+		return
+	# Hide the ghost while the mouse is over inventory/UI
+	var over_ui := get_viewport().gui_get_hovered_control() != null
+	ghost.visible = not over_ui
+
+	var pos := get_global_mouse_position()
+	if snap_to_grid:
+		pos = pos.snapped(grid_size)
+	ghost.global_position = pos
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not ghost:
+		return
+	if event.is_action_pressed("place"):
+		request_place.rpc_id(1, ghost_item.item_id, ghost.global_position)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_cancel"):
+		cancel_placing()
+
+func _disable_collisions(node: Node) -> void:
+	if node is CollisionObject2D:
+		node.collision_layer = 0
+		node.collision_mask = 0
+	for child in node.get_children():
+		_disable_collisions(child)
+
+#--------------------------------------------------------------------------
+
 
 #called went entering/exiting a workbench area, 
 #currently have workbench and boat_workbench
@@ -147,43 +254,6 @@ func try_place_current_item():
 			get_global_mouse_position()
 		)
 
-@rpc("any_peer","call_local", "reliable")
-func request_place(item_id : String, world_position : Vector2):
-	if !multiplayer.is_server():
-		return
-	var sender = multiplayer.get_remote_sender_id()
-	var player = get_player_from_peer(sender)
-
-	if !player:
-		return
-	if !is_instance_valid(player):
-		return
-	var item = ItemDatabase.get_item(item_id)
-	
-	# Validate player actually has item
-	if !player.inventory.has_item(item.item_id):
-		return
-
-	#If placing boat then check if placing in water
-	if item_id == "Boat":
-		if tilemap.is_water_tile(world_position) == false:
-			return
-
-	#Stop the player from placing it super far away
-	if player.global_position.distance_to(world_position) > MAX_PLACE_DISTANCE:
-		return
-
-	var spawn_node = get_tree().current_scene.get_node("/root/InventoryTest")
-	var obj = item.placeable_scene.instantiate()
-	obj.name = item_id + "_" + str(Time.get_ticks_usec())
-	var tile_size = 16
-	world_position = world_position.snapped(Vector2.ONE * tile_size)
-	obj.global_position = world_position
-	
-	spawn_node.add_child(obj)
-	
-	# Remove item from inventory
-	player.inventory.remove_item(item)
 
 
 func get_player_from_peer(peer_id : int) -> Player:

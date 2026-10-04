@@ -6,4 +6,3 @@ extends Resource
 @export var max_stack_size : int = 1
 @export var icon : Texture2D
 @export var equip_scene : PackedScene
- 
