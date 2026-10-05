@@ -9,6 +9,8 @@ signal spawn_enemy_pressed
 @onready var spawn_enemy_button = $LoginVBox/Buttons/SpawnEnemy
 @onready var hostLobbyCode = $LoginVBox/IPInfo/HostLobbyCode
 @onready var joinLobbyCode = $LoginVBox/IPInfo/JoinLobbyCode
+@onready var controls_label = $"Controls Label"
+@onready var title_label = $Title
 
 func _ready():
 	host_button.pressed.connect(_on_host_button_pressed)
@@ -46,13 +48,18 @@ func set_state(state: UIState):
 			#host ip lable is not visible but still there so the join ip input is in the right place
 			#hostLobbyCode.modulate.a = 0.0
 			joinLobbyCode.visible = true
+			controls_label.visible = true
+			title_label.visible = true
 
+		#Yes, these are the same and should be either combined or developed to be different
 		UIState.Host:
 			host_button.visible = false
 			join_button.visible = false
 			spawn_enemy_button.visible = false
 			hostLobbyCode.modulate.a = 0.0
 			joinLobbyCode.visible = false
+			controls_label.visible = false
+			title_label.visible = false
 
 		UIState.Join:
 			host_button.visible = false
@@ -60,3 +67,5 @@ func set_state(state: UIState):
 			spawn_enemy_button.visible = false
 			hostLobbyCode.modulate.a = 0.0
 			joinLobbyCode.visible = false
+			controls_label.visible = false
+			title_label.visible = false

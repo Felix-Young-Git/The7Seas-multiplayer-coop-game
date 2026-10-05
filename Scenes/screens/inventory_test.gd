@@ -16,6 +16,7 @@ func _ready() -> void:
 	if not EosNetwork.EosSetup:
 		await EosNetwork.logged_in
 
+	#Connect signals and functions
 	$UI.host_pressed.connect(_on_host_pressed)
 	$UI.join_pressed.connect(_on_join_pressed)
 	$UI.spawn_enemy_pressed.connect(_on_spawn_enemy_pressed)
@@ -25,7 +26,7 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_server_disconnected)
 	multiplayer.peer_connected.connect(_peer_connected)
 
-
+#BUTTON PRESSES-------------------------------------------------------------------
 #create host (creates an EOS lobby instead of an ENet server)
 func _on_host_pressed() -> void:
 	var room_code = ui.get_host_IP_input() # reuse the text box as a room code
@@ -39,7 +40,6 @@ func _on_host_pressed() -> void:
 	_create_tilemap()
 	_add_player(multiplayer.get_unique_id())
 
-
 #join an existing EOS lobby
 func _on_join_pressed() -> void:
 	var ok = await EosNetwork.search_lobbies(ui.get_join_IP_input())
@@ -50,14 +50,15 @@ func _on_join_pressed() -> void:
 	var connected = await join_result
 	if connected:
 		ui.set_state(ui.UIState.Join)
+#--------------------------------------------------------------------------------------------
 
 
+#ADDING STUFF TO THE WORLD-----------------------------------------------------------------
 #create player
 func _add_player(id: int):
 	var player = player_scene.instantiate()
 	player.name = str(id)
 	call_deferred("add_child", player)
-
 
 #Spawning enemies
 func _on_spawn_enemy_pressed(id = 1) -> void:
@@ -65,13 +66,14 @@ func _on_spawn_enemy_pressed(id = 1) -> void:
 		var enemy = enemy_scene.instantiate()
 		add_child(enemy, true)
 
-
 func _create_tilemap():
 	if multiplayer.is_server():
 		var map_instance = test_tilemap.instantiate()
 		add_child(map_instance, true)
+#--------------------------------------------------------------------------------------------
 
 
+#CONNECTIONS----------------------------------------------------------------------------
 func _connected_ok():
 	print("Connected to server!")
 	join_result.emit(true)
@@ -89,3 +91,4 @@ func _server_disconnected():
 	print("Disconnected from server!")
 	await EosNetwork.exit_game()
 	get_tree().change_scene_to_file("res://scenes/start_menu.tscn")
+#--------------------------------------------------------------------------------------------

@@ -10,10 +10,9 @@ signal player_disconnected(player_id)
 var local_user_id = ""
 var is_server = false
 var peer_user_ids = []
-
 var EosSetup = false
-
 var local_lobby: HLobby
+
 
 func _ready() -> void:
 	get_tree().auto_accept_quit = false

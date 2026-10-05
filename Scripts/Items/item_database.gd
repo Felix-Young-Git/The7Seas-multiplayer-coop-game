@@ -3,6 +3,7 @@ extends Node
 var items := {}
 var crafts := {}
 
+#preload everything
 func _ready():
 	register_item(preload("res://Resources/Items/Materials/Stone.tres"))
 	register_item(preload("res://Resources/Items/Materials/Wood.tres"))
@@ -21,6 +22,7 @@ func _ready():
 	
 	register_upgrade(preload("res://Resources/Recipes/Boat Upgrades/LavaBoatUpgradeCraft.tres"))
 
+#register and be able to get everything via strings
 func register_item(item : ItemData):
 	items[item.item_id] = item
 

@@ -1,6 +1,12 @@
 class_name Boat
 extends CharacterBody2D
 
+#boat exit stuff
+@onready var tilemap = get_tree().get_first_node_in_group("tilemap")
+@export var exit_check_radius : float = 32.0
+@export var exit_sample_points : int = 8
+
+var modules : Array[BoatModule] = []
 var boat_speed := 300.0
 
 var driver_peer_id : int = -1
@@ -11,15 +17,7 @@ var nearby_players: Array[Player] = []
 func _ready() -> void:
 	set_collision_mask_value(9, true)
 
-#boat exit stuff
-@onready var tilemap = get_tree().get_first_node_in_group("tilemap")
-@export var exit_check_radius : float = 32.0
-@export var exit_sample_points : int = 8
-
-var modules : Array[BoatModule] = []
-
-
-#area interaction
+#NEARBY PLAYERS--------------------------------------------------------------------
 func _on_entry_area_body_entered(body: CharacterBody2D) -> void:
 	if body is Player:
 		nearby_players.append(body)
@@ -27,8 +25,10 @@ func _on_entry_area_body_entered(body: CharacterBody2D) -> void:
 func _on_entry_area_body_exited(body: CharacterBody2D) -> void:
 	if body is Player:
 		nearby_players.erase(body)
+#--------------------------------------------------------------------
 
-#movement
+
+#MOVEMENT--------------------------------------------------------------------
 func _physics_process(_delta: float) -> void:
 	if !is_multiplayer_authority():
 		return
@@ -51,9 +51,10 @@ func _physics_process(_delta: float) -> void:
 	
 	velocity = direction * boat_speed
 	move_and_slide()
+#--------------------------------------------------------------------
 
 
-#interacting with boat
+#PLAYER-BOAT OPTIONS----------------------------------------------------------
 func interact(player: Player) -> void:
 	if player.current_boat == self:
 		unboard(player)
@@ -78,7 +79,6 @@ func board(player: Player) -> void:
 
 	print(player.name + " boarded")
 	player.enter_boat.rpc(get_path())
-
 
 func find_valid_exit_point():
 	#print("running find exit point")
@@ -126,13 +126,6 @@ func unboard(player: Player) -> void:
 		return
 	
 	player.global_position = exit_pos
-	
-	
-	#this needs to go once the new exit mechanic is in
-	#var spawn_pos = global_position + Vector2(64, 0)
-	#player.global_position = spawn_pos
-	
-	#leave this
 	passengers.erase(player)
 	player.current_boat = null
 	
@@ -167,16 +160,16 @@ func sync_driver(peer_id: int):
 @rpc("any_peer", "call_local", "reliable")
 func clear_driver():
 	driver_peer_id = -1
-	
+#------------------------------------------------------------------------------
 
+
+#MODULES--------------------------------------------------------------------
 # map ids to module classes (add new upgrades here)
 func _create_module(id : String) -> BoatModule:
 	match id:
 		"fire_protection":
 			return FireProtectionModule.new()
 	return null
-
-
 
 # server-side entry point (called from the workbench)
 func install_upgrade(module: BoatModule):
@@ -205,3 +198,4 @@ func remove_upgrade_rpc(id : String):
 		if module.module_id == id:
 			modules.erase(module)
 			break
+#------------------------------------------------------------------------

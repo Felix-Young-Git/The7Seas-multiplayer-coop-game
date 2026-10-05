@@ -25,6 +25,8 @@ func _ready() -> void:
 		for i in range(start_items[key]):
 			add_item(key)
 
+
+#ITEM-INVENTORY INTERACTIONS-----------------------------------------------------------------------
 #adds an item to inventory
 func add_item (item : ItemData) -> bool:
 	var slot : ItemSlot = get_item_slot(item)
@@ -43,7 +45,6 @@ func add_item (item : ItemData) -> bool:
 		slot.quantity = 1 
 		slot_index = item_slots.find(slot)
 
-	
 	UpdatedInventory.emit()
 	UpdatedSlot.emit(slot)
 
@@ -140,11 +141,10 @@ func swap_slots(index_a : int, index_b : int):
 
 	UpdatedSlot.emit(slot_a)
 	UpdatedSlot.emit(slot_b)
+#--------------------------------------------------------------------------------------------
 
 
-
-
-#crafting
+#CRAFTING-------------------------------------------------------------------------
 func can_craft(recipe : CraftGeneral)->bool:
 	
 	if recipe == null:
@@ -192,8 +192,10 @@ func craft(recipe : CraftGeneral):
 	if recipe is CraftRecipe:
 		for i in range(recipe.output_amount):
 			add_item(recipe.output_item)
+#--------------------------------------------------------------------------------------------
 
 
+#SYNC INVENTORY-----------------------------------------------------------------------------
 func sync_inventory():
 	if !multiplayer.is_server():
 		return
@@ -226,3 +228,4 @@ func sync_inventory_data(data : Array):
 			slot.quantity = slot_data["quantity"]
 
 	UpdatedInventory.emit()
+#--------------------------------------------------------------------------------------------

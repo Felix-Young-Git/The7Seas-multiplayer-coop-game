@@ -1,9 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-#tools
 @export var current_tool: DataTypes.Tools = DataTypes.Tools.None
-
 @onready var tilemap = get_tree().get_first_node_in_group("tilemap")
 @onready var hotbarUI = $InventoryUI/HotbarUI/Panel/GridContainer
 @onready var camera = $Camera2D
@@ -15,19 +13,19 @@ extends CharacterBody2D
 
 var ghost: Node2D = null
 var ghost_item: PlaceableItemData = null
-
-var last_selected_slot : int = -1
 var nearby_stations : Array[String] = []
 var nearby_station_nodes : Dictionary = {}
 var inventory_open : bool 
 var hotbar_size : int = 9
-var selected_slot : int = 0 #start by having the first slot in inventory selected
+var selected_slot : int = 0
+var last_selected_slot : int = -1
 var player_direction: Vector2
 var current_boat : Boat = null
 var boat
 var in_boat := false
 var camera_target: Node2D
-var MAX_PLACE_DISTANCE = 1000
+var MAX_PLACE_DISTANCE = 500
+
 
 func _enter_tree() -> void:
 	var id = name.to_int()
@@ -40,7 +38,6 @@ func _enter_tree() -> void:
 	
 
 func _ready() -> void:
-	
 	add_to_group("players")
 	if is_multiplayer_authority():
 		camera.enabled = true
@@ -51,13 +48,11 @@ func _ready() -> void:
 		inventory_open = false
 		inventory.UpdatedInventory.connect(refresh_selection)
 		refresh_selection()
-		
 	else:
 		camera.enabled = false
 		inventoryUI.visible = false
 
 
-#input for selected slot (PROBABLY SHOULD MOVE TO INPUT EVENTS SCRIPT AT SOME POINT)
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
@@ -78,7 +73,7 @@ func _input(event: InputEvent) -> void:
 			inventory_open = false
 			inventoryUI.set_state(inventoryUI.UIState.hotbar)
 
-	#numbers
+	#Selected slot from key press
 	if event.is_action_pressed("Hotbar1"):
 		selected_slot = 0
 	if event.is_action_pressed("Hotbar2"):
@@ -101,15 +96,15 @@ func _input(event: InputEvent) -> void:
 	#scroll wheel 
 	if event.is_action_pressed("Wheel Up"):
 		selected_slot = wrapi(selected_slot - 1, 0, 9)
-
 	if event.is_action_pressed("Wheel Down"):
 		selected_slot = wrapi(selected_slot + 1, 0, 9)
-
+		
+	#if selected slot changed, update
 	if selected_slot != last_selected_slot:
 		last_selected_slot = selected_slot
 		refresh_selection()
 
-#Ghost preview------------------------------------------------------------------
+#GHOST PREVIEW AND PLACING ITEMS------------------------------------------------------------------
 func refresh_selection() -> void:
 	# highlight the hotbar slot
 	for i in range(hotbarUI.get_child_count()):
@@ -145,6 +140,20 @@ func start_placing(item: PlaceableItemData) -> void:
 	_disable_collisions(ghost)
 	add_child(ghost)   
 
+func try_place_current_item():
+	var slot = inventory.item_slots[selected_slot]
+
+	if !slot.item:
+		return
+
+	if slot.item is PlaceableItemData:
+		var placeable_item = slot.item as PlaceableItemData
+		request_place.rpc_id(
+			1,
+			placeable_item.item_id,
+			get_global_mouse_position()
+		)
+
 @rpc("any_peer","call_local", "reliable")
 func request_place(item_id : String, world_position : Vector2):
 	if !multiplayer.is_server():
@@ -164,26 +173,30 @@ func request_place(item_id : String, world_position : Vector2):
 	if !player.inventory.has_item(item.item_id):
 		return
 
-	#If placing boat then check if placing in water
+	#Check if invalid location to place
 	if item_id == "Boat":
 		if tilemap.is_water_tile(world_position) == false:
+			return
+	else:
+		if tilemap.is_water_tile(world_position) == true:
 			return
 
 	#Stop the player from placing it super far away
 	if player.global_position.distance_to(world_position) > MAX_PLACE_DISTANCE:
 		return
 
+	#create the opject
 	var spawn_node = get_tree().current_scene.get_node("/root/Game")
 	var obj = item.placeable_scene.instantiate()
 	obj.name = item_id + "_" + str(Time.get_ticks_usec())
 	var tile_size = 16
 	world_position = world_position.snapped(Vector2.ONE * tile_size)
 	obj.global_position = world_position
-	
 	spawn_node.add_child(obj)
 	
 	# Remove item from inventory
 	player.inventory.remove_item(item)
+
 
 func cancel_placing() -> void:
 	if ghost:
@@ -218,12 +231,11 @@ func _disable_collisions(node: Node) -> void:
 		node.collision_mask = 0
 	for child in node.get_children():
 		_disable_collisions(child)
+#--------------------------------------------------------------------------------------------
 
-#--------------------------------------------------------------------------
 
-
-#called went entering/exiting a workbench area, 
-#currently have workbench and boat_workbench
+#STATIONS-----------------------------------------------------------------------------------
+#called when entering/exiting a workbench area, currently have workbench and boat_workbench
 func add_station(station_id : String, station_node : Node = null ):
 	if station_node:
 		nearby_station_nodes[station_id] = station_node
@@ -240,30 +252,17 @@ func remove_station(station_id : String, station_node : Node = null):
 
 func get_station_node(station_id : String) -> Node:
 	return nearby_station_nodes.get(station_id)
+#--------------------------------------------------------------------------------------------
 
-func try_place_current_item():
-	var slot = inventory.item_slots[selected_slot]
-
-	if !slot.item:
-		return
-
-	if slot.item is PlaceableItemData:
-		var placeable_item = slot.item as PlaceableItemData
-		request_place.rpc_id(
-			1,
-			placeable_item.item_id,
-			get_global_mouse_position()
-		)
-
-
-
+#GET A PLAYER FORM PEER_ID-----------------------------------------------------------------
 func get_player_from_peer(peer_id : int) -> Player:
 	for player in get_tree().get_nodes_in_group("players"):
 		if player.get_multiplayer_authority() == peer_id:
 			return player
 	return null
+#--------------------------------------------------------------------------------------------
 
-
+#CRAFTING------------------------------------------------------------------------------------
 func send_craft_request(recipe_id : String):
 	request_craft_server.rpc_id(1, recipe_id)
 
@@ -282,8 +281,9 @@ func request_craft_server(recipe_id: String):
 		
 	if inventory:
 		inventory.craft(recipe)
+#--------------------------------------------------------------------------------------------
 
-
+#BOATS---------------------------------------------------------------------------------------
 func try_interact_boat():
 	if !in_boat:
 		for area in $InteractionArea.get_overlapping_areas():
@@ -328,3 +328,4 @@ func exit_boat(spawn_position: Vector2):
 	camera_target = self
 	$CollisionShape2D.disabled = false
 	current_boat = null
+#--------------------------------------------------------------------------------------------

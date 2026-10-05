@@ -34,6 +34,8 @@ func _on_child_entered_tree(child: Node) -> void:
 		if not child.bush_picked.is_connected(on_bush_picked):
 			child.bush_picked.connect(on_bush_picked)
 
+
+#BERRIES---------------------------------------------------------------------------
 func connect_heat_resist_berry_signals():
 	for child in berry_layer.get_children():
 		if child.has_signal("bush_picked"):
@@ -75,17 +77,14 @@ func add_heat_resist_berry(cell : Vector2i):
 	collectable_heat_resist_berry_instance.global_position = world_pos
 	collectable_heat_resist_berry_instance.name = "heat_resist_berry_" + str(cell.x) + "_" + str(cell.y)
 	get_parent().add_child(collectable_heat_resist_berry_instance, true)
+#--------------------------------------------------------------------------------------------
 
 
+#TREES--------------------------------------------------------------------------------------------
 func connect_tree_signals():
 	for child in tree_layer.get_children():
 		if child.has_signal("tree_damaged"):
 			child.tree_damaged.connect(on_tree_damaged)
-
-func connect_rock_signals():
-	for child in rock_layer.get_children():
-		if child.has_signal("rock_damaged"):
-			child.rock_damaged.connect(on_rock_damaged)
 
 #apply damage to trees
 func on_tree_damaged(cell: Vector2i, hit_damage: int):
@@ -130,8 +129,14 @@ func add_small_log(cell: Vector2i) -> void:
 	collectable_log_instance.global_position = world_pos
 	collectable_log_instance.name = "small_log_" + str(cell.x) + "_" + str(cell.y)
 	get_parent().add_child(collectable_log_instance, true)
+#-------------------------------------------------------------------------------------------
 
 
+#ROCKS-------------------------------------------------------------------------------------
+func connect_rock_signals():
+	for child in rock_layer.get_children():
+		if child.has_signal("rock_damaged"):
+			child.rock_damaged.connect(on_rock_damaged)
 #rock
 func on_rock_damaged(cell: Vector2i, hit_damage: int):
 	if multiplayer.is_server():
@@ -173,15 +178,19 @@ func add_small_rock(cell: Vector2i) -> void:
 	collectable_rock_instance.global_position = world_pos
 	collectable_rock_instance.name = "small_rock_" + str(cell.x) + "_" + str(cell.y)
 	get_parent().add_child(collectable_rock_instance, true)
+#-------------------------------------------------------------------------------------------
 
 
+#IS WATER TILE CHECK------------------------------------------------------------------------
 func is_water_tile(world_pos: Vector2) -> bool:
 	var local_pos = water_layer.to_local(world_pos)
 	var cell = water_layer.local_to_map(local_pos)
 	var tile_data = water_layer.get_cell_tile_data(cell)
 	return tile_data and tile_data.get_custom_data("is_water")
+#-------------------------------------------------------------------------------------------
 
 
+#COLLECTABLE REMOVAL----------------------------------------------------------------------------
 func remove_tile_everywhere(layer_name: StringName, cell: Vector2i) -> void:
 	if not multiplayer.is_server():
 		return
@@ -192,3 +201,4 @@ func sync_remove_tile(layer_name: StringName, cell: Vector2i) -> void:
 	var layer := get_node_or_null(NodePath(layer_name)) as TileMapLayer
 	if layer:
 		layer.erase_cell(cell)
+#-------------------------------------------------------------------------------------------
