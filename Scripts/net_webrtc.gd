@@ -116,6 +116,7 @@ func _send(d: Dictionary) -> void:
 		ws.send_text(JSON.stringify(d))
 
 func _handle(m: Dictionary) -> void:
+	print("signal msg: ", m.get("type"), " ", m.get("kind", ""))
 	match m.get("type"):
 		"hosted", "joined", "error":
 			_reply.emit(m)
@@ -133,6 +134,7 @@ func _handle(m: Dictionary) -> void:
 				"candidate": conn.add_ice_candidate(p.mid, int(p.index), p.sdp)
 
 func _create_peer(id: int) -> void:
+	get_tree().create_timer(8.0).timeout.connect(_debug_states)
 	var c := WebRTCPeerConnection.new()
 	c.initialize(ICE)
 	c.session_description_created.connect(_on_sdp.bind(id))
@@ -150,3 +152,11 @@ func _on_sdp(type: String, sdp: String, id: int) -> void:
 func _on_ice(media: String, index: int, name: String, id: int) -> void:
 	_send({"type": "relay", "to": id, "kind": "candidate",
 		"payload": {"mid": media, "index": index, "sdp": name}})
+
+func _debug_states() -> void:
+	if peer == null:
+		return
+	for id in peer.get_peers():
+		var conn = peer.get_peer(id).connection
+		print("peer ", id, " conn: ", conn.get_connection_state(),
+			" ice: ", conn.get_gathering_state(), " sig: ", conn.get_signaling_state())
