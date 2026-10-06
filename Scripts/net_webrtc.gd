@@ -5,7 +5,7 @@ signal player_connected(player_id)
 signal player_disconnected(player_id)
 signal _reply(msg)
 
-const SIGNALING_URL := "wss://YOUR-RELAY.example.com" #THIS NEEDS TO CHANGE TO THE DEPLYED RELAY AND MUST BE wss://
+const SIGNALING_URL := "wss://node-web-service-for-the7seas-godot-game.onrender.com" 
 const ICE := {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 
 var peer: WebRTCMultiplayerPeer
