@@ -47,9 +47,20 @@ func _on_join_pressed() -> void:
 		print("No lobby found")
 		return
 
+	# If neither success nor failure arrives in 15s, treat it as a failure
+	var timer := get_tree().create_timer(15.0)
+	timer.timeout.connect(_on_join_timeout)
+
 	var connected = await join_result
+
+	if timer.timeout.is_connected(_on_join_timeout):
+		timer.timeout.disconnect(_on_join_timeout)
 	if connected:
 		ui.set_state(ui.UIState.Join)
+
+func _on_join_timeout() -> void:
+	print("Join timed out")
+	_connected_fail()
 #--------------------------------------------------------------------------------------------
 
 
@@ -80,9 +91,8 @@ func _connected_ok():
 
 func _connected_fail():
 	print("Failed to connect!")
-	EosNetwork.peer.close()
-	multiplayer.multiplayer_peer = null
 	join_result.emit(false)
+	await EosNetwork.exit_game()
 
 func _peer_connected(id):
 	print("Peer connected: ", id)
