@@ -6,7 +6,14 @@ signal player_disconnected(player_id)
 signal _reply(msg)
 
 const SIGNALING_URL := "wss://node-web-service-for-the7seas-godot-game.onrender.com" 
-const ICE := {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+const ICE := {"iceServers": [
+	{"urls": ["stun:stun.l.google.com:19302"]},
+	{"urls": ["turn:global.relay.metered.ca:80",
+			  "turn:global.relay.metered.ca:443?transport=tcp",
+			  "turns:global.relay.metered.ca:443?transport=tcp"],
+	 "username": "0b68998eb597074c4f8f8e62",
+	 "credential": "pRk0Ge76kKjYGkzM"}
+]}
 
 var peer: WebRTCMultiplayerPeer
 var ws: WebSocketPeer
@@ -150,6 +157,7 @@ func _on_sdp(type: String, sdp: String, id: int) -> void:
 	_send({"type": "relay", "to": id, "kind": type, "payload": {"sdp": sdp}})
 
 func _on_ice(media: String, index: int, name: String, id: int) -> void:
+	print("candidate: ", name)
 	_send({"type": "relay", "to": id, "kind": "candidate",
 		"payload": {"mid": media, "index": index, "sdp": name}})
 
