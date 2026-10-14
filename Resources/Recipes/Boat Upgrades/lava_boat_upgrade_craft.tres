@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="UpgradeRecipe" format=3 uid="uid://gy8bj3uvvgv4"]
 
 [ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="1_phvsx"]
-[ext_resource type="Resource" uid="uid://cfe47d8t8553b" path="res://Resources/Items/Materials/BoatProtectionBerry.tres" id="2_1qojj"]
+[ext_resource type="Resource" uid="uid://cfe47d8t8553b" path="res://Resources/Items/Materials/boat_protection_berry.tres" id="2_1qojj"]
 [ext_resource type="Script" uid="uid://cghnrjtba76o" path="res://Scripts/Crafting/upgrade.gd" id="2_phvsx"]
 
 [resource]

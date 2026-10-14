@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://tyclimyp4u4l" path="res://Assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="1_jrm0c"]
 [ext_resource type="PackedScene" uid="uid://dmckwmscouuee" path="res://Scripts/Components/collectable_component.tscn" id="2_xjig8"]
-[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/Stone.tres" id="3_xjig8"]
+[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/stone.tres" id="3_xjig8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e33q6"]
 atlas = ExtResource("1_jrm0c")

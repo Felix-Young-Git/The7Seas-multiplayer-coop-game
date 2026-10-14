@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dmckwmscouuee"]
 
 [ext_resource type="Script" uid="uid://cjvihgtbq0twe" path="res://Scripts/Components/collectable_component.gd" id="1_rpwcv"]
-[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="2_ltga1"]
-[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/Stone.tres" id="3_6f4c0"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/wood.tres" id="2_ltga1"]
+[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/stone.tres" id="3_6f4c0"]
 
 [node name="Collectable Component" type="Area2D" unique_id=90339270]
 collision_layer = 16

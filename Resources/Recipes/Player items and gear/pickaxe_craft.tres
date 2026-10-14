@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="1_8f72q"]
 [ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="1_skqjs"]
-[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/Stone.tres" id="2_euoap"]
-[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="3_3bvl3"]
-[ext_resource type="Resource" uid="uid://tvgmwpgmkcj" path="res://Resources/Items/Tools/Pickaxe.tres" id="4_euoap"]
+[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/stone.tres" id="2_euoap"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/wood.tres" id="3_3bvl3"]
+[ext_resource type="Resource" uid="uid://tvgmwpgmkcj" path="res://Resources/Items/Tools/pickaxe.tres" id="4_euoap"]
 
 [resource]
 script = ExtResource("1_skqjs")

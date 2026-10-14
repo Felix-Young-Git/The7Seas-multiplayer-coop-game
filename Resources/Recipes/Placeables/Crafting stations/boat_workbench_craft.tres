@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="CraftRecipe" format=3 uid="uid://7mjormiw5dbp"]
 
 [ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="1_txhpv"]
-[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="2_tvlpa"]
-[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/Stone.tres" id="3_ha1ci"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/wood.tres" id="2_tvlpa"]
+[ext_resource type="Resource" uid="uid://c2l5vr4ysml12" path="res://Resources/Items/Materials/stone.tres" id="3_ha1ci"]
 [ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="4_86ehf"]
 [ext_resource type="Resource" uid="uid://cemwsvxcbmyob" path="res://Resources/Items/Placeables/boat_workbench.tres" id="4_tvlpa"]
 

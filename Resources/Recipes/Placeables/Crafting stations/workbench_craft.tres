@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CraftRecipe" format=3 uid="uid://bhl7t5i6w5yfg"]
 
 [ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="1_6da54"]
-[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/Wood.tres" id="2_2pdaj"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/wood.tres" id="2_2pdaj"]
 [ext_resource type="Resource" uid="uid://dj3ms1vt8p51b" path="res://Resources/Items/Placeables/workbench.tres" id="2_07rcd"]
 [ext_resource type="Script" uid="uid://r3ngic4u0f55" path="res://Scripts/Crafting/craft_item.gd" id="3_2pdaj"]
 
