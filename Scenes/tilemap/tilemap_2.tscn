@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b0x4xr7aii5wd" path="res://Scenes/Objects/Rocks/collectable_rock.tscn" id="3_yvaqt"]
 [ext_resource type="PackedScene" uid="uid://27nhdm4rljp7" path="res://Scenes/Objects/Heat Resist Berry/collectable_heat_resist_berry.tscn" id="4_8mmi6"]
 [ext_resource type="TileSet" uid="uid://bqbq1icdhjh20" path="res://Tilemap/water.tres" id="5_s5pb2"]
-[ext_resource type="TileSet" uid="uid://15dyn0twg5g3" path="res://Tilemap/Game Tile Set.tres" id="6_7a172"]
+[ext_resource type="TileSet" uid="uid://15dyn0twg5g3" path="res://Tilemap/game_tile_set.tres" id="6_7a172"]
 
 [node name="Tilemap2" type="Node2D" unique_id=998309842]
 y_sort_enabled = true
