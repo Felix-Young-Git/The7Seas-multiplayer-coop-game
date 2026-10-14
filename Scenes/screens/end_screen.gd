@@ -14,4 +14,4 @@ func _on_back_to_menu_pressed():
 	await EosNetwork.exit_game()
 	print("done waiting")
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scenes/screens/inventory_test.tscn")
+	get_tree().change_scene_to_file("res://Scenes/screens/game.tscn")

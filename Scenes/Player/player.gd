@@ -219,7 +219,7 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not ghost:
 		return
-	if event.is_action_pressed("place"):
+	if event.is_action_pressed("Place"):
 		request_place.rpc_id(1, ghost_item.item_id, ghost.global_position)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_cancel"):

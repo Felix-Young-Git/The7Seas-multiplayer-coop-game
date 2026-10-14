@@ -14,13 +14,13 @@ func _ready():
 	register_item(preload("res://Resources/Items/Tools/Pickaxe.tres"))
 	register_item(preload("res://Resources/Items/Placeables/Boat.tres"))
 
-	register_craft(preload("res://Resources/Recipes/Placeables/Crafting stations/BoatWorkbenchCraft.tres"))
-	register_craft(preload("res://Resources/Recipes/Placeables/Crafting stations/WorkbenchCraft.tres"))
-	register_craft(preload("res://Resources/Recipes/Player items and gear/AxeCraft.tres"))
-	register_craft(preload("res://Resources/Recipes/Player items and gear/PickaxeCraft.tres"))
-	register_craft(preload("res://Resources/Recipes/Placeables/BoatCraft.tres"))
+	register_craft(preload("res://Resources/Recipes/Placeables/Crafting stations/boat_workbench_craft.tres"))
+	register_craft(preload("res://Resources/Recipes/Placeables/Crafting stations/workbench_craft.tres"))
+	register_craft(preload("res://Resources/Recipes/Player items and gear/axe_craft.tres"))
+	register_craft(preload("res://Resources/Recipes/Player items and gear/pickaxe_craft.tres"))
+	register_craft(preload("res://Resources/Recipes/Placeables/boat_craft.tres"))
 	
-	register_upgrade(preload("res://Resources/Recipes/Boat Upgrades/LavaBoatUpgradeCraft.tres"))
+	register_upgrade(preload("res://Resources/Recipes/Boat Upgrades/lava_boat_upgrade_craft.tres"))
 
 #register and be able to get everything via strings
 func register_item(item : ItemData):
