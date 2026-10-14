@@ -5,14 +5,14 @@ var crafts := {}
 
 #preload everything
 func _ready():
-	register_item(preload("res://Resources/Items/Materials/Stone.tres"))
-	register_item(preload("res://Resources/Items/Materials/Wood.tres"))
-	register_item(preload("res://Resources/Items/Materials/BoatProtectionBerry.tres"))
+	register_item(preload("res://Resources/Items/Materials/stone.tres"))
+	register_item(preload("res://Resources/Items/Materials/wood.tres"))
+	register_item(preload("res://Resources/Items/Materials/boat_protection_berry.tres"))
 	register_item(preload("res://Resources/Items/Placeables/workbench.tres"))
 	register_item(preload("res://Resources/Items/Placeables/boat_workbench.tres"))
-	register_item(preload("res://Resources/Items/Tools/Axe.tres"))
-	register_item(preload("res://Resources/Items/Tools/Pickaxe.tres"))
-	register_item(preload("res://Resources/Items/Placeables/Boat.tres"))
+	register_item(preload("res://Resources/Items/Tools/axe.tres"))
+	register_item(preload("res://Resources/Items/Tools/pickaxe.tres"))
+	register_item(preload("res://Resources/Items/Placeables/boat.tres"))
 
 	register_craft(preload("res://Resources/Recipes/Placeables/Crafting stations/boat_workbench_craft.tres"))
 	register_craft(preload("res://Resources/Recipes/Placeables/Crafting stations/workbench_craft.tres"))
