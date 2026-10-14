@@ -6,7 +6,8 @@ from pathlib import Path
 
 from PIL import Image
 
-IGNORED_DIRS = {".godot", ".git", "addons", ".import"}
+IGNORED_DIRS = {".godot", ".git", ".github", "addons", ".import",
+                "tools", "__pycache__", ".pytest_cache", ".venv", "venv"}
 SNAKE_CASE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")
 RES_PATH = re.compile(r"res://[^\"')\s]+")
 
