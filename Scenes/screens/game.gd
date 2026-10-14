@@ -3,7 +3,7 @@ extends Node2D
 #packed scenes
 @export var player_scene : PackedScene
 @export var enemy_scene : PackedScene
-@export var test_tilemap : PackedScene
+@export var tilemap : PackedScene
 
 @onready var ui = $UI
 
@@ -79,7 +79,7 @@ func _on_spawn_enemy_pressed(id = 1) -> void:
 
 func _create_tilemap():
 	if multiplayer.is_server():
-		var map_instance = test_tilemap.instantiate()
+		var map_instance = tilemap.instantiate()
 		add_child(map_instance, true)
 #--------------------------------------------------------------------------------------------
 
