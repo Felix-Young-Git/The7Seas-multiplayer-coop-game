@@ -9,7 +9,7 @@ from PIL import Image
 IGNORED_DIRS = {".godot", ".git", ".github", "addons", ".import",
                 "tools", "__pycache__", ".pytest_cache", ".venv", "venv", "Sprout Lands - Sprites - Basic pack"}
 SNAKE_CASE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")
-RES_PATH = re.compile(r"res://[^\"')\s]+")
+RES_PATH = re.compile(r"""["'](res://[^"'\n]+)["']""")
 
 
 @dataclass(frozen=True)

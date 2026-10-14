@@ -60,3 +60,17 @@ def test_main_exit_codes(tmp_path):
     clean = tmp_path / "clean"
     clean.mkdir()
     assert main([str(clean)]) == 0
+
+
+def test_reference_with_spaces_in_path(tmp_path):
+    make_png(tmp_path / "UI" / "Inventory UI" / "slot.png", (16, 16))
+    (tmp_path / "hotbar.tscn").write_text(
+        '[ext_resource type="Texture2D" path="res://UI/Inventory UI/slot.png" id="1"]')
+    assert check_references(tmp_path) == []
+
+
+def test_missing_reference_with_spaces_reports_full_path(tmp_path):
+    (tmp_path / "hotbar.tscn").write_text(
+        '[ext_resource type="Texture2D" path="res://UI/Inventory UI/gone.png" id="1"]')
+    issues = check_references(tmp_path)
+    assert "res://UI/Inventory UI/gone.png" in issues[0].message
