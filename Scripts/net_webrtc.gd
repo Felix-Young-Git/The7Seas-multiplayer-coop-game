@@ -6,14 +6,7 @@ signal player_disconnected(player_id)
 signal _reply(msg)
 
 const SIGNALING_URL := "wss://node-web-service-for-the7seas-godot-game.onrender.com" 
-const ICE := {"iceServers": [
-	{"urls": ["stun:stun.l.google.com:19302"]},
-	{"urls": ["turn:global.relay.metered.ca:80",
-			  "turn:global.relay.metered.ca:443?transport=tcp",
-			  "turns:global.relay.metered.ca:443?transport=tcp"],
-	 "username": "0b68998eb597074c4f8f8e62",
-	 "credential": "pRk0Ge76kKjYGkzM"}
-]}
+var ice_config: Dictionary
 
 var peer: WebRTCMultiplayerPeer
 var ws: WebSocketPeer
@@ -21,6 +14,14 @@ var is_server := false
 var _ws_was_open := false
 
 func _ready() -> void:
+	ice_config = {"iceServers": [
+		{"urls": ["stun:stun.l.google.com:19302"]},
+		{"urls": ["turn:global.relay.metered.ca:80",
+				  "turn:global.relay.metered.ca:443?transport=tcp",
+				  "turns:global.relay.metered.ca:443?transport=tcp"],
+		 "username": Secrets.get_secret("webrtc", "turn_username"),
+		 "credential": Secrets.get_secret("webrtc", "turn_credential")}
+	]}
 	multiplayer.connected_to_server.connect(_close_signaling)
 	logged_in.emit()
 
@@ -143,7 +144,7 @@ func _handle(m: Dictionary) -> void:
 func _create_peer(id: int) -> void:
 	get_tree().create_timer(8.0).timeout.connect(_debug_states)
 	var c := WebRTCPeerConnection.new()
-	c.initialize(ICE)
+	c.initialize(ice_config)
 	c.session_description_created.connect(_on_sdp.bind(id))
 	c.ice_candidate_created.connect(_on_ice.bind(id))
 	peer.add_peer(c, id)

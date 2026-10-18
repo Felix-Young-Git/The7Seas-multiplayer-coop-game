@@ -20,7 +20,7 @@ func _ready() -> void:
 	if not EosSetup:
 		var init_opts = EOS.Platform.InitializeOptions.new()
 		init_opts.product_name = "The7Seas" #Replace EosCredentials.PRODUCT_NAME with your actual PRODUCT_NAME from the EOS website
-		init_opts.product_version = "b2bf6d4ad1d6443d9dfc4f51e5edcce3" #Replace EosCredentials.PRODUCT_ID with your actual PRODUCT_ID from the EOS website
+		init_opts.product_version = "1.0.0" #Replace EosCredentials.PRODUCT_ID with your actual PRODUCT_ID from the EOS website
 	
 		var init_results = EOS.Platform.PlatformInterface.initialize(init_opts)
 		if init_results != EOS.Result.Success:
@@ -29,12 +29,12 @@ func _ready() -> void:
 	
 		# Create EOS platform
 		var create_opts = EOS.Platform.CreateOptions.new()
-		create_opts.product_id = "b2bf6d4ad1d6443d9dfc4f51e5edcce3" #Replace EosCredentials.PRODUCT_ID with your actual PRODUCT_ID from the EOS website
-		create_opts.sandbox_id = "9f09459bf57a4a3daf8a953542975d13" #Replace EosCredentials.SANDBOX_ID with your actual SANDBOX_ID from the EOS website
-		create_opts.deployment_id = "1d5bc9dfff7c46c7a888cfcd7ed53503" #Replace EosCredentials.DEPLOYMENT_ID with your actual DEPLOYMENT_ID from the EOS website
-		create_opts.client_id = "xyza7891OdAhhKTOTeZMCapl5kdJt4zR" #Replace EosCredentials.CLIENT_ID with your actual CLIENT_ID from the EOS website
-		create_opts.client_secret = "x1QapzZY0GQ+6gW4FCH8rXprKyLigCaMm4a4Px4a/kY" #Replace EosCredentials.CLIENT_SECRET with your actual CLIENT_SECRET from the EOS website
-		create_opts.encryption_key = "7820596134872609537184269058371462905738164290537184629053718224" #Replace EosCredentials.ENCRYPTION_KEY with your any string of 64 numbers
+		create_opts.product_id = Secrets.get_secret("eos", "product_id") #Replace EosCredentials.PRODUCT_ID with your actual PRODUCT_ID from the EOS website
+		create_opts.sandbox_id = Secrets.get_secret("eos", "sandbox_id") #Replace EosCredentials.SANDBOX_ID with your actual SANDBOX_ID from the EOS website
+		create_opts.deployment_id = Secrets.get_secret("eos", "deployment_id") #Replace EosCredentials.DEPLOYMENT_ID with your actual DEPLOYMENT_ID from the EOS website
+		create_opts.client_id = Secrets.get_secret("eos", "client_id") #Replace EosCredentials.CLIENT_ID with your actual CLIENT_ID from the EOS website
+		create_opts.client_secret = Secrets.get_secret("eos", "client_secret") #Replace EosCredentials.CLIENT_SECRET with your actual CLIENT_SECRET from the EOS website
+		create_opts.encryption_key = Secrets.get_secret("eos", "encryption_key") #Replace EosCredentials.ENCRYPTION_KEY with your any string of 64 numbers
 	
 		var _create_results = 0
 		_create_results = EOS.Platform.PlatformInterface.create(create_opts)

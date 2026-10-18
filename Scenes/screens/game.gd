@@ -25,7 +25,8 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(_connected_fail)
 	multiplayer.server_disconnected.connect(_server_disconnected)
 	multiplayer.peer_connected.connect(_peer_connected)
-
+	
+	
 #BUTTON PRESSES-------------------------------------------------------------------
 #create host (creates an EOS lobby instead of an ENet server)
 func _on_host_pressed() -> void:

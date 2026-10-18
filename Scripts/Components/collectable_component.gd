@@ -6,6 +6,10 @@ extends Area2D
 var is_collected : bool = false
 
 func _ready() -> void:
+	if get_parent() is TileMapLayer:
+		var sync := get_node_or_null("MultiplayerSynchronizer")
+		if sync:
+			sync.free()
 	body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body: Node2D) -> void:
