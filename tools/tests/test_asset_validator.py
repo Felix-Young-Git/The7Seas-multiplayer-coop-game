@@ -74,3 +74,7 @@ def test_missing_reference_with_spaces_reports_full_path(tmp_path):
         '[ext_resource type="Texture2D" path="res://UI/Inventory UI/gone.png" id="1"]')
     issues = check_references(tmp_path)
     assert "res://UI/Inventory UI/gone.png" in issues[0].message
+
+def test_optional_secrets_file_is_not_reported(tmp_path):
+    (tmp_path / "secrets.gd").write_text('cfg.load("res://secrets.cfg")')
+    assert check_references(tmp_path) == []

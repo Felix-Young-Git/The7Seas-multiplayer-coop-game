@@ -10,7 +10,7 @@ IGNORED_DIRS = {".godot", ".git", ".github", "addons", ".import",
                 "tools", "__pycache__", ".pytest_cache", ".venv", "venv", "Sprout Lands - Sprites - Basic pack", "docs"}
 SNAKE_CASE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")
 RES_PATH = re.compile(r"""["'](res://[^"'\n]+)["']""")
-
+OPTIONAL_REFERENCES = {"res://secrets.cfg"}
 
 @dataclass(frozen=True)
 class Issue:
@@ -62,6 +62,8 @@ def check_references(root):
     for p in iter_files(root, {".tscn", ".tres", ".gd"}):
         text = p.read_text(encoding="utf-8", errors="ignore")
         for ref in sorted(set(RES_PATH.findall(text))):
+            if ref in OPTIONAL_REFERENCES:
+                continue
             if not (root / ref[len("res://"):]).exists():
                 # Scripts often build paths dynamically, so only warn there
                 severity = "warning" if p.suffix == ".gd" else "error"
