@@ -1,0 +1,31 @@
+[gd_scene format=4 uid="uid://b1q2v2x8mr5fv"]
+
+[ext_resource type="TileSet" uid="uid://c24atqm852717" path="res://Tilemap/house_tileset.tres" id="1_23mau"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_23mau"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="House" type="Node2D" unique_id=1923519682]
+
+[node name="Floor" type="TileMapLayer" parent="." unique_id=98535425]
+z_index = -1
+tile_map_data = PackedByteArray("AAD//wAAAAABAAEAAAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAD//wEAAAABAAEAAAABAP//AAABAAEAAAAAAP//AAABAAEAAAD/////AAABAAEAAAD+////AAABAAEAAAD+/wAAAAABAAEAAAD+/wEAAAABAAEAAAD+/wIAAAABAAEAAAD//wIAAAABAAEAAAAAAAIAAAABAAEAAAABAAEAAAABAAEAAAABAAIAAAABAAEAAAABAAAAAAABAAEAAAD//wMAAAABAAEAAAA=")
+tile_set = ExtResource("1_23mau")
+
+[node name="Walls" type="TileMapLayer" parent="." unique_id=1112578771]
+tile_map_data = PackedByteArray("AAD9/wIAAAAAAAEAAAD9/wEAAAAAAAEAAAD9/wAAAAAAAAEAAAD9////AAAAAAEAAAACAAIAAAACAAEAAAACAAEAAAACAAEAAAACAAAAAAACAAEAAAACAP//AAACAAEAAAACAP7/AAACAAAAAAACAAMAAAACAAIAAAD9/wMAAAAAAAIAAAD9//7/AAAAAAAAAAD+/wMAAAABAAIAAAABAAMAAAABAAIAAAAAAAMAAAABAAIAAAD+//7/AAADAAIAAAD///7/AAABAAAAAAAAAP7/AAABAAAAAAABAP7/AAADAAIAAAD//wMAAwAAAAEAAAA=")
+tile_set = ExtResource("1_23mau")
+
+[node name="Furnature" type="TileMapLayer" parent="." unique_id=1846718087]
+tile_map_data = PackedByteArray("AAABAAEAAgAAAAEAAAD/////AgAEAAMAAAD+////AgAEAAIAAAAAAP//AgAFAAIAAAAAAP7/AgAHAAMAAAD///7/AgABAAAAAAA=")
+tile_set = ExtResource("1_23mau")
+
+[node name="Furnature2" type="TileMapLayer" parent="." unique_id=1950552393]
+z_index = -1
+tile_map_data = PackedByteArray("AAD//wEAAgADAAUAAAD+/wIAAgADAAAAAAA=")
+tile_set = ExtResource("1_23mau")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1734245892]
+replication_config = SubResource("SceneReplicationConfig_23mau")

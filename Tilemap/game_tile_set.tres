@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://brqb15hjouhyn" path="res://Scenes/Objects/win_location.tscn" id="8_44sjv"]
 [ext_resource type="PackedScene" uid="uid://l7apvn6exj7i" path="res://Scenes/Objects/Trees/collectable_log.tscn" id="9_gfo21"]
 [ext_resource type="PackedScene" uid="uid://b0x4xr7aii5wd" path="res://Scenes/Objects/Rocks/collectable_rock.tscn" id="10_hehln"]
+[ext_resource type="PackedScene" uid="uid://b1q2v2x8mr5fv" path="res://Scenes/Objects/Houses/house.tscn" id="11_mtwii"]
+[ext_resource type="PackedScene" uid="uid://cuxdck7kk13kx" path="res://Scenes/Objects/Houses/broken_house.tscn" id="12_p1bnt"]
+[ext_resource type="PackedScene" uid="uid://dw54jaudwiyhu" path="res://Scenes/NPCs/house_npc.tscn" id="13_p1bnt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sm0w1"]
 texture = ExtResource("1_1ejsn")
@@ -358,6 +361,7 @@ texture = ExtResource("2_s5kci")
 0:4/0 = 0
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ghn77"]
+resource_name = "Resources"
 scenes/1/scene = ExtResource("3_s5afx")
 scenes/2/scene = ExtResource("4_ghn77")
 scenes/3/scene = ExtResource("5_wejem")
@@ -365,6 +369,15 @@ scenes/4/scene = ExtResource("7_sm0w1")
 scenes/5/scene = ExtResource("8_44sjv")
 scenes/6/scene = ExtResource("9_gfo21")
 scenes/7/scene = ExtResource("10_hehln")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bqvu3"]
+resource_name = "Houses"
+scenes/1/scene = ExtResource("11_mtwii")
+scenes/2/scene = ExtResource("12_p1bnt")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_grbmn"]
+resource_name = "NPCs"
+scenes/1/scene = ExtResource("13_p1bnt")
 
 [resource]
 physics_layer_0/collision_layer = 1
@@ -375,3 +388,5 @@ sources/1 = SubResource("TileSetAtlasSource_82jcm")
 sources/2 = SubResource("TileSetAtlasSource_s5afx")
 sources/3 = SubResource("TileSetScenesCollectionSource_ghn77")
 sources/0 = SubResource("TileSetAtlasSource_sm0w1")
+sources/4 = SubResource("TileSetScenesCollectionSource_bqvu3")
+sources/5 = SubResource("TileSetScenesCollectionSource_grbmn")

@@ -110,12 +110,12 @@ func has_item (item_id : String) -> bool:
 	return false
 	
 #get the total number of an item in inventory
-func get_item_count(item : ItemData) -> int:
+func get_item_count(item_id : String) -> int:
 	var total := 0
 	for slot in item_slots:
 		if slot.item == null:
 			continue
-		if slot.item.item_id == item.item_id:
+		if slot.item.item_id == item_id:
 			total += slot.quantity
 	return total
 
@@ -141,6 +141,21 @@ func swap_slots(index_a : int, index_b : int):
 
 	UpdatedSlot.emit(slot_a)
 	UpdatedSlot.emit(slot_b)
+	
+#checking and removing multiple items:
+#checks that every required item is present in the needed amount
+func has_items(required : Dictionary) -> bool:
+	for item in required:
+		if get_item_count(item.item_id) < required[item]:
+			return false
+	return true
+
+#removes every required item, including across multiple stacks
+func remove_items(required : Dictionary) -> void:
+	for item in required:
+		for i in range(required[item]):
+			remove_item(item)
+	
 #--------------------------------------------------------------------------------------------
 
 
@@ -153,7 +168,7 @@ func can_craft(recipe : CraftGeneral)->bool:
 	#check ingredients
 	for ingredient in recipe.ingredients:
 		var required_amount : int = recipe.ingredients[ingredient]
-		var inventory_amount : int = get_item_count(ingredient)
+		var inventory_amount : int = get_item_count(ingredient.item_id)
 		
 		if inventory_amount < required_amount:
 			return false

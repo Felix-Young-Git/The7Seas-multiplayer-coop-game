@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dw54jaudwiyhu"]
+
+[ext_resource type="Script" uid="uid://b7iuaxpw0h7yo" path="res://Scenes/NPCs/house_npc.gd" id="1_shnud"]
+[ext_resource type="Script" uid="uid://bnro8arib33s6" path="res://Scripts/Items/item_data.gd" id="2_8qx6g"]
+[ext_resource type="Texture2D" uid="uid://caktlj407f74n" path="res://Assets/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="2_xl0ri"]
+[ext_resource type="Resource" uid="uid://dgjd4p451gxt5" path="res://Resources/Items/Materials/wood.tres" id="3_00htw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkv33"]
+atlas = ExtResource("2_xl0ri")
+region = Rect2(17, 16, 14, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nkv33"]
+radius = 17.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx60d"]
+size = Vector2(10, 13)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8qx6g"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="House NPC" type="Node2D" unique_id=54138612]
+script = ExtResource("1_shnud")
+required_items = Dictionary[ExtResource("2_8qx6g"), int]({
+ExtResource("3_00htw"): 5
+})
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1878392940]
+texture = SubResource("AtlasTexture_nkv33")
+
+[node name="Interact Area" type="Area2D" parent="." unique_id=263533591]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interact Area" unique_id=153808174]
+shape = SubResource("CircleShape2D_nkv33")
+debug_color = Color(0.725869, 0.24231437, 0.9999998, 0.41960785)
+
+[node name="NPC Body" type="StaticBody2D" parent="." unique_id=1864042892]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC Body" unique_id=2114854100]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_fx60d")
+
+[node name="NPC text" type="Label" parent="." unique_id=932643171]
+texture_filter = 2
+custom_minimum_size = Vector2(100, 0)
+custom_maximum_size = Vector2(100, -1)
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = -7.0
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=556413039]
+replication_config = SubResource("SceneReplicationConfig_8qx6g")
+
+[connection signal="body_entered" from="Interact Area" to="." method="_on_interact_area_body_entered"]
+[connection signal="body_exited" from="Interact Area" to="." method="_on_interact_area_body_exited"]

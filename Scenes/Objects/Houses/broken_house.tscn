@@ -1,0 +1,33 @@
+[gd_scene format=4 uid="uid://cuxdck7kk13kx"]
+
+[ext_resource type="TileSet" uid="uid://c24atqm852717" path="res://Tilemap/house_tileset.tres" id="1_db7tn"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_db7tn"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="BrokenHouse" type="Node2D" unique_id=1119556478]
+
+[node name="Floor" type="TileMapLayer" parent="." unique_id=1300788283]
+z_index = -1
+tile_map_data = PackedByteArray("AAD//wAAAAABAAEAAAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAD//wEAAAABAAEAAAAAAP//AAABAAEAAAD/////AAABAAEAAAD+////AAABAAEAAAD+/wAAAAABAAEAAAD+/wIAAAABAAEAAAD//wIAAAABAAEAAAAAAAIAAAABAAEAAAABAAEAAAABAAEAAAABAAIAAAABAAEAAAABAAAAAAABAAEAAAA=")
+tile_set = ExtResource("1_db7tn")
+
+[node name="Walls" type="TileMapLayer" parent="." unique_id=2087102460]
+tile_map_data = PackedByteArray("AAD9////AAAAAAEAAAACAAIAAAACAAEAAAACAP//AAACAAEAAAACAP7/AAACAAAAAAD9/wMAAAAAAAIAAAD9//7/AAAAAAAAAAD+/wMAAAABAAIAAAABAAMAAAABAAIAAAD///7/AAABAAAAAAD9/wAAAAAAAAIAAAD+//7/AAACAAIAAAAAAP7/AAACAAIAAAACAAAAAAACAAIAAAACAAMAAAACAAIAAAD//wMAAAACAAIAAAAAAAMAAAAAAAIAAAA=")
+tile_set = ExtResource("1_db7tn")
+
+[node name="Furniture1" type="TileMapLayer" parent="." unique_id=808497545]
+rotation = 0.15533431
+tile_map_data = PackedByteArray("AAABAAEAAgAAAAEAAAA=")
+tile_set = ExtResource("1_db7tn")
+
+[node name="Furniture2" type="TileMapLayer" parent="." unique_id=464815203]
+z_index = -1
+rotation = -0.3630285
+tile_map_data = PackedByteArray("AAD//wAAAgADAAUAAAA=")
+tile_set = ExtResource("1_db7tn")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=388459933]
+replication_config = SubResource("SceneReplicationConfig_db7tn")

@@ -31,7 +31,7 @@ func refresh() -> void:
 	var lines : PackedStringArray = []
 	for ingredient in recipe.ingredients:
 		var needed : int = recipe.ingredients[ingredient]
-		var have : int = inventory.get_item_count(ingredient)
+		var have : int = inventory.get_item_count(ingredient.item_id)
 		var color := "white" if have >= needed else "#ff6666"
 		lines.append("[color=%s]%s %d/%d[/color]" % [color, ingredient.item_id, have, needed])
 	ingredients_label.text = "\n".join(lines)

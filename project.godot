@@ -27,6 +27,10 @@ HSessions="*uid://bieh2rxxahuu2"
 EosNetwork="*uid://b3egq8vncd1e1"
 Secrets="*uid://dv4a3prh4vh27"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [file_customization]
 
 folder_colors={

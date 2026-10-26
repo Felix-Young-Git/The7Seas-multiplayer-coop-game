@@ -25,6 +25,7 @@ var boat
 var in_boat := false
 var camera_target: Node2D
 var MAX_PLACE_DISTANCE = 500
+var nearby_interactables: Array = [] #does not include boat rn
 
 
 func _enter_tree() -> void:
@@ -59,6 +60,8 @@ func _input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("Interact"):
 		try_interact_boat()
+		if not nearby_interactables.is_empty():
+			nearby_interactables.back().interact(self)
 	
 	#place items
 	if event.is_action_pressed("Place"):
@@ -103,6 +106,16 @@ func _input(event: InputEvent) -> void:
 	if selected_slot != last_selected_slot:
 		last_selected_slot = selected_slot
 		refresh_selection()
+
+#interactables-----------------------------------------------------
+func add_interactable(obj) -> void:
+	if obj not in nearby_interactables:
+		nearby_interactables.append(obj)
+
+func remove_interactable(obj) -> void:
+	nearby_interactables.erase(obj)
+#-------------------------------------------------------------------
+
 
 #GHOST PREVIEW AND PLACING ITEMS------------------------------------------------------------------
 func refresh_selection() -> void:
