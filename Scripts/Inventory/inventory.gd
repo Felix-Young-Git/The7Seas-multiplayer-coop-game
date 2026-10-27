@@ -29,21 +29,17 @@ func _ready() -> void:
 #ITEM-INVENTORY INTERACTIONS-----------------------------------------------------------------------
 #adds an item to inventory
 func add_item (item : ItemData) -> bool:
-	var slot : ItemSlot = get_item_slot(item)
+
+	#var slot : ItemSlot = get_item_slot(item)
 	var slot_index: int = -1
 	
-	if slot and slot.quantity < item.max_stack_size:
-		slot.quantity += 1
-		slot_index = item_slots.find(slot)
-	else:
-		slot = get_empty_item_slot()
-		
-		if not slot:
-			return false
-		
-		slot.item = item      #COULD BE AN ISSUE MIGHT HAVE TO SWITCH TO USE ITEM IDS 
-		slot.quantity = 1 
-		slot_index = item_slots.find(slot)
+	var slot : ItemSlot = get_item_slot_not_full(item)
+	if not slot:
+		return false
+	
+	slot.item = item        #hopefully this doesn't override
+	slot.quantity += 1
+	slot_index = item_slots.find(slot)
 
 	UpdatedInventory.emit()
 	UpdatedSlot.emit(slot)
@@ -83,6 +79,20 @@ func remove_item_from_slot (slot : ItemSlot):
 		var player_node = get_parent()
 		if player_node.has_method("get_multiplayer_authority"):
 			sync_inventory()
+
+#returns a slot where the item can be put or null if all slots full
+func get_item_slot_not_full(item: ItemData) -> ItemSlot:
+	for slot in item_slots:
+		if slot.item == null:
+			continue
+		if slot.item.item_id == item.item_id:
+			if slot.quantity < item.max_stack_size:
+				return slot
+	if get_empty_item_slot() != null:
+		var slot : ItemSlot
+		slot = get_empty_item_slot()
+		return slot
+	return null
 
 #returns an item slot containing the specified item
 func get_item_slot (item : ItemData) -> ItemSlot:
