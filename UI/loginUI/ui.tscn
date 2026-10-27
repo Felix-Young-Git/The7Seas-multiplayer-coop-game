@@ -47,6 +47,19 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 placeholder_text = "Lobby Code"
 
+[node name="Messages" type="VBoxContainer" parent="LoginVBox" unique_id=1800289112]
+layout_mode = 2
+
+[node name="HostLabel" type="Label" parent="LoginVBox/Messages" unique_id=518828406]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+text = "It could take a little while to start the game"
+
+[node name="JoinLabel" type="Label" parent="LoginVBox/Messages" unique_id=1535610888]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+text = "It could take a little while to join the game"
+
 [node name="Controls Label" type="Label" parent="." unique_id=317714892]
 anchors_preset = 3
 anchor_left = 1.0

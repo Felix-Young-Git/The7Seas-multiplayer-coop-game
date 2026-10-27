@@ -11,6 +11,8 @@ signal spawn_enemy_pressed
 @onready var joinLobbyCode = $LoginVBox/IPInfo/JoinLobbyCode
 @onready var controls_label = $"Controls Label"
 @onready var title_label = $Title
+@onready var host_label = $LoginVBox/Messages/HostLabel
+@onready var join_label = $LoginVBox/Messages/JoinLabel
 
 func _ready():
 	host_button.pressed.connect(_on_host_button_pressed)
@@ -50,6 +52,8 @@ func set_state(state: UIState):
 			joinLobbyCode.visible = true
 			controls_label.visible = true
 			title_label.visible = true
+			host_label.visible = false
+			join_label.visible = false
 
 		#Yes, these are the same and should be either combined or developed to be different
 		UIState.Host:
@@ -60,6 +64,9 @@ func set_state(state: UIState):
 			joinLobbyCode.visible = false
 			controls_label.visible = false
 			title_label.visible = false
+			host_label.visible = false
+			join_label.visible = false
+
 
 		UIState.Join:
 			host_button.visible = false
@@ -69,3 +76,5 @@ func set_state(state: UIState):
 			joinLobbyCode.visible = false
 			controls_label.visible = false
 			title_label.visible = false
+			host_label.visible = false
+			join_label.visible = false

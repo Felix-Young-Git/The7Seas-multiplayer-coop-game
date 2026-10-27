@@ -30,12 +30,18 @@ func _ready() -> void:
 #BUTTON PRESSES-------------------------------------------------------------------
 #create host (creates an EOS lobby instead of an ENet server)
 func _on_host_pressed() -> void:
+	var host_label = ui.get_node("LoginVBox/Messages/HostLabel")
+	var join_label = ui.get_node("LoginVBox/Messages/JoinLabel")
+	host_label.visible = true
+	join_label.visible = false
 	var room_code = ui.get_host_IP_input() # reuse the text box as a room code
 	var ok = await EosNetwork.create_lobby(room_code)
 	if not ok:
+		host_label.text = "Failed to create lobby"
 		print("Failed to create lobby")
 		return
-
+	host_label.text = "It could take a little while to start the game"
+	
 	multiplayer.peer_connected.connect(_add_player)
 	ui.set_state(ui.UIState.Host)
 	_create_tilemap()
@@ -43,11 +49,17 @@ func _on_host_pressed() -> void:
 
 #join an existing EOS lobby
 func _on_join_pressed() -> void:
+	var host_label = ui.get_node("LoginVBox/Messages/HostLabel")
+	var join_label = ui.get_node("LoginVBox/Messages/JoinLabel")
+	host_label.visible = false
+	join_label.visible = true
 	var ok = await EosNetwork.search_lobbies(ui.get_join_IP_input())
 	if not ok:
+		join_label.text = "No lobby with that code found"
 		print("No lobby found")
 		return
-
+	join_label.text = "It could take a little while to join the game"
+	
 	# If neither success nor failure arrives in 15s, treat it as a failure
 	var timer := get_tree().create_timer(15.0)
 	timer.timeout.connect(_on_join_timeout)
