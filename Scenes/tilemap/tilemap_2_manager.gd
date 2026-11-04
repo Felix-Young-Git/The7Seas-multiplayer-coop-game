@@ -8,6 +8,9 @@ extends Node2D
 @export var collectable_rock_scene : PackedScene
 @export var collectable_heat_resist_berry : PackedScene
 
+var removed_cells: Dictionary = {}  # layer name (String) -> Array of Vector2i
+
+
 #connect the signals
 func _ready() -> void:
 	add_to_group("tilemap")
@@ -17,6 +20,9 @@ func _ready() -> void:
 	tree_layer.child_entered_tree.connect(_on_child_entered_tree)
 	rock_layer.child_entered_tree.connect(_on_child_entered_tree)
 	berry_layer.child_entered_tree.connect(_on_child_entered_tree)
+	
+	if multiplayer.has_multiplayer_peer() and not multiplayer.is_server():
+		request_world_snapshot.rpc_id(1)
 
 
 func _on_child_entered_tree(child: Node) -> void:
@@ -53,6 +59,7 @@ func server_apply_bush_picked(cell: Vector2i) -> void:
 		var bush = find_bush_at_cell(cell)
 		if bush:
 			bush.update_bush_to_picked()
+			_record_removed(berry_layer.name, cell)
 			sync_harvest_bush.rpc(cell)
 
 
@@ -63,7 +70,7 @@ func find_bush_at_cell(cell: Vector2i) -> Node:
 				return child
 	return null
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func sync_harvest_bush(cell: Vector2i):
 	add_heat_resist_berry(cell)
 	berry_layer.erase_cell(cell)
@@ -112,9 +119,10 @@ func find_tree_at_cell(cell: Vector2i) -> Node:
 #destroy tree
 func on_tree_destroyed(tree: Node):
 	var cell = tree.get_cell_from_self()
+	_record_removed(tree_layer.name, cell)
 	sync_destroy_tree.rpc(cell)
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func sync_destroy_tree(cell: Vector2i):
 	add_small_log(cell)
 	tree_layer.erase_cell(cell)
@@ -162,9 +170,10 @@ func find_rock_at_cell(cell: Vector2i) -> Node:
 
 func on_rock_destroyed(rock: Node):
 	var cell = rock.get_cell_from_self()
+	_record_removed(rock_layer.name, cell)
 	sync_destroy_rock.rpc(cell)
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func sync_destroy_rock(cell: Vector2i):
 	add_small_rock(cell)
 	rock_layer.erase_cell(cell)
@@ -194,6 +203,7 @@ func is_water_tile(world_pos: Vector2) -> bool:
 func remove_tile_everywhere(layer_name: StringName, cell: Vector2i) -> void:
 	if not multiplayer.is_server():
 		return
+	_record_removed(String(layer_name), cell)
 	sync_remove_tile.rpc(layer_name, cell)
 
 @rpc("authority", "call_local", "reliable")
@@ -201,4 +211,29 @@ func sync_remove_tile(layer_name: StringName, cell: Vector2i) -> void:
 	var layer := get_node_or_null(NodePath(layer_name)) as TileMapLayer
 	if layer:
 		layer.erase_cell(cell)
+#-------------------------------------------------------------------------------------------
+
+
+#Syncing late joiners--------------------------------------------------------------------------
+func _record_removed(layer_name: String, cell: Vector2i) -> void:
+	if not multiplayer.is_server():
+		return
+	if not removed_cells.has(layer_name):
+		removed_cells[layer_name] = []
+	if cell not in removed_cells[layer_name]:
+		removed_cells[layer_name].append(cell)
+
+@rpc("any_peer", "reliable")
+func request_world_snapshot() -> void:
+	if not multiplayer.is_server():
+		return
+	receive_world_snapshot.rpc_id(multiplayer.get_remote_sender_id(), removed_cells)
+
+@rpc("authority", "reliable")
+func receive_world_snapshot(snapshot: Dictionary) -> void:
+	for layer_name in snapshot:
+		var layer := get_node_or_null(NodePath(layer_name)) as TileMapLayer
+		if layer:
+			for cell in snapshot[layer_name]:
+				layer.erase_cell(cell)
 #-------------------------------------------------------------------------------------------
