@@ -220,9 +220,9 @@ func cancel_placing() -> void:
 func _process(_delta: float) -> void:
 	if not ghost:
 		return
-	# Hide the ghost while the mouse is over inventory/UI
-	var over_ui := get_viewport().gui_get_hovered_control() != null
-	ghost.visible = not over_ui
+	# Hide the ghost while the mouse is over inventory/UI - I COMMENTED THIS OUT AS IT MADE IT LOOK LIKE YOU COUN"T PLACE ITEMS WITH CRAFTING OPEN
+	#var over_ui := get_viewport().gui_get_hovered_control() != null
+	#ghost.visible = not over_ui
 
 	var pos := get_global_mouse_position()
 	if snap_to_grid:
