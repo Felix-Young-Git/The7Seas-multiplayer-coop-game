@@ -1,7 +1,7 @@
 extends Control
 
 
-@export var slot_scene : PackedScene
+@export var slot_scene : PackedScene #this is empty rn and Im not sure if thats fine or not
 @export var start_slot : int = 0 
 @export var end_slot : int = 8
 
@@ -28,8 +28,8 @@ func create_slots():
 		slot_ui.set_slot(slot, i, inventory)
 		slot_ui.slot_clicked.connect(on_slot_clicked)
 		slot_uis.append(slot_ui)
-		
-		add_number_label(slot_ui, i - start_slot + 1)
+		if start_slot == 0:
+			add_number_label(slot_ui, i - start_slot + 1)
 
 #add small number to each hotbar slot
 func add_number_label(slot_ui : Control, number : int):
