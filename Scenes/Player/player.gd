@@ -48,6 +48,8 @@ func _ready() -> void:
 		inventoryUI.set_state(inventoryUI.UIState.hotbar)
 		inventory_open = false
 		inventory.UpdatedInventory.connect(refresh_selection)
+		for slot_ui in hotbarUI.get_children():
+			slot_ui.slot_clicked.connect(_on_slot_clicked)
 		refresh_selection()
 	else:
 		camera.enabled = false
@@ -106,6 +108,16 @@ func _input(event: InputEvent) -> void:
 	if selected_slot != last_selected_slot:
 		last_selected_slot = selected_slot
 		refresh_selection()
+
+#selecting a slot b clicking it
+func _on_slot_clicked(index: int) -> void:
+	if !is_multiplayer_authority():
+		return
+	selected_slot = index
+	last_selected_slot = index
+	refresh_selection()
+
+
 
 #interactables-----------------------------------------------------
 func add_interactable(obj) -> void:
