@@ -129,7 +129,7 @@ func get_item_count(item_id : String) -> int:
 			total += slot.quantity
 	return total
 
-#swap to slots' items - DOESN'T WORK WHEN INVENTORY OPEN?
+#swap to slots' items
 func swap_slots(index_a : int, index_b : int):
 	if index_a == index_b:
 		return

@@ -9,7 +9,7 @@ extends Control
 @onready var inventory : Inventory = get_parent().get_node("%Inventory")
 
 var slot_uis = []
-var selected_slot_index : int = -1
+#var selected_slot_index : int = -1
 
 func _ready():
 	create_slots()
@@ -26,7 +26,6 @@ func create_slots():
 		
 		grid.add_child(slot_ui)
 		slot_ui.set_slot(slot, i, inventory)
-		slot_ui.slot_clicked.connect(on_slot_clicked)
 		slot_uis.append(slot_ui)
 		if start_slot == 0:
 			add_number_label(slot_ui, i - start_slot + 1)
@@ -49,12 +48,3 @@ func add_number_label(slot_ui : Control, number : int):
 func update_inventory():
 	for i in range(slot_uis.size()):
 		slot_uis[i].update_visuals()
-
-#If one slot clicked, save slot. If second clicked then swap and reset
-func on_slot_clicked(clicked_index : int):
-	if selected_slot_index == -1:
-		selected_slot_index = clicked_index
-		return
-	
-	inventory.swap_slots(selected_slot_index, clicked_index)
-	selected_slot_index = -1

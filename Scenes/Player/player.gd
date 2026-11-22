@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var current_tool: DataTypes.Tools = DataTypes.Tools.None
 @onready var tilemap = get_tree().get_first_node_in_group("tilemap")
 @onready var hotbarUI = $InventoryUI/HotbarUI/Panel/GridContainer
+@onready var inventoryOpenUI = $InventoryUI/InventoryOpenUI/Panel/GridContainer
 @onready var camera = $Camera2D
 @onready var inventory = %Inventory
 @onready var inventoryUI = $InventoryUI
@@ -26,7 +27,7 @@ var in_boat := false
 var camera_target: Node2D
 var MAX_PLACE_DISTANCE = 500
 var nearby_interactables: Array = [] #does not include boat rn
-
+var last_clicked_slot = -1
 
 func _enter_tree() -> void:
 	var id = name.to_int()
@@ -48,9 +49,12 @@ func _ready() -> void:
 		inventoryUI.set_state(inventoryUI.UIState.hotbar)
 		inventory_open = false
 		inventory.UpdatedInventory.connect(refresh_selection)
+		#connect the slots clicked signals
 		for slot_ui in hotbarUI.get_children():
 			slot_ui.slot_clicked.connect(_on_slot_clicked)
-		refresh_selection()
+		for slot_ui in inventoryOpenUI.get_children():
+			slot_ui.slot_clicked.connect(_on_slot_clicked)
+		refresh_selection(false)
 	else:
 		camera.enabled = false
 		inventoryUI.visible = false
@@ -65,7 +69,11 @@ func _input(event: InputEvent) -> void:
 		if not nearby_interactables.is_empty():
 			nearby_interactables.back().interact(self)
 	
-	#place items
+	#So this is currently a big confusing because it is also in unhandled_input, and the reason for that is
+	#because that if the crafting menu is open, the ui for that covers the whole screen I believe, and so
+	#when you click, the ui is trying to use that and so it's not "unhandled" any more, so you would not be
+	#able to place items with the crafting menu open without this. This could be fixed by going into the
+	#crafting menu scenes and adjusting the mouse filter options
 	if event.is_action_pressed("Place"):
 		try_place_current_item()
 	
@@ -107,15 +115,16 @@ func _input(event: InputEvent) -> void:
 	#if selected slot changed, update
 	if selected_slot != last_selected_slot:
 		last_selected_slot = selected_slot
-		refresh_selection()
+		refresh_selection(false)
 
-#selecting a slot b clicking it
+#selecting a slot by clicking it if it is different then the currently selected slot
 func _on_slot_clicked(index: int) -> void:
 	if !is_multiplayer_authority():
 		return
-	selected_slot = index
-	last_selected_slot = index
-	refresh_selection()
+	if index != selected_slot:
+		selected_slot = index
+		last_selected_slot = index
+	refresh_selection(true)
 
 
 
@@ -129,11 +138,27 @@ func remove_interactable(obj) -> void:
 #-------------------------------------------------------------------
 
 
+
 #GHOST PREVIEW AND PLACING ITEMS------------------------------------------------------------------
-func refresh_selection() -> void:
-	# highlight the hotbar slot
+func refresh_selection(from_click : bool = false) -> void:
+	#swap slots
+	if last_clicked_slot != -1 and from_click:
+		inventory.swap_slots(selected_slot, last_clicked_slot)
+		refresh_selection(false)
+		last_clicked_slot = -1
+	elif from_click:
+		#only start the swap process is click on a slot with an item to make it less confusing
+		if inventory.item_slots[selected_slot].item != null:
+			last_clicked_slot = selected_slot
+		
+	# highlight the hotbar slot or inventory slot		
 	for i in range(hotbarUI.get_child_count()):
-		hotbarUI.get_child(i).set_selected(i == selected_slot)
+		if selected_slot <= 8:
+			hotbarUI.get_child(i).set_selected(i == selected_slot)
+			inventoryOpenUI.get_child(i).set_selected(false)
+		else:
+			inventoryOpenUI.get_child(i).set_selected(i == (selected_slot - 9))
+			hotbarUI.get_child(i).set_selected(false)
 
 	var item : ItemData = inventory.item_slots[selected_slot].item
 
@@ -241,12 +266,15 @@ func _process(_delta: float) -> void:
 		pos = pos.snapped(grid_size)
 	ghost.global_position = pos
 
+#not sure why I have this and the input function, seems like they could be merged
 func _unhandled_input(event: InputEvent) -> void:
 	if not ghost:
 		return
 	if event.is_action_pressed("Place"):
 		request_place.rpc_id(1, ghost_item.item_id, ghost.global_position)
 		get_viewport().set_input_as_handled()
+		refresh_selection(false)
+	#not sure I want this in as might be confusing
 	elif event.is_action_pressed("ui_cancel"):
 		cancel_placing()
 
@@ -306,6 +334,8 @@ func request_craft_server(recipe_id: String):
 		
 	if inventory:
 		inventory.craft(recipe)
+	
+	refresh_selection(false)
 #--------------------------------------------------------------------------------------------
 
 #BOATS---------------------------------------------------------------------------------------
