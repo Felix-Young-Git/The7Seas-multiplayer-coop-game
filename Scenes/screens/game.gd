@@ -46,6 +46,12 @@ func _on_host_pressed() -> void:
 	ui.set_state(ui.UIState.Host)
 	_create_tilemap()
 	_add_player(multiplayer.get_unique_id())
+	
+	#connect adding and removing players
+	if not multiplayer.peer_connected.is_connected(_add_player):
+		multiplayer.peer_connected.connect(_add_player)
+	if not multiplayer.peer_disconnected.is_connected(_remove_player):
+		multiplayer.peer_disconnected.connect(_remove_player)
 
 #join an existing EOS lobby
 func _on_join_pressed() -> void:
@@ -79,12 +85,30 @@ func _on_join_timeout() -> void:
 
 #ADDING STUFF TO THE WORLD-----------------------------------------------------------------
 #create player
-func _add_player(id: int):
+#func _add_player(id: int):
+#	var player = player_scene.instantiate()
+#	player.name = str(id)
+#	call_deferred("add_child", player)
+
+#add/remove player code from claude-------
+var players := {}  # peer_id -> Player
+
+func _add_player(id: int) -> void:
+	if players.has(id):
+		return
 	var player = player_scene.instantiate()
 	player.name = str(id)
+	players[id] = player
 	call_deferred("add_child", player)
 
-#Spawning enemies
+func _remove_player(id: int) -> void:
+	if players.has(id):
+		if is_instance_valid(players[id]):
+			players[id].queue_free()
+		players.erase(id)
+#------------
+
+#Spawning enemies - currently irrelevant
 func _on_spawn_enemy_pressed(id = 1) -> void:
 	if multiplayer.is_server():
 		var enemy = enemy_scene.instantiate()
@@ -115,3 +139,24 @@ func _server_disconnected():
 	await EosNetwork.exit_game()
 	get_tree().change_scene_to_file("res://Scenes/screens/game.tscn")
 #--------------------------------------------------------------------------------------------
+
+
+#connection heartbeat(UNTESTED)--------------------------------
+var last_seen := {}  # peer_id -> msec
+
+@rpc("any_peer", "unreliable")
+func heartbeat() -> void:
+	last_seen[multiplayer.get_remote_sender_id()] = Time.get_ticks_msec()
+
+func _on_heartbeat_timer() -> void:  # Timer, every 1.0s
+	if multiplayer.multiplayer_peer == null:
+		return
+	heartbeat.rpc_id(1) if not multiplayer.is_server() else heartbeat.rpc()
+	var now := Time.get_ticks_msec()
+	if multiplayer.is_server():
+		for id in multiplayer.get_peers():
+			if now - last_seen.get(id, now) > 8000:
+				multiplayer.multiplayer_peer.disconnect_peer(id)
+	elif now - last_seen.get(1, now) > 8000:
+		_server_disconnected()  # host vanished, show the end screen
+#------------------------------------------------------------
