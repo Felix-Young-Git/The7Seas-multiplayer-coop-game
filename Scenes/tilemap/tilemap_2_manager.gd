@@ -4,11 +4,13 @@ extends Node2D
 @onready var tree_layer = $Trees
 @onready var rock_layer = $Rocks
 @onready var berry_layer = $Berries
+@onready var object_layer = $Objects
 @export var collectable_log_scene : PackedScene
 @export var collectable_rock_scene : PackedScene
 @export var collectable_heat_resist_berry : PackedScene
 
 var removed_cells: Dictionary = {}  # layer name (String) -> Array of Vector2i
+var lava_orb_collected := false
 
 
 #connect the signals
@@ -17,9 +19,11 @@ func _ready() -> void:
 	connect_tree_signals()
 	connect_rock_signals()
 	connect_heat_resist_berry_signals()
+	connect_orb_signals()
 	tree_layer.child_entered_tree.connect(_on_child_entered_tree)
 	rock_layer.child_entered_tree.connect(_on_child_entered_tree)
 	berry_layer.child_entered_tree.connect(_on_child_entered_tree)
+	object_layer.child_entered_tree.connect(_on_child_entered_tree)
 	
 	if multiplayer.has_multiplayer_peer() and not multiplayer.is_server():
 		request_world_snapshot.rpc_id(1)
@@ -39,6 +43,52 @@ func _on_child_entered_tree(child: Node) -> void:
 	if child.has_signal("bush_picked"):
 		if not child.bush_picked.is_connected(on_bush_picked):
 			child.bush_picked.connect(on_bush_picked)
+
+	if child.has_signal("lavaOrbCollected"):
+		if not child.lavaOrbCollected.is_connected(on_lava_orb_collected):
+			child.lavaOrbCollected.connect(on_lava_orb_collected)
+	
+	if child.has_method("set_has_orb"):
+		child.set_has_orb(lava_orb_collected)
+
+#orbs----------------------------------------------------------------------
+func connect_orb_signals():
+	for child in object_layer.get_children():
+		if child.has_signal("lavaOrbCollected"):
+			child.lavaOrbCollected.connect(on_lava_orb_collected)
+
+#lava orb
+func on_lava_orb_collected(cell: Vector2i):
+	if multiplayer.is_server():
+		server_apply_lava_orb(cell)
+	else:
+		server_apply_lava_orb.rpc(cell)
+@rpc("any_peer", "call_local", "reliable")
+func server_apply_lava_orb(cell: Vector2i):
+	if multiplayer.is_server():
+		var orb = find_orb_at_cell(cell)
+		if orb:
+			update_lava_orb_pedestal.rpc()
+			_record_removed(object_layer.name, cell)
+			sync_remove_orb.rpc(cell)
+		
+func find_orb_at_cell(cell: Vector2i):
+	for child in object_layer.get_children():
+		if child.has_method("get_cell_from_self"):
+				if child.get_cell_from_self() == cell:
+					return child
+
+@rpc("call_local", "reliable")
+func update_lava_orb_pedestal():
+	lava_orb_collected = true
+	for child in object_layer.get_children():
+		if child.has_method("set_has_orb"):
+			child.set_has_orb(true)
+
+@rpc("call_local", "reliable")
+func sync_remove_orb(cell: Vector2i):
+	object_layer.erase_cell(cell)
+#--------------------------------------------------------------------------
 
 
 #BERRIES---------------------------------------------------------------------------
@@ -227,13 +277,15 @@ func _record_removed(layer_name: String, cell: Vector2i) -> void:
 func request_world_snapshot() -> void:
 	if not multiplayer.is_server():
 		return
-	receive_world_snapshot.rpc_id(multiplayer.get_remote_sender_id(), removed_cells)
+	receive_world_snapshot.rpc_id(multiplayer.get_remote_sender_id(), removed_cells, lava_orb_collected)
 
 @rpc("authority", "reliable")
-func receive_world_snapshot(snapshot: Dictionary) -> void:
+func receive_world_snapshot(snapshot: Dictionary, orb_collected: bool = false) -> void:
 	for layer_name in snapshot:
 		var layer := get_node_or_null(NodePath(layer_name)) as TileMapLayer
 		if layer:
 			for cell in snapshot[layer_name]:
 				layer.erase_cell(cell)
+	if orb_collected:
+		update_lava_orb_pedestal()
 #-------------------------------------------------------------------------------------------

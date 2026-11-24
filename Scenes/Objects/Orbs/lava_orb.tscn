@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://inece5hd7fxn"]
+
+[ext_resource type="Texture2D" uid="uid://dmcudku1vam6l" path="res://Assets/My Art/orbs/lavaOrb.png" id="1_7idpi"]
+[ext_resource type="Script" uid="uid://crj45yec3gahk" path="res://Scenes/Objects/Orbs/lava_orb.gd" id="1_a7dfv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nkv33"]
+radius = 5.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7idpi"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="LavaOrb" type="Node2D" unique_id=1938312868]
+script = ExtResource("1_a7dfv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1753475989]
+texture = ExtResource("1_7idpi")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1702349649]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2003173445]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_nkv33")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1193254923]
+replication_config = SubResource("SceneReplicationConfig_7idpi")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

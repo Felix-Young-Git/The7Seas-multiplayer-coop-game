@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://b1q2v2x8mr5fv" path="res://Scenes/Objects/Houses/house.tscn" id="11_mtwii"]
 [ext_resource type="PackedScene" uid="uid://cuxdck7kk13kx" path="res://Scenes/Objects/Houses/broken_house.tscn" id="12_p1bnt"]
 [ext_resource type="PackedScene" uid="uid://dw54jaudwiyhu" path="res://Scenes/NPCs/house_npc.tscn" id="13_p1bnt"]
+[ext_resource type="PackedScene" uid="uid://cbo3ch0uijb2g" path="res://Scenes/Objects/Orbs/lava_pedestal.tscn" id="14_grbmn"]
+[ext_resource type="PackedScene" uid="uid://inece5hd7fxn" path="res://Scenes/Objects/Orbs/lava_orb.tscn" id="15_p3u0b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sm0w1"]
 texture = ExtResource("1_1ejsn")
@@ -379,6 +381,11 @@ scenes/2/scene = ExtResource("12_p1bnt")
 resource_name = "NPCs"
 scenes/1/scene = ExtResource("13_p1bnt")
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_xxik1"]
+resource_name = "Orbs"
+scenes/1/scene = ExtResource("14_grbmn")
+scenes/2/scene = ExtResource("15_p3u0b")
+
 [resource]
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
@@ -390,3 +397,4 @@ sources/3 = SubResource("TileSetScenesCollectionSource_ghn77")
 sources/0 = SubResource("TileSetAtlasSource_sm0w1")
 sources/4 = SubResource("TileSetScenesCollectionSource_bqvu3")
 sources/5 = SubResource("TileSetScenesCollectionSource_grbmn")
+sources/6 = SubResource("TileSetScenesCollectionSource_xxik1")

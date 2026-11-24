@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cbo3ch0uijb2g"]
+
+[ext_resource type="Script" uid="uid://brjkl50vkdk8b" path="res://Scenes/Objects/Orbs/lava_pedestal.gd" id="1_iwxwl"]
+[ext_resource type="Texture2D" uid="uid://damawq5w7xvra" path="res://Assets/My Art/orbs/pedestal.png" id="1_vn3un"]
+[ext_resource type="Texture2D" uid="uid://crlc4gk40qheg" path="res://Assets/My Art/orbs/lavaOrbPedestal.png" id="2_iwxwl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nkv33"]
+size = Vector2(10, 2)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vn3un"]
+properties/0/path = NodePath("MissingOrb:visible")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("WithOrb:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="LavaPedestal" type="Node2D" unique_id=384412297]
+script = ExtResource("1_iwxwl")
+
+[node name="MissingOrb" type="Sprite2D" parent="." unique_id=822100994]
+texture = ExtResource("1_vn3un")
+
+[node name="WithOrb" type="Sprite2D" parent="." unique_id=2071621675]
+visible = false
+texture = ExtResource("2_iwxwl")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1722522584]
+collision_layer = 9
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1970448851]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_nkv33")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2093065846]
+replication_config = SubResource("SceneReplicationConfig_vn3un")
